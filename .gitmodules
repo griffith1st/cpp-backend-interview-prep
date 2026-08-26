@@ -1,0 +1,30 @@
+[submodule "repos/huihut-interview"]
+	path = repos/huihut-interview
+	url = https://github.com/huihut/interview.git
+[submodule "repos/cyc2018-cs-notes"]
+	path = repos/cyc2018-cs-notes
+	url = https://github.com/CyC2018/CS-Notes.git
+[submodule "repos/changkun-modern-cpp-tutorial"]
+	path = repos/changkun-modern-cpp-tutorial
+	url = https://github.com/changkun/modern-cpp-tutorial.git
+[submodule "repos/zhedahht-coding-interview-chinese2"]
+	path = repos/zhedahht-coding-interview-chinese2
+	url = https://github.com/zhedahht/CodingInterviewChinese2.git
+[submodule "repos/youngyangyang-leetcode-master"]
+	path = repos/youngyangyang-leetcode-master
+	url = https://github.com/youngyangyang04/leetcode-master.git
+[submodule "repos/cmu-bustub"]
+	path = repos/cmu-bustub
+	url = https://github.com/cmu-db/bustub.git
+[submodule "repos/chenshuo-muduo"]
+	path = repos/chenshuo-muduo
+	url = https://github.com/chenshuo/muduo.git
+[submodule "repos/donnemartin-system-design-primer"]
+	path = repos/donnemartin-system-design-primer
+	url = https://github.com/donnemartin/system-design-primer.git
+[submodule "repos/isocpp-core-guidelines"]
+	path = repos/isocpp-core-guidelines
+	url = https://github.com/isocpp/CppCoreGuidelines.git
+[submodule "repos/voice-interview-reference"]
+	path = repos/voice-interview-reference
+	url = https://github.com/0voice/interview_internal_reference.git

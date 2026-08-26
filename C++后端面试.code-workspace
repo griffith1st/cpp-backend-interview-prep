@@ -1,0 +1,23 @@
+{
+  "folders": [
+    {
+      "name": "C++ 后端笔试面试知识库",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.wordWrap": "on",
+    "files.exclude": {
+      "**/.git": true
+    },
+    "search.exclude": {
+      "**/.git": true,
+      "**/assets": true,
+      "**/images": true,
+      "**/pics": true,
+      "**/*.pdf": true,
+      "**/*.epub": true
+    },
+    "search.useIgnoreFiles": true
+  }
+}
