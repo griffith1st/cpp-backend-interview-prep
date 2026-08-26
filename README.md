@@ -2,6 +2,8 @@
 
 更新时间：2026-08-26
 
+GitHub 仓库：<https://github.com/griffith1st/cpp-backend-interview-prep>（私有）
+
 这套资料只围绕 C++ 后端校招/社招初中级岗位的笔试和面试组织。目标不是把仓库从头读完，而是把每个主题训练到四个层次：能定义、能解释机制、能比较取舍、能结合代码或项目举证。
 
 ## 从这里开始
@@ -19,6 +21,12 @@ cd E:\BaiduNetdiskDownload\Anything\Pre
 .\search.ps1 'TIME_WAIT'
 .\search.ps1 'BufferPoolManager' -Code
 .\quiz.ps1 -Count 20
+```
+
+完整恢复（含 10 个参考仓库）：
+
+```powershell
+git clone --recurse-submodules https://github.com/griffith1st/cpp-backend-interview-prep.git
 ```
 
 也可以直接用 VS Code 打开 [C++后端面试.code-workspace](C++后端面试.code-workspace)，其中已排除 Git 元数据和大型媒体目录的全文搜索干扰。
