@@ -1,6 +1,19 @@
-# 已拉取的 GitHub 仓库
+# 可选 GitHub 参考子模块
 
-这些目录由上级 `Pre` 知识库以 Git submodule 统一管理，均使用 `--depth 1 --no-tags --filter=blob:none` 浅克隆。仓库的 Git 历史仍保留在各自目录中，可在对应目录执行 `git remote -v` 和 `git log -1`。从主仓库完整恢复资料时使用 `git clone --recurse-submodules`，或在已有克隆中执行 `git submodule update --init --recursive`。
+这些目录由本知识库以 Git submodule 统一管理，主仓库记录各参考项目的固定提交。普通 `git clone` 不会自动下载其内容；自编题解、AI 提示词和抽题功能可独立使用，指向 `repos/` 内部的阅读链接以及源码搜索则需要对应子模块已初始化。
+
+在主仓库根目录执行：
+
+```powershell
+# 查看固定版本和初始化状态；行首 - 表示尚未初始化
+git submodule status
+# 仅下载当前需要的参考项目
+git submodule update --init repos/chenshuo-muduo
+# 或下载全部参考项目及其嵌套子模块
+git submodule update --init --recursive
+```
+
+完整克隆可使用 `git clone --recurse-submodules`。初始化后，在子模块目录执行 `git remote -v` 和 `git log -1` 查看来源与版本。2026-08-26 记录中的浅克隆状态是当时的本地环境结果，不意味着每次恢复都自动采用相同的浅克隆参数。
 
 | 本地目录 | GitHub | 用途 |
 | --- | --- | --- |

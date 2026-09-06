@@ -1,6 +1,6 @@
 # C++ 后端笔试面试知识库
 
-更新时间：2026-08-26
+更新时间：2026-09-06
 
 GitHub 仓库：<https://github.com/griffith1st/cpp-backend-interview-prep>（私有）
 
@@ -14,16 +14,41 @@ GitHub 仓库：<https://github.com/griffith1st/cpp-backend-interview-prep>（�
 4. 每周至少做一次 90 分钟笔试模拟和一次 45 分钟技术面试模拟。
 5. 用 [复盘与答题模板](00-学习路线/复盘与答题模板.md) 留下可检索的答案，不以“看过”作为完成标准。
 
+## 面试复习与 AI 训练入口
+
+- **先自测，再查答案：**[105 题答案索引](08-题库/答案索引.md)逐题连接原题与详解。每题都给出口述结构、机制边界和验证方向，设计与项目题另含容量计算或证据模板。
+- **网络专项：**[Q58–Q74 详解](04-计算机网络/高频题详解.md)，从 TCP 状态、HTTP/TLS 到非阻塞 Socket、Reactor 和背压。
+- **算法专项：**[模式识别与解题训练](02-数据结构与算法/模式识别与解题训练.md)，用不变量、反例和变式训练代替只背代码。
+- **项目答辩：**[项目答辩与证据手册](07-项目与工程/项目答辩与证据手册.md)，区分框架能力、个人实现、实际验证与未来方案。
+- **直接让 AI 带练：**先读 [AI 学习指南](09-AI学习/README.md)，再使用 [P0 启动提示词](09-AI学习/提示词库.md#p0-直接启动)；P1–P14 覆盖诊断、代码推演、实验、模拟面试与错题复测。
+
+这些自编资料可在普通克隆后直接阅读，不要求先下载参考子模块。详解是面试参考答案，不是个人项目经历；实验、性能数字和设计假设的性质均需保留。
+
 在 PowerShell 中搜索本知识库：
 
 ```powershell
-cd E:\BaiduNetdiskDownload\Anything\Pre
+# 在本仓库根目录执行；新克隆后先 cd cpp-backend-interview-prep
 .\search.ps1 'TIME_WAIT'
 .\search.ps1 'BufferPoolManager' -Code
 .\quiz.ps1 -Count 20
 ```
 
-完整恢复（含 10 个参考仓库）：
+只下载复习资料与工具：
+
+```powershell
+git clone https://github.com/griffith1st/cpp-backend-interview-prep.git
+cd cpp-backend-interview-prep
+```
+
+需要阅读上游源码时，再初始化参考子模块：
+
+```powershell
+git submodule update --init --recursive
+# 也可只初始化当前专题所需的仓库
+# git submodule update --init repos/chenshuo-muduo
+```
+
+或一次完整恢复（含 10 个参考仓库）：
 
 ```powershell
 git clone --recurse-submodules https://github.com/griffith1st/cpp-backend-interview-prep.git
@@ -59,9 +84,10 @@ git clone --recurse-submodules https://github.com/griffith1st/cpp-backend-interv
 | [05-数据库](05-数据库/README.md) | MySQL、Redis、数据库原理和内核实践 |
 | [06-系统设计](06-系统设计/README.md) | 容量估算、缓存、分片、消息队列、可靠性 |
 | [07-项目与工程](07-项目与工程/README.md) | RMDB、Muduo、BusTub、工具链和项目表述 |
-| [08-题库](08-题库/高频问题.md) | 高频口述题与笔试训练规则 |
+| [08-题库](08-题库/答案索引.md) | 105 道原题、逐题答案入口与口述评分 |
+| [09-AI学习](09-AI学习/README.md) | 15 组即用提示词、30 分钟训练闭环、学习检查点 |
 | [90-来源与记录](90-来源与记录/GitHub资源清单.md) | 网络检索结果、许可证提示和仓库版本锁定 |
-| [repos](repos/README.md) | 已浅克隆的 10 个 GitHub 仓库 |
+| [repos](repos/README.md) | 10 个可选 Git 子模块及初始化方法 |
 
 ## 默认训练节奏
 
@@ -86,6 +112,8 @@ git clone --recurse-submodules https://github.com/griffith1st/cpp-backend-interv
 - 所有“掌握”都要通过闭卷复述、手写代码或可复现实验验证。
 - 项目表述区分“框架已有”“自己实现”“自己调试验证”，不扩大个人贡献。
 - Star 数仅用于筛选，不代表内容正确；最终以标准文档、源码和实验为准。
+- AI 用于提问、反馈和验证，不代替首次独立作答。用 [P13 学习检查点](09-AI学习/提示词库.md#p13-学习检查点)记录首次分数、提示级别、真实实验和下一次复测。
+- 本次补充的范围、来源与实际检查见 [2026-09-06 补充与验证记录](90-来源与记录/2026-09-06-补充与验证记录.md)。旧记录保留原日期，不代表本次重新执行过其中全部测试。
 
 ## 最终验收
 
