@@ -1,0 +1,2127 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RMDB 与智能交通 一天面试学习手册</title>
+<style>
+:root{color-scheme:light;--ink:#20221f;--muted:#676d65;--line:#d9ded5;--paper:#f4f5ef;--accent:#315c43}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:115px}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.8 'Segoe UI','Microsoft YaHei',sans-serif}a{color:var(--accent);text-underline-offset:3px}header{padding:35px 4vw 24px;border-bottom:1px solid var(--line);background:#e9ede3}header p{margin:4px 0;color:var(--muted)}header .eyebrow{letter-spacing:.12em;font-size:12px;font-weight:700}h1{font-size:clamp(27px,3vw,42px);line-height:1.35;margin:9px 0}h2{font-size:27px;line-height:1.45;margin:32px 0 20px}h3{font-size:20px}.stats{font-size:14px;margin-top:16px}.toolbar{position:sticky;top:0;z-index:5;background:#fffef9ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 4vw;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.toolbar input{flex:1;min-width:200px;font:inherit;padding:8px 12px;border:1px solid #9fa99b;border-radius:6px}button,select{font:inherit;font-size:14px;min-height:40px;padding:7px 11px;background:#fff;border:1px solid #a9b2a4;border-radius:6px;color:var(--ink);cursor:pointer}button:hover{background:#edf1e8}#status{font-size:13px;color:var(--muted)}.layout{display:grid;grid-template-columns:260px minmax(0,960px);gap:32px;max-width:1360px;padding:25px 4vw 80px;margin:auto}nav{position:sticky;top:120px;align-self:start;max-height:calc(100vh - 140px);overflow:auto;font-size:14px}nav a{display:block;padding:9px 8px;margin:3px 0;border-left:2px solid var(--line);text-decoration:none}nav a:hover{border-color:var(--accent);background:#e8ede2}nav .note{padding:14px 8px;font-size:12px;color:var(--muted)}main{min-width:0}.chapter{margin-bottom:48px}article{margin-bottom:16px;background:#fffefb;border:1px solid var(--line);border-radius:8px;overflow:hidden}summary{padding:16px 21px;cursor:pointer;font-size:18px;font-weight:650;line-height:1.5;background:#f8f9f3}details[open]>summary{border-bottom:1px solid var(--line)}.cardbody{padding:5px 23px 18px;overflow-wrap:anywhere}.cardbody>p{margin:15px 0}table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;font-size:14px;margin:20px 0}td,th{border:1px solid var(--line);padding:9px 12px;vertical-align:top;min-width:100px}th{background:#e7ecdf;text-align:left}tr:nth-child(even){background:#f8f9f3}blockquote{border-left:3px solid #71896e;background:#f1f4ec;margin:20px 0;padding:5px 20px}pre{padding:14px;background:#eef1e9;overflow:auto;border-radius:5px;font:13px/1.7 Consolas,monospace}code{font-family:Consolas,monospace;font-size:.91em;background:#eef1e9;padding:1px 4px}pre code{padding:0}li{margin:6px 0}[hidden]{display:none!important}footer{text-align:center;font-size:13px;color:var(--muted);padding:25px;border-top:1px solid var(--line)}#empty{padding:30px;background:white}a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid #b69842;outline-offset:3px}
+@media(max-width:900px){html{scroll-padding-top:180px}.layout{display:block;padding:16px 4vw 50px}nav{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:4px;margin-bottom:22px}nav a{font-size:12px;padding:6px}.note{display:none}.toolbar{gap:6px}header{padding-top:22px}.cardbody{padding:4px 16px 15px}summary{padding:14px 16px}}
+@media print{body{background:white;font-size:10pt}header{padding:0;background:white}.toolbar,nav,footer,#empty{display:none}.layout{display:block;max-width:none;padding:0}.chapter{break-before:page}.chapter:first-child{break-before:auto}article{border:0;border-radius:0;margin:12pt 0}summary{background:white;padding:5pt 0;font-size:14pt;break-after:avoid}.cardbody{padding:0}table{display:table;font-size:9pt}pre{white-space:pre-wrap}a{color:inherit;text-decoration:none}h2{font-size:20pt}}
+</style></head><body>
+<header><p class="eyebrow">2026 · 项目面试学习</p><h1>RMDB 与智能交通<br>一天掌握面试主线</h1><p>先学机制，再答主问，最后用追问检验理解。</p><div class="stats">28 个 RMDB 知识点 · 24 个智能交通知识点 · 10 组综合模拟 · 含答案与源码依据</div></header>
+<div class="toolbar"><label for="search">查知识点</label><input id="search" placeholder="例如 pin、TTL、回滚、Compose" type="search"><select id="scope" aria-label="筛选章节"><option value="all">全部章节</option><option value="1">RMDB</option><option value="2">智能交通</option><option value="3">综合模拟</option></select><button id="fold">收起内容</button><button id="expand">展开内容</button><button id="print">打印</button><span id="status" aria-live="polite"></span></div>
+<div class="layout"><nav aria-label="手册目录"><a href="#doc-0">RMDB 与智能交通一天面试学习手册</a><a href="#doc-1">RMDB：一天内可顺序学习的知识点与分层问答</a><a href="#doc-2">ITMS-BD：按知识点学习的面试问答</a><a href="#doc-3">双项目综合模拟与面试速记</a><a href="#doc-4">简历知识点覆盖与学习记录</a><a href="#doc-5">双项目一天面试学习技能与模板来源</a><a href="#doc-6">两项目证据与面试口径边界</a><div class="note">第一次按路线阅读。复习时先收起内容，口述后再展开核对。分数和错误原句记入学习记录。</div></nav><main><section id="doc-0" class="chapter"><h2>RMDB 与智能交通一天面试学习手册</h2><article id="d0s-intro" data-project="0" data-kind=""><details open><summary>阅读说明</summary><div class="cardbody"><p>这套资料针对李章程当前简历中的两个项目。一天的目标是：能分别讲清两分钟项目介绍，能沿真实请求链路解释状态变化，能回答关键追问，并能准确区分亲自实现、参与联调、通用原理和改进设想。无需先通读整个仓库。</p>
+<p>内容共 52 个知识点主问，每个附 3 层追问及答案；另有 10 组综合模拟。资料从 2026-09-15 开始核查，跨午夜于 2026-09-16 汇编；一日路线从你实际开始学习时计时。</p>
+</div></details></article>
+<article id="d0s1" data-project="0" data-kind=""><details open><summary>学习入口</summary><div class="cardbody"><ol>
+<li><a href="%E7%AE%80%E5%8E%86%E9%A1%B9%E7%9B%AE%E5%8E%9F%E6%96%87.txt">简历项目原文</a>：确认每个问题从哪里来。</li>
+<li><a href="#doc-1">RMDB 知识点与追问</a>：按存储、执行、索引、事务、恢复顺序学习。</li>
+<li><a href="#doc-2">智能交通知识点与追问</a>：按接口、部署、认证、缓存、故障顺序学习。</li>
+<li><a href="#doc-3">综合模拟与速记</a>：练习项目介绍、场景推演和面试收尾。</li>
+<li><a href="#doc-4">知识点覆盖与复习记录</a>：逐条勾选简历覆盖，记录真实薄弱点。</li>
+<li><a href="#doc-5">技能与模板来源</a>：查看选型和问题生成规则。</li>
+<li><a href="#doc-6">证据与口径边界</a>：纠正最容易被追问击穿的表述。</li>
+<li><a href="%E5%AD%A6%E4%B9%A0%E6%89%8B%E5%86%8C.html">离线学习页面</a>：在浏览器阅读、搜索、折叠和打印。</li>
+<li><a href="%E5%8F%8C%E9%A1%B9%E7%9B%AE%E9%9D%A2%E8%AF%95%E5%AD%A6%E4%B9%A0%E6%80%BB%E5%86%8C.md">Markdown 总册</a>：将七个学习章节合并为一个文件，便于集中阅读或导入自己的笔记软件。</li>
+</ol>
+</div></details></article>
+<article id="d0s2" data-project="0" data-kind=""><details open><summary>一天安排</summary><div class="cardbody"><p>以下是相对开始时间，不要求早起，也不把吃饭和休息算作学习。总跨度 11 小时，净学习与自测 9 小时。先完成 P0，再补 P1；P2 留在主问题追问时按需查阅。</p>
+<table>
+<thead>
+<tr>
+<th>从开始起</th>
+<th>时长</th>
+<th>内容</th>
+<th>必须留下的结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>00:00–00:25</td>
+<td>25 分钟</td>
+<td>阅读简历与证据边界，尝试两段项目介绍</td>
+<td>各一段原始录音或口述稿，标记不会的词</td>
+</tr>
+<tr>
+<td>00:25–01:40</td>
+<td>75 分钟</td>
+<td>RMDB 页、缓冲池、记录</td>
+<td>画出 page/frame/RID；手推一次淘汰</td>
+</tr>
+<tr>
+<td>01:40–01:55</td>
+<td>15 分钟</td>
+<td>休息</td>
+<td>离开屏幕</td>
+</tr>
+<tr>
+<td>01:55–03:05</td>
+<td>70 分钟</td>
+<td>RMDB SQL 执行、类型、聚合、排序、BNLJ、索引</td>
+<td>手推 SQL；解释索引与基表一致性</td>
+</tr>
+<tr>
+<td>03:05–03:20</td>
+<td>15 分钟</td>
+<td>休息</td>
+<td>离开屏幕</td>
+</tr>
+<tr>
+<td>03:20–04:20</td>
+<td>60 分钟</td>
+<td>RMDB 事务、no-wait、日志恢复</td>
+<td>画两事务冲突与一次 REDO/UNDO</td>
+</tr>
+<tr>
+<td>04:20–05:05</td>
+<td>45 分钟</td>
+<td>用餐与休息</td>
+<td>暂停学习</td>
+</tr>
+<tr>
+<td>05:05–06:10</td>
+<td>65 分钟</td>
+<td>ITMS 职责、接口链路、Compose、Profile、数据库</td>
+<td>画请求链路；解释容器地址和启动就绪</td>
+</tr>
+<tr>
+<td>06:10–07:10</td>
+<td>60 分钟</td>
+<td>JWT 黑名单与失败计数</td>
+<td>计算剩余 TTL；解释计数原子性缺口</td>
+</tr>
+<tr>
+<td>07:10–07:25</td>
+<td>15 分钟</td>
+<td>休息</td>
+<td>离开屏幕</td>
+</tr>
+<tr>
+<td>07:25–08:25</td>
+<td>60 分钟</td>
+<td>Cache-Aside、失效、并发时序、故障边界</td>
+<td>画旧值回填时序；区分缓存与认证故障</td>
+</tr>
+<tr>
+<td>08:25–08:55</td>
+<td>30 分钟</td>
+<td>用餐与休息</td>
+<td>暂停学习</td>
+</tr>
+<tr>
+<td>08:55–09:55</td>
+<td>60 分钟</td>
+<td>两轮 25 分钟模拟，加 10 分钟评分</td>
+<td>至少回答 10 个主问题及追问</td>
+</tr>
+<tr>
+<td>09:55–11:00</td>
+<td>65 分钟</td>
+<td>修补得分低于 3 分的知识点，终测与速记</td>
+<td>更新学习记录，完成下述验收</td>
+</tr>
+</tbody></table>
+</div></details></article>
+<article id="d0s3" data-project="0" data-kind=""><details open><summary>时间不足时怎样压缩</summary><div class="cardbody"><p>只有 4 小时时：边界和介绍 20 分钟；RMDB 缓冲池、索引、事务恢复 75 分钟；ITMS JWT、计数、缓存、Compose 75 分钟；模拟 40 分钟；复盘 30 分钟。暂停泛读源码，只看问题卡片引用的函数。</p>
+<p>只有 90 分钟时：先读两段项目介绍和证据边界，再练六个核心问题：缓冲池淘汰、DML 与索引、no-wait 与恢复、JWT 登出、Cache-Aside 并发、Compose 排障。只能形成应急回答，不视作全部知识点已经掌握。</p>
+</div></details></article>
+<article id="d0s4" data-project="0" data-kind=""><details open><summary>每张卡片的学习方法</summary><div class="cardbody"><ol>
+<li>先读“学习目标”和必要概念，使用小例子把术语转成状态变化。</li>
+<li>遮住答案，主问题回答 60 秒。忘记细节时说明不确定点，不能用编造补齐。</li>
+<li>对照参考答案，只标出漏掉的机制、边界和证据，不照抄整段。</li>
+<li>逐层回答追问：怎么用、为什么这样、失败怎么办。允许先看提示，第二次必须脱稿。</li>
+<li>在覆盖记录里写下自己的错误原句，隔 30–60 分钟再次复述。读过不等于通过。</li>
+</ol>
+</div></details></article>
+<article id="d0s5" data-project="0" data-kind=""><details open><summary>统一评分</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>分数</th>
+<th>可观察表现</th>
+<th>下一步</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>没有答案，或把别的项目能力当成本项目</td>
+<td>重学概念与边界</td>
+</tr>
+<tr>
+<td>1</td>
+<td>只能说名词，无法解释输入和状态</td>
+<td>用小例子手推</td>
+</tr>
+<tr>
+<td>2</td>
+<td>主机制正确，但追问、失败路径或证据不清楚</td>
+<td>补一层追问并定位函数</td>
+</tr>
+<tr>
+<td>3</td>
+<td>能在 60–90 秒说明机制、例子和一个边界</td>
+<td>间隔后复测</td>
+</tr>
+<tr>
+<td>4</td>
+<td>能独立分析新时序、设计验证，且不夸大已实现能力</td>
+<td>转到下一知识点</td>
+</tr>
+</tbody></table>
+<p>最终验收：两段介绍均不超过两分钟；每个项目能画一条调用链；能手推四个状态例子；32 张 P0 核心卡初测均达到 3 分，间隔后随机复测 10 张至少 8 张保持 3 分；核心口径错误为零。未达标的条目进入复习记录，不能用阅读页数代替。</p>
+</div></details></article>
+<article id="d0s6" data-project="0" data-kind=""><details open><summary>答案中的证据级别</summary><div class="cardbody"><ul>
+<li><strong>简历陈述</strong> ：用户当前简历自述，可作为职责回答的起点。</li>
+<li><strong>静态代码可见</strong> ：本次读到了相关实现，不能由此推出运行通过、生产效果或完整个人贡献。</li>
+<li><strong>通用原理</strong> ：为解释该功能所需的基础知识，可用“原理上”说明。</li>
+<li><strong>改进设想</strong> ：当前未证实已经实现，应使用“如果继续完善，我会”表达。</li>
+</ul>
+<p>参考答案是练习底稿。任何具体故障经历、测试次数、数据规模、耗时与提升百分比，都只能替换成自己确实记得且能举证的信息。</p>
+</div></details></article>
+<article id="d0s7" data-project="0" data-kind=""><details open><summary>持久化与继续学习</summary><div class="cardbody"><p>本目录以 Markdown 作为可编辑原稿，按章节持续保存；离线页面由章节生成。<code>生成进度.md</code> 记录批次，<code>04_覆盖矩阵与学习记录.md</code> 记录掌握情况。后续应优先围绕低分卡追加有答案的变式题，保留既有编号和证据边界。</p>
+<p>可直接用于续学的要求：</p>
+<blockquote>
+<p>读取本目录的简历原文、证据边界和复习记录。只围绕未达标知识点追加主问、三层追问及答案；逐题引用简历锚点，将现有实现、原理和改进分开；不要假定我掌握整个项目。先保存新增题目，再更新覆盖矩阵与生成进度。已有题目不机械重复，也不把建议方案写成已经完成。</p>
+</blockquote>
+</div></details></article></section><section id="doc-1" class="chapter"><h2>RMDB：一天内可顺序学习的知识点与分层问答</h2><article id="d1s-intro" data-project="1" data-kind=""><details open><summary>阅读说明</summary><div class="cardbody"><p>版本：2026-09-15；源码基准：<code>7a9fe1d4fc24c0bc6bbc7b4db067ce3ed19923bc</code>。本轮完成静态源码核查，没有重新编译或运行数据库测试。</p>
+</div></details></article>
+<article id="d1s1" data-project="1" data-kind=""><details open><summary>使用方式与证据约定</summary><div class="cardbody"><p>先沿 R01—R10 建立基础，再学索引、执行、事务、恢复。P0 必须能脱稿回答；P1 至少会说“当前实现、局限、改进方向”。每张卡先读必要概念，再遮住答案口述，最后手推例子。每个“60 秒答案”是讲解稿，可按自己的表达缩短，不是需要伪装熟练度的台词。</p>
+<ul>
+<li><strong>简历锚点</strong> ：说明为什么允许问这一题，不代表每项实现均由当前源码证明个人归属。</li>
+<li><strong>代码可见</strong> ：文件中可直接确认的行为。** 原理** ：数据库一般概念。** 改进** ：尚未落地的建议。</li>
+<li><strong>风险推演</strong> ：从分支和顺序推导的待复现场景，不表述为已经观察到的故障。</li>
+<li>题中 SQL、数据和状态均为教学例子，未运行的预期不计作测试通过。</li>
+<li>源码链接均指向本地基准；更多函数和边界见同目录《01_RMDB证据索引.md》。不要把旧学习计划中的“过关标准”读成已完成结果。</li>
+</ul>
+</div></details></article>
+<article id="d1s2" data-project="1" data-kind=""><details open><summary>知识地图与学习验收</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>优先级</th>
+<th>知识点</th>
+<th>学完应能做什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R01</td>
+<td>P0</td>
+<td>项目定位与个人边界</td>
+<td>用 30 秒说明做了什么、能展开什么</td>
+</tr>
+<tr>
+<td>R02</td>
+<td>P0</td>
+<td>磁盘页、页号和文件偏移</td>
+<td>计算页偏移，区别分配与实际写入</td>
+</tr>
+<tr>
+<td>R03</td>
+<td>P0</td>
+<td>page、frame 与缓冲池命中</td>
+<td>手画页面映射变化</td>
+</tr>
+<tr>
+<td>R04</td>
+<td>P0</td>
+<td>pin、dirty 与安全淘汰</td>
+<td>手推两次 fetch 和两次 unpin</td>
+</tr>
+<tr>
+<td>R05</td>
+<td>P0</td>
+<td>LRU、锁和所有权</td>
+<td>推出 victim，解释 pin 不等于事务锁</td>
+</tr>
+<tr>
+<td>R06</td>
+<td>P0</td>
+<td>定长记录布局与 RID</td>
+<td>从 RID 找到 slot 字节位置</td>
+</tr>
+<tr>
+<td>R07</td>
+<td>P0</td>
+<td>bitmap、空闲页链与扫描</td>
+<td>解释删除后的空槽复用和跳洞</td>
+</tr>
+<tr>
+<td>R08</td>
+<td>P0</td>
+<td>SQL 解析、分析、计划、执行</td>
+<td>一条 SQL 分四阶段讲通</td>
+</tr>
+<tr>
+<td>R09</td>
+<td>P0</td>
+<td>拉取式执行器与投影</td>
+<td>描述 begin/Next/next 的契约</td>
+</tr>
+<tr>
+<td>R10</td>
+<td>P0</td>
+<td>BIGINT 全链路类型扩展</td>
+<td>解释为什么不能只改 int 为 long</td>
+</tr>
+<tr>
+<td>R11</td>
+<td>P1</td>
+<td>DATETIME 校验和可排序编码</td>
+<td>区别日期编码和时间戳</td>
+</tr>
+<tr>
+<td>R12</td>
+<td>P0</td>
+<td>唯一索引与实际数据结构</td>
+<td>准确说出有序 vector 的能力和成本</td>
+</tr>
+<tr>
+<td>R13</td>
+<td>P1</td>
+<td>复合键和最左前缀</td>
+<td>判断四种谓词能否选索引</td>
+</tr>
+<tr>
+<td>R14</td>
+<td>P0</td>
+<td>IndexScan 边界与残余过滤</td>
+<td>解释 key→RID→基表记录</td>
+</tr>
+<tr>
+<td>R15</td>
+<td>P1</td>
+<td>DML 先收集 RID</td>
+<td>解释边扫描边修改的风险</td>
+</tr>
+<tr>
+<td>R16</td>
+<td>P0</td>
+<td>多索引 UPDATE 与原子性边界</td>
+<td>推导失败中途哪些状态需恢复</td>
+</tr>
+<tr>
+<td>R17</td>
+<td>P1</td>
+<td>聚合状态与空输入语义</td>
+<td>算 COUNT/SUM/MAX 并说明限制</td>
+</tr>
+<tr>
+<td>R18</td>
+<td>P1</td>
+<td>排序、LIMIT 与阻塞算子</td>
+<td>区别结果少与计算少</td>
+</tr>
+<tr>
+<td>R19</td>
+<td>P0</td>
+<td>BNLJ 分块与复杂度</td>
+<td>手推分块、匹配和右侧重扫</td>
+</tr>
+<tr>
+<td>R20</td>
+<td>P1</td>
+<td>COMMIT 和事务生命周期</td>
+<td>区分释放写集、释放锁、日志持久性</td>
+</tr>
+<tr>
+<td>R21</td>
+<td>P0</td>
+<td>ABORT 写集逆序回滚</td>
+<td>还原记录及其索引</td>
+</tr>
+<tr>
+<td>R22</td>
+<td>P0</td>
+<td>表级 S/X 锁与并发范围</td>
+<td>判断两事务锁兼容性</td>
+</tr>
+<tr>
+<td>R23</td>
+<td>P0</td>
+<td>no-wait 与冲突回滚</td>
+<td>说明无等待环的代价</td>
+</tr>
+<tr>
+<td>R24</td>
+<td>P0</td>
+<td>WAL、物理日志与落盘顺序</td>
+<td>区分原则、调用意图与持久性缺口</td>
+</tr>
+<tr>
+<td>R25</td>
+<td>P1</td>
+<td>启动 analyze/redo/undo</td>
+<td>手推提交与活跃事务日志</td>
+</tr>
+<tr>
+<td>R26</td>
+<td>P1</td>
+<td>恢复幂等、索引重建与 ARIES 边界</td>
+<td>说明重放和重复崩溃为什么难</td>
+</tr>
+<tr>
+<td>R27</td>
+<td>P1</td>
+<td>单测、并发与恢复验证</td>
+<td>设计输入、断言、故障点和证据</td>
+</tr>
+<tr>
+<td>R28</td>
+<td>P1</td>
+<td>项目难点、取舍与诚实深挖</td>
+<td>讲一个可定位的难点，回答改进优先级</td>
+</tr>
+</tbody></table>
+</div></details></article>
+<article id="d1s3" data-project="1" data-kind=""><details open><summary>第一组：把存储链路讲明白</summary><div class="cardbody"></div></details></article>
+<article id="R01" data-project="1" data-kind="R01"><details open><summary>R01｜P0｜项目定位与个人边界</summary><div class="cardbody"><p><strong>简历锚点：</strong> “基于 RMDB 教学框架独立完成题目 1-11”。</p>
+<p><strong>学习目标：</strong> 把课程任务、当前功能、个人贡献三件事分开。</p>
+<p><strong>必要概念：</strong> 数据库把 SQL 请求变成记录访问；数据库内核项目重点是数据怎样存、怎样查、失败怎样处理。教师框架提供接口和骨架，补全实现仍有价值。源码证明功能存在，个人贡献还需要任务记录、提交差异或本人确认支持。</p>
+<p><strong>主问：你的 RMDB 项目究竟做了什么？</strong></p>
+<p><strong>60 秒答案：</strong> RMDB 是教学数据库项目。我基于框架完成简历列出的题目 1-11，学习主线是把 SQL 一直打通到磁盘页：存储层负责页和定长记录，查询层负责语义检查、计划和执行器，扩展层加入类型、唯一索引、聚合排序和 BNLJ，事务部分加入提交回滚、表锁、no-wait 和基础日志恢复。我会重点展开缓冲池的 pin/dirty，或一次 UPDATE 如何维护记录和索引。当前索引是进程内有序条目的简化实现，恢复也是基础 REDO/UNDO，不能说成完整磁盘 B+ 树和完整 ARIES。</p>
+<p><strong>追问 1：最熟的是哪一层？</strong> 答：选择自己完成脱稿验收的链路，例如“我先讲存储，再讲 UPDATE/ABORT”，随后说明输入、状态变化和一个失败分支；不要为了显得全面认领尚未学习的模块。</p>
+<p><strong>追问 2：能证明是你做的吗？</strong> 答：简历是本人经历陈述，代码位置是功能证据；进一步提供课程任务、原框架与本人版本差异和自己的调试记录。当前两条 Git 历史不足以单独证明所有函数的作者。</p>
+<p><strong>追问 3：如果面试官让你讲 B+ 树分裂？</strong> 答：先说明当前项目分裂路径是简化项；如果对方要求原理，可以解释节点满时分裂及父节点更新，但明确这是原理理解，不说是本项目已完成机制。</p>
+<p><strong>小例子：</strong> 把“我写了一个数据库”改成“我补全教学数据库的存储、执行和基础事务链路，可以从 UPDATE 的旧值保存讲到 ABORT”。</p>
+<p><strong>常见误答：</strong> “项目里所有代码都由我设计”“项目支持完整工业数据库能力”。</p>
+<p><strong>自测验收：</strong> 30 秒说清背景、三项职责、一个可展开难点和两条实现边界。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/index/ix_index_handle.cpp" title="本机源码文件">索引实际容器</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/recovery/log_recovery.cpp" title="本机源码文件">恢复筛选提交事务</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/optimizer/planner.cpp" title="本机源码文件">逻辑优化入口</a>。</p>
+</div></details></article>
+<article id="R02" data-project="1" data-kind="R02"><details open><summary>R02｜P0｜磁盘页、页号和文件偏移</summary><div class="cardbody"><p><strong>简历锚点：</strong> “磁盘页”。</p>
+<p><strong>学习目标：</strong> 解释数据库如何把页映射到文件字节。</p>
+<p><strong>必要概念：</strong> 文件由字节构成；页是固定大小的存储单位。同一页号在不同文件中对应不同数据，因此身份需要文件和页号。页分配可以先分配逻辑编号，实际写文件在后续发生。</p>
+<p><strong>主问：DiskManager 如何读写某一页？</strong></p>
+<p><strong>60 秒答案：</strong> 当前实现用文件描述符 fd 和 page_no 定位页，把 page_no 乘 PAGE_SIZE 得到文件偏移，再调用 lseek 和 read/write。read_page 遇到不足请求长度的读取会把尾部补零；write_page 检查返回字节数，不足时抛错。allocate_page 对该文件的页号计数器递增，主要分配编号。deallocate_page 当前为空，因此不能把删除缓冲页说成磁盘空间已回收。这个分层让记录层只处理页和 slot，无须每次计算整个文件的布局。</p>
+<p><strong>追问 1：页号 3 的位置在哪里？</strong> 答：若教学例子中页大小为 4096 字节，偏移是 12288；真实常量以源码为准，页号按从 0 开始计算。</p>
+<p><strong>追问 2：调用 write 就保证断电不丢吗？</strong> 答：不保证。write 通常把内容交给操作系统；还要检查 fsync/fdatasync 等持久性屏障及存储保证。当前写页和写日志函数中未见这类同步调用。</p>
+<p><strong>追问 3：能直接用于高并发共享 fd 吗？</strong> 答：lseek 改变共享文件位置，后续 read/write 依赖该位置。应检查调用方串行化是否覆盖所有路径；若独立并发调用存在，pread/pwrite 是值得考虑的改进。这里是风险检查方向，未复现该故障。</p>
+<p><strong>小例子：</strong> <code>(fd=5,page=2)</code> 与 <code>(fd=6,page=2)</code> 页号一样，但应当是不同缓存身份。</p>
+<p><strong>常见误答：</strong> “分配页一定马上向文件写一整页”“删除页自动压缩文件”。</p>
+<p><strong>自测验收：</strong> 能算偏移，能区分逻辑分配、write 返回、断电持久化。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/storage/disk_manager.cpp" title="本机源码文件">页读写与分配</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/storage/disk_manager.cpp" title="本机源码文件">日志追加</a>。</p>
+</div></details></article>
+<article id="R03" data-project="1" data-kind="R03"><details open><summary>R03｜P0｜page、frame 与缓冲池命中</summary><div class="cardbody"><p><strong>简历锚点：</strong> “缓冲池”。</p>
+<p><strong>学习目标：</strong> 区分数据身份和内存位置。</p>
+<p><strong>必要概念：</strong> page 是数据库页；frame 是内存中容纳一页的槽位。page table 是“页身份→frame 编号”的映射，缓冲池满后同一个 frame 可以改装另一页。free list 保存未占用 frame，replacer 保存可淘汰 frame。</p>
+<p><strong>主问：fetch_page 命中和未命中分别做什么？</strong></p>
+<p><strong>60 秒答案：</strong> 命中时通过 page table 找到 frame，增加 pin count，并从可淘汰集合中移除它。未命中时先找 free frame，没有空闲 frame 就向 LRU 要 victim；没有 victim 则返回空指针。复用 frame 时，如果旧页脏就写回，再移除旧映射、清理内存、建立新映射，然后从磁盘读取新页并设 pin 为 1。关键不变量是一个已缓存页面只有一份有效映射，且映射必须与 frame 中的页身份一致。</p>
+<p><strong>追问 1：为什么不能只用 page_no 作 key？</strong> 答：不同表文件可有相同页号，必须连同 fd 等文件身份区分。</p>
+<p><strong>追问 2：为什么先处理旧映射？</strong> 答：否则 A 已经被 B 覆盖，page table 仍把 A 指向同一 frame，会返回 B 的数据；脏 A 还可能永久丢失。</p>
+<p><strong>追问 3：缓冲池耗尽怎样处理？</strong> 答：当前返回 nullptr，上层记录访问包装成异常。不能随意选一个正在使用的 frame；生产改进可以等待资源、限制持有时长或做背压，但当前没有这样的承诺。</p>
+<p><strong>小例子：</strong> 只有一个 frame：fetch A→unpin A→fetch B，映射从 A→0 变成 B→0；A 若脏应先写回。</p>
+<p><strong>常见误答：</strong> “frame 就是磁盘页号”“缓冲池满了总能淘汰”。</p>
+<p><strong>自测验收：</strong> 闭卷画出 page table、free list、LRU 三者的分工。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/storage/buffer_pool_manager.cpp" title="本机源码文件">fetch 与替换映射</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/record/rm_file_handle.cpp" title="本机源码文件">无可用页的处理</a>。</p>
+</div></details></article>
+<article id="R04" data-project="1" data-kind="R04"><details open><summary>R04｜P0｜pin、dirty 与安全淘汰</summary><div class="cardbody"><p><strong>简历锚点：</strong> “缓冲池”。</p>
+<p><strong>学习目标：</strong> 掌握页面生命周期里两个独立状态。</p>
+<p><strong>必要概念：</strong> pin count 记录页面被使用的次数；dirty 记录内存内容是否可能比磁盘新。被 pin 的页不能被替换，但可以是干净或脏的；pin 降到 0 只意味着可淘汰，不等于已经写回。</p>
+<p><strong>主问：为什么 unpin 里的 dirty 要取逻辑或？</strong></p>
+<p><strong>60 秒答案：</strong> 多个访问者可能先后使用同一页，一个人修改了页，另一个人只是读。unpin 时必须用旧 dirty 或本次 dirty 合并，否则后一个只读调用会把已有脏标记清掉，未来淘汰就不写回。当前每次合法 unpin 减少 pin count，只在降到 0 时加入 LRU；重复 unpin 会返回 false。脏页在被替换或显式 flush 时写出，写完清 dirty。pin 解决内存是否能复用，dirty 解决是否需要保存修改，两者不能混为一谈。</p>
+<p><strong>追问 1：同一页 fetch 两次、unpin 一次能淘汰吗？</strong> 答：不能，pin 从 2 降为 1，还存在使用者。</p>
+<p><strong>追问 2：unpin(false) 能把 dirty 清掉吗？</strong> 答：不能，<code>true || false</code> 仍为 true；清 dirty 的时机是完成写回。</p>
+<p><strong>追问 3：flush 一定要求 pin 为 0 吗？</strong> 答：当前 flush_page 没有这个前置检查，并且无论 dirty 与否都会写页；不要把“淘汰必须无 pin”的规则误套到当前 flush 实现。并发写与 flush 的一致性还需看内容访问同步。</p>
+<p><strong>状态走查：</strong> <code>(pin=0,dirty=false)</code>→fetch 两次 <code>(2,false)</code>→写者 unpin(true) <code>(1,true)</code>→读者 unpin(false) <code>(0,true)</code>→淘汰写回。</p>
+<p><strong>常见误答：</strong> “unpin 就刷盘”“脏页不能淘汰”“pin 是独占锁”。</p>
+<p><strong>自测验收：</strong> 不看答案写出上面五步状态，说明哪一步进入 LRU。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/storage/buffer_pool_manager.cpp" title="本机源码文件">unpin 合并脏标记</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/storage/buffer_pool_manager.cpp" title="本机源码文件">flush_page</a>。</p>
+</div></details></article>
+<article id="R05" data-project="1" data-kind="R05"><details open><summary>R05｜P0｜LRU、锁和所有权</summary><div class="cardbody"><p><strong>简历锚点：</strong> “C++ 查询执行与存储系统、缓冲池”。</p>
+<p><strong>学习目标：</strong> 理解淘汰算法和安全使用页面的不同职责。</p>
+<p><strong>必要概念：</strong> LRU 近似淘汰最久没有被使用的可淘汰对象。链表维护顺序，哈希表定位节点，避免移除时线性搜索。RAII 是让对象析构自动释放资源的 C++ 思想，可用于未来管理 pin，但当前 record 路径仍显式 unpin。</p>
+<p><strong>主问：你的 LRU 怎么实现？</strong></p>
+<p><strong>60 秒答案：</strong> 当前 LRU 用链表加哈希表，unpin 把可淘汰 frame 放在链表头，victim 从链表尾取出并删除哈希映射；pin 根据哈希定位并从链表中移除。重复 unpin 已在集合中的 frame 不会再插入。它维护的是可淘汰 frame 的顺序，并不是每条记录访问的全量历史。LRU 和缓冲池内部各有互斥锁保护状态；事务锁则保护并发事务的数据访问，pin 又只是阻止内存复用，三者作用不同。</p>
+<p><strong>追问 1：链表加哈希的复杂度？</strong> 答：在常见哈希假设下定位、移除和选 victim 为平均 O(1)，链表节点迭代器用于直接删除。</p>
+<p><strong>追问 2：为什么顺序扫描可能效果不好？</strong> 答：一次性大扫描会让很多不再使用的页进入缓存，挤掉热点页；可讨论 LRU-K、Clock 或扫描隔离作为改进，不说项目已经有。</p>
+<p><strong>追问 3：异常路径漏了 unpin 会怎样？</strong> 答：pin 泄漏导致 frame 长期不能淘汰，最终无 victim。可用作用域页句柄自动 unpin，并让调用者显式标脏；这是改进设计。</p>
+<p><strong>状态走查：</strong> 依次 unpin A、B、C 后头到尾为 C,B,A；pin B 后为 C,A；victim 返回 A。</p>
+<p><strong>常见误答：</strong> “LRU 的互斥锁实现事务隔离”“所有页都在 LRU”。</p>
+<p><strong>自测验收：</strong> 给出上述链表顺序，并用一句话分别解释 pin、latch、事务锁。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/replacer/lru_replacer.cpp" title="本机源码文件">LRU 操作</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/record/rm_file_handle.cpp" title="本机源码文件">页读取后的复制和 unpin</a>。</p>
+</div></details></article>
+<article id="R06" data-project="1" data-kind="R06"><details open><summary>R06｜P0｜定长记录布局与 RID</summary><div class="cardbody"><p><strong>简历锚点：</strong> “定长记录”。</p>
+<p><strong>学习目标：</strong> 从逻辑行定位到内存字节。</p>
+<p><strong>必要概念：</strong> 表的 schema 确定每列类型、长度、offset，行长固定。记录页包含预留区域、页头、bitmap 和 slot 区；bitmap 的一个 bit 表示一个 slot 是否有效。RID 由页号和槽号组成，不是 SQL 主键。</p>
+<p><strong>主问：RID 怎么找到一条记录？</strong></p>
+<p><strong>60 秒答案：</strong> 先用 RID 的 page_no 向缓冲池取记录页，再检查 slot_no 是否越界以及 bitmap 是否置位。slot 地址等于 slot 区起点加 slot_no 乘 record_size。get_record 把该位置的数据复制到独立 RmRecord 中，然后 unpin 页，因此上层拿到的记录不依赖 frame 一直保留。定长布局便于随机定位和更新，代价是变长字符串、跨页记录和压缩布局需要额外设计。删除后 RID 的 slot 可能被复用，所以不能把 RID 当成永远不变的业务身份。</p>
+<p><strong>追问 1：行里字段怎样取？</strong> 答：记录起始地址加列 offset，再按列类型和长度解释该字节区间。</p>
+<p><strong>追问 2：一个页能放多少行？</strong> 答：须同时满足页头、bitmap、每行定长数据的总和不超过页大小；不能直接用 PAGE_SIZE/行长忽略管理开销。</p>
+<p><strong>追问 3：CHAR(20) 是变长字段吗？</strong> 答：当前是固定分配 20 字节的字段，短值补齐；它与变长字段的长度目录、溢出页是不同设计。</p>
+<p><strong>小例子：</strong> 行长 12 字节时，slot 3 的位置是 slots+36；它的某列 offset=4，则列地址是 slots+40。</p>
+<p><strong>常见误答：</strong> “RID 就是用户 id”“删除 slot 必须把后面的记录搬过来”。</p>
+<p><strong>自测验收：</strong> 画出页布局，给定 record_size、slot_no、offset 能算列地址。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/record/rm_defs.h" title="本机源码文件">文件头和记录结构</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/record/rm_file_handle.h" title="本机源码文件">slot 地址计算</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/record/rm_file_handle.cpp" title="本机源码文件">读取有效性检查</a>。</p>
+</div></details></article>
+<article id="R07" data-project="1" data-kind="R07"><details open><summary>R07｜P0｜bitmap、空闲页链与扫描</summary><div class="cardbody"><p><strong>简历锚点：</strong> “定长记录”。</p>
+<p><strong>学习目标：</strong> 掌握插入、删除、扫描共享的不变量。</p>
+<p><strong>必要概念：</strong> bitmap 管一页内的空槽；first_free_page_no 与 next_free_page_no 组成还有空槽的页链。有效行数应等于 bitmap 中已置位的槽数。扫描不能只按行数读取前 N 个 slot，因为删除会留下洞。</p>
+<p><strong>主问：满页删除一条后，再插入如何复用空间？</strong></p>
+<p><strong>60 秒答案：</strong> 正常插入从空闲页链取页，找到第一个未占用 bit，复制记录、置 bit、增加行数。如果插入后页满，就把该页从空闲链头移走。删除时清 bitmap、减行数；如果删除前页满，说明它刚获得空槽，应重新加入空闲页链。扫描用 bitmap 找下一个有效 slot，当前页没有再换下一页。这里三个结构要一起维护：bitmap、num_records、空闲链，否则会出现读到删除行、空位不复用或把满页当成空闲页的问题。</p>
+<p><strong>追问 1：为什么不是每次删除都把页加到链头？</strong> 答：原来未满的页已在空闲链中，重复加入会破坏链结构或造成重复节点。</p>
+<p><strong>追问 2：删除的字节必须清零才算删除吗？</strong> 答：记录是否可见由 bitmap 决定；旧字节可以仍存在，扫描必须检查有效位。安全擦除是另外的问题。</p>
+<p><strong>追问 3：恢复时指定 RID 插入有什么额外要求？</strong> 答：必须保证页已存在、slot 为空，并同步行数和空闲链。当前指定 RID 路径对链调整有简化条件，应通过满页、中间空闲页和恢复重插场景验证，不能由正常 insert 通过推导所有恢复布局正确。</p>
+<p><strong>状态走查：</strong> 一页三个槽 <code>[1,1,1]</code>→删除 slot1 得 <code>[1,0,1]</code>，重新进入空闲链→普通插入复用 slot1→扫描只返回置位槽。</p>
+<p><strong>常见误答：</strong> “num_records=2 所以读 slot0 和 slot1”“所有删除都把页挂一次链”。</p>
+<p><strong>自测验收：</strong> 手画满页删除、非满页删除和跨页扫描三种情况。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/record/rm_file_handle.cpp" title="本机源码文件">普通与指定 RID 插入</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/record/rm_file_handle.cpp" title="本机源码文件">删除</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/record/rm_scan.cpp" title="本机源码文件">扫描跳洞</a>。</p>
+</div></details></article>
+<article id="d1s11" data-project="1" data-kind=""><details open><summary>第二组：从 SQL 到可执行的记录流</summary><div class="cardbody"></div></details></article>
+<article id="R08" data-project="1" data-kind="R08"><details open><summary>R08｜P0｜SQL 的四阶段</summary><div class="cardbody"><p><strong>简历锚点：</strong> “SQL 解析、语义分析、计划生成与执行器链路”。</p>
+<p><strong>学习目标：</strong> 按职责分阶段解释，不背目录名。</p>
+<p><strong>必要概念：</strong> Parser 识别语法并生成 AST；Analyze 使用表元数据绑定列、校验类型并产生 Query；Planner 把查询要求组织成 Plan；Executor 根据计划实际取行和改行。Portal 是当前把计划转换成执行器树的衔接层。</p>
+<p><strong>主问：SELECT 从文本到结果经过什么？</strong></p>
+<p><strong>60 秒答案：</strong> 以 <code>select id from t where id=7</code> 为例，Parser 把 select、列和条件组成语法树；Analyze 检查 t 和 id 是否存在，补全列归属并把 7 转为匹配字段类型的值；Planner 为 t 选顺序扫描或索引扫描，再包投影计划；Portal 构造相应执行器，结果端不断拉取记录、按元数据解释字段并输出。不存在的列是语义错误，拼错 SQL 结构是语法错误。当前有基本计划生成和索引选择，logical_optimization 为空，不能宣称完整代价优化器。</p>
+<p><strong>追问 1：两个表都有 id 时怎么办？</strong> 答：未限定的 id 会产生歧义，应要求 t1.id 或 t2.id；Analyze 的 check_column 负责检查。</p>
+<p><strong>追问 2：AST 和执行计划能合并吗？</strong> 答：可以做极简解释器，但分层后同一语义能选择不同执行方式；AST 描述用户写了什么，计划描述怎样执行。</p>
+<p><strong>追问 3：索引选择属于代价优化吗？</strong> 答：当前按可用前缀长度等规则选择，未见基于统计信息估算各方案成本的完整流程；规则选择不能自动等同于成本最优。</p>
+<p><strong>小例子：</strong> <code>select missing from t</code> 语法可能成立，但元数据找不到列；<code>select from where</code> 在语法阶段失败。</p>
+<p><strong>常见误答：</strong> “Parser 会查磁盘拿行”“Optimizer 类存在就有完整优化器”。</p>
+<p><strong>自测验收：</strong> 脱稿为四阶段各说一个输入、输出和错误例子。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/rmdb.cpp" title="本机源码文件">服务端四阶段调用</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/analyze/analyze.cpp" title="本机源码文件">列绑定</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/portal.h" title="本机源码文件">计划转换</a>。</p>
+</div></details></article>
+<article id="R09" data-project="1" data-kind="R09"><details open><summary>R09｜P0｜拉取式执行器与投影</summary><div class="cardbody"><p><strong>简历锚点：</strong> “执行器链路”。</p>
+<p><strong>学习目标：</strong> 能手推一个执行循环。</p>
+<p><strong>必要概念：</strong> 执行器输出一串记录，父算子向子算子要下一条。当前接口中 beginTuple 定位第一条，Next 返回当前条，nextTuple 推进，is_end 判断结束；不要把 Next 误认为它自己推进。投影按选择列重组记录，并重算输出 offset。</p>
+<p><strong>主问：执行器为什么能串起来？</strong></p>
+<p><strong>60 秒答案：</strong> 各执行器共享记录长度、列元数据和迭代接口。SeqScan 从 RmScan 获取有效 RID，再用条件过滤；Projection 从子执行器取当前行，只复制所需列。父算子不需要知道子节点是顺扫、索引扫还是连接，只按统一契约拉取。顶层循环是 beginTuple，未结束就 Next 取当前记录，处理后 nextTuple。Sort 会先读完输入再输出，所以有统一接口不代表所有算子都能立刻流式产生结果。</p>
+<p><strong>追问 1：Next 调两次会跳两行吗？</strong> 答：当前设计通常返回同一当前位置，推进由 nextTuple 完成；必须按具体接口使用。</p>
+<p><strong>追问 2：为什么投影后 offset 要改？</strong> 答：原行字段可能在 0、4、24，投影只选后两列时新行紧凑排列，旧 offset 不能照搬。</p>
+<p><strong>追问 3：如何减少无用数据搬运？</strong> 答：原理上可以谓词下推、投影下推、批处理或引用式数据结构；当前实现以独立 RmRecord 和 memcpy 为主，不能把这些改进说成已实现。</p>
+<p><strong>状态走查：</strong> 原始行 id=1,2,3，条件 id&gt;1：begin 定位 2→Next 返回 2→next 定位 3→Next 返回 3→next 到 end。</p>
+<p><strong>常见误答：</strong> “每个 Next 都自动向后移动”“拉取式就没有内存物化”。</p>
+<p><strong>自测验收：</strong> 写出四接口正确调用顺序，并画两层执行器的数据方向。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_seq_scan.h" title="本机源码文件">SeqScan</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_projection.h" title="本机源码文件">Projection</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/execution_manager.cpp" title="本机源码文件">顶层拉取</a>。</p>
+</div></details></article>
+<article id="R10" data-project="1" data-kind="R10"><details open><summary>R10｜P0｜BIGINT 的全链路扩展</summary><div class="cardbody"><p><strong>简历锚点：</strong> “实现 BIGINT”。</p>
+<p><strong>学习目标：</strong> 解释类型是跨层契约。</p>
+<p><strong>必要概念：</strong> BIGINT 在当前实现中是有符号 64 位整数、8 字节存储。类型功能包括字面量解析、合法范围、元数据长度、raw 编码、比较、输出和索引键比较，不只是语法关键字。</p>
+<p><strong>主问：加 BIGINT 需要改哪些地方？</strong></p>
+<p><strong>60 秒答案：</strong> Parser 识别 BIGINT 并生成 8 字节列类型；整数 AST 保留字面量文本，Analyze 用 strtoll 检查 ERANGE 和解析尾部，值在 int 范围内先作为 INT，超出则作为 BIGINT，再按目标列做允许的转换。Value 的 raw 编码必须写满 8 字节，记录 offset 和列长要一致；执行比较、结果输出和索引 key 比较都要按 int64_t 解释。只有这些环节一致，超过 32 位的值才不会在插入、筛选或索引阶段被截断。SUM 当前另外限制为 INT/FLOAT，不能因为有 BIGINT 就说所有函数都支持它。</p>
+<p><strong>追问 1：为什么先存字面量字符串？</strong> 答：如果词法阶段先压进 int，大值已经溢出，语义阶段再换成 int64_t 无法恢复原值。</p>
+<p><strong>追问 2：测试哪些边界？</strong> 答：0、负数、INT 两端、INT 外但 int64_t 内的值、int64_t 两端以及两侧越界；同时检查插入、where、update、order by 和唯一索引。</p>
+<p><strong>追问 3：用 memcmp 比 8 字节行不行？</strong> 答：不能对一般机器端序的有符号整数直接按字节序判断数值大小；当前按类型读取 int64_t 后比较。对齐、端序和跨平台文件格式仍是进一步设计范围。</p>
+<p><strong>小例子：</strong> 2147483648 比 INT_MAX 大 1，应该作为 BIGINT 存储和比较；9223372036854775808 应被拒绝，而不是绕成负数。</p>
+<p><strong>常见误答：</strong> “把所有 int 换 long”“关键字能解析说明类型完成”。</p>
+<p><strong>自测验收：</strong> 从 SQL 字面量到打印结果列出至少六个需要一致的环节。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/analyze/analyze.cpp" title="本机源码文件">字面量范围检查</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/common/common.h" title="本机源码文件">raw 编码</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/index/ix_index_handle.h" title="本机源码文件">索引比较</a>。</p>
+</div></details></article>
+<article id="R11" data-project="1" data-kind="R11"><details open><summary>R11｜P1｜DATETIME 校验与可排序编码</summary><div class="cardbody"><p><strong>简历锚点：</strong> “实现 DATETIME”。</p>
+<p><strong>学习目标：</strong> 说清表示、合法性与不支持的时间语义。</p>
+<p><strong>必要概念：</strong> 当前接受固定 <code>YYYY-MM-DD HH:MM:SS</code>，编码成形如 20260915103000 的 int64_t。高位年份、低位秒，合法日期的数值大小与时间先后相同；这不是距某个纪元的秒数。</p>
+<p><strong>主问：DATETIME 怎么保证可比较？</strong></p>
+<p><strong>60 秒答案：</strong> 先检查长度 19 和分隔符位置，再逐段检查都是数字，校验年份 1000—9999、月份、按闰年决定的天数以及时分秒范围。合法后编码为 YYYYMMDDHHMMSS 的 8 字节整数，比较可以复用 int64_t 的数值顺序，输出时逐段拆回字符串。这种方式适合当前的存储、范围查询和排序，但没有 Unix 时间戳、时区转换或日期算术语义，不能直接相减得到时长。</p>
+<p><strong>追问 1：1900 和 2000 都能有 2 月 29 日吗？</strong> 答：1900 不是闰年，2000 是；规则是能被 400 整除，或被 4 整除且不能被 100 整除。</p>
+<p><strong>追问 2：为什么不能把两个编码相减算秒？</strong> 答：十进制各段不是统一进位时间单位，12:59:59 到 13:00:00 的编码差不是 1。</p>
+<p><strong>追问 3：支持夏令时吗？</strong> 答：当前没有时区信息和夏令时处理；若需求引入绝对时间，要重新明确存储和展示契约。</p>
+<p><strong>小例子：</strong> <code>2024-02-29 23:59:59</code> 合法；<code>2023-02-29 12:00:00</code>、<code>2024-01-01 24:00:00</code> 应拒绝。</p>
+<p><strong>常见误答：</strong> “存的是 Unix 时间戳”“格式正确就是合法日期”。</p>
+<p><strong>自测验收：</strong> 解释一个闰年反例、一个时间算术反例。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/common/datetime_utils.h" title="本机源码文件">DATETIME 解析和编码</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/analyze/analyze.cpp" title="本机源码文件">字符串转目标类型</a>。</p>
+</div></details></article>
+<article id="d1s16" data-project="1" data-kind=""><details open><summary>第三组：索引与修改的一致性</summary><div class="cardbody"></div></details></article>
+<article id="R12" data-project="1" data-kind="R12"><details open><summary>R12｜P0｜唯一索引与实际数据结构</summary><div class="cardbody"><p><strong>简历锚点：</strong> “唯一单列/多列索引”。</p>
+<p><strong>学习目标：</strong> 不把接口名字当作实现能力。</p>
+<p><strong>必要概念：</strong> 索引保存 key→RID，帮助定位基表行；唯一索引还要求 key 不重复。B+ 树是按页组织、有内部节点与叶节点、需要分裂合并的树。当前主路径是每个 fd 对应一个有序 vector，保存 key 字节和 RID。</p>
+<p><strong>主问：你实现的是 B+ 树吗？</strong></p>
+<p><strong>60 秒答案：</strong> 当前版本实现的是功能型唯一索引，主要条目在进程内有序 vector 中。查找用 lower_bound，重复 key 会抛出错误，范围访问从下界向后取到上界。框架中虽然有 IxNodeHandle 和树相关接口，但 find_leaf_page、split、合并和根调整仍为空或简化行为，不能称为完整磁盘 B+ 树。打开数据库时会扫描基表重建索引。这个实现把唯一约束、IndexScan 和 DML 维护链路串通了，代价是内存容量限制、插入删除移动成本和重启重建成本。</p>
+<p><strong>追问 1：查询与插入复杂度？</strong> 答：二分定位约 O(log N)，范围输出再加 K；vector 在中间插入或删除可能移动 O(N) 条目，不能把整个插入说成 O(log N)。</p>
+<p><strong>追问 2：建索引前表里已有重复数据？</strong> 答：重建索引时逐行插入，重复键会触发异常；建索引路径有失败清理逻辑。仍应验证失败后元数据和索引文件没有半成品。</p>
+<p><strong>追问 3：为什么完整 B+ 树适合磁盘？</strong> 答：高扇出降低树高，节点对应页，叶子有序支持范围扫描；这是通用原理，当前容器未实现这些磁盘访问性质。</p>
+<p><strong>小例子：</strong> 索引已有 key=8→RID(2,1)，再插入 key=8 应拒绝；key=9 插入到有序位置。</p>
+<p><strong>常见误答：</strong> “类名叫 IxIndexHandle 所以有 B+ 树”“二分查找让更新也是 O(log N)”。</p>
+<p><strong>自测验收：</strong> 同时说出实现容器、唯一判断、三项代价和重启来源。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/index/ix_index_handle.cpp" title="本机源码文件">容器和 lower_bound</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/index/ix_index_handle.cpp" title="本机源码文件">唯一插入</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/system/sm_manager.cpp" title="本机源码文件">重建索引</a>。</p>
+</div></details></article>
+<article id="R13" data-project="1" data-kind="R13"><details open><summary>R13｜P1｜复合键和最左前缀</summary><div class="cardbody"><p><strong>简历锚点：</strong> “多列索引”。</p>
+<p><strong>学习目标：</strong> 从有序规则推出索引可用条件。</p>
+<p><strong>必要概念：</strong> 索引 <code>(a,b)</code> 按定义顺序拼接 key，并按 a 再 b 比较，即字典序。唯一性约束整个组合，a 相同而 b 不同可以共存。查询连续等值前缀能缩小范围；遇到范围列后，后续列一般不能继续把候选集缩成一个简单连续区间。</p>
+<p><strong>主问：为什么联合索引讲最左前缀？</strong></p>
+<p><strong>60 秒答案：</strong> 因为条目首先按第一列排序。对 <code>(a,b)</code>，a=1 的记录形成连续区域，a=1 且 b=2 还能继续缩小；只有 b=2 时这些记录可能分散在多个 a 的区域中，当前 Planner 不选择这个索引。Planner 遍历索引列找条件，以最长可用前缀优先，范围条件后停止扩展。这里是规则选择，不是成本估计。复合 key 由字段 raw 字节按索引定义复制，比较器再按每列类型和长度逐列比较。</p>
+<p><strong>追问 1：a 重复就违反唯一吗？</strong> 答：不是，唯一的是完整 <code>(a,b)</code>；(1,2) 和 (1,3) 可以共存。</p>
+<p><strong>追问 2：WHERE 条件写 b=2 AND a=1 会失效吗？</strong> 答：当前循环按索引列查找条件，普通等值条件的文本顺序不等于 key 顺序；代码注释中“完全匹配、不能调条件顺序”已落后于当前实现，应以分支为准。</p>
+<p><strong>追问 3：a&gt;1 AND b=2，b 完全没用吗？</strong> 答：它通常不能继续缩紧一个简单连续索引区间，但仍可以作为残余过滤排除不满足的候选行。</p>
+<p><strong>小例子：</strong> 已排序 <code>(1,1),(1,4),(2,1),(2,4)</code>：a=1 连续，b=1 分散。分别判断 a=1、a=1 and b=4、b=4、a&gt;1 and b=4。</p>
+<p><strong>常见误答：</strong> “最左前缀是 SQL 文本里必须先写 a”“联合唯一要求每列各自唯一”。</p>
+<p><strong>自测验收：</strong> 能对上述四条谓词说出选择与残余条件。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/optimizer/planner.cpp" title="本机源码文件">规则选择</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/index_utils.h" title="本机源码文件">key 拼接</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/index/ix_index_handle.h" title="本机源码文件">逐列比较</a>。</p>
+</div></details></article>
+<article id="R14" data-project="1" data-kind="R14"><details open><summary>R14｜P0｜IndexScan 的候选范围与残余过滤</summary><div class="cardbody"><p><strong>简历锚点：</strong> “支持 IndexScanExecutor”。</p>
+<p><strong>学习目标：</strong> 说明命中索引为什么还要读表和判断条件。</p>
+<p><strong>必要概念：</strong> 范围下界/上界决定候选 key 集；RID 再定位基表记录；残余过滤完整检查 WHERE。索引范围可以比条件宽，但不能漏掉应该返回的行，过滤只能去掉误选，不能补回漏选。</p>
+<p><strong>主问：IndexScanExecutor 怎样执行一次查询？</strong></p>
+<p><strong>60 秒答案：</strong> beginTuple 先取表共享锁，再用每列最小值和最大值初始化复合边界，按前缀条件填入等值或范围，并保存端点是否包含。索引 get_range 返回候选 RID 列表，执行器逐条取基表记录，用完整条件再次过滤；Next 返回当前合格记录，nextTuple 向后找下一个。当前索引只存 key 和 RID，因此是回表扫描。边界构造必须特别测大于、小于、等值前缀加范围和重复约束；只测单列等值不足以证明复合范围正确。</p>
+<p><strong>追问 1：索引已经筛过了为什么再判断？</strong> 答：后续列和其他谓词可能未进入范围，复合开区间用极值填充时也可能过宽，需要完整条件去掉多取行。</p>
+<p><strong>追问 2：残余过滤能保证正确吗？</strong> 答：只能在候选集是正确结果超集时保证不多返回。如果边界错误把合格行排除，后面过滤找不回来，应把 IndexScan 与 SeqScan 结果集合对比。</p>
+<p><strong>追问 3：当前实现有什么值得专项核查？</strong> 答：边界标志跨列共用，且同列多个条件的覆盖顺序需要检查；例如同列 <code>a=3 AND a&gt;=3</code> 与顺序互换，应都保留 a=3。这里提出待复现输入，不先宣称结果错误。</p>
+<p><strong>小例子：</strong> 索引 <code>(a,b)</code>，条件 a=2 AND b&gt;5 AND c=9：索引生成候选，b 的开边界和 c=9 都应最终正确判断；输出应与顺扫一致。</p>
+<p><strong>常见误答：</strong> “走索引就不读基表”“有完整过滤就不用测范围边界”。</p>
+<p><strong>自测验收：</strong> 画出条件→边界→RID→记录→完整过滤，并解释误选与漏选差别。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_index_scan.h" title="本机源码文件">边界生成</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_index_scan.h" title="本机源码文件">范围获取和残余过滤</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/index/ix_index_handle.cpp" title="本机源码文件">有序条目范围扫描</a>。</p>
+</div></details></article>
+<article id="R15" data-project="1" data-kind="R15"><details open><summary>R15｜P1｜DML 为什么先收集 RID</summary><div class="cardbody"><p><strong>简历锚点：</strong> “维护插入、更新、删除后的索引一致性”。</p>
+<p><strong>学习目标：</strong> 区分定位目标和实际修改。</p>
+<p><strong>必要概念：</strong> UPDATE/DELETE 同时需要查找与写入。如果访问路径本身也被修改，扫描位置可能移动。先保存目标 RID，可以让执行阶段使用一个稳定目标集合，但它不能单独保证事务原子性。</p>
+<p><strong>主问：为什么 UPDATE 不直接边扫描边修改？</strong></p>
+<p><strong>60 秒答案：</strong> 当前 Portal 先构造扫描执行器，把满足条件的 RID 收集到 vector，再交给 UpdateExecutor 或 DeleteExecutor。这样修改索引键或删除条目时，不会直接改变正在前进的索引游标，减少漏处理和重复处理的风险。扫描阶段拿表共享锁，实际 DML 请求表排他锁，升级冲突由 no-wait 处理。RID 集合解决的是目标定位问题；某行或某个索引修改一半失败，仍然需要独立的撤销和异常处理机制。</p>
+<p><strong>追问 1：更新索引列为什么危险？</strong> 答：记录的 key 从小值变大值可能移动到扫描后方；原地边扫边改的实现若继续追着同一范围走，可能再次遇到它。当前先物化 RID 能避免直接依赖被改变的索引位置。</p>
+<p><strong>追问 2：收集 RID 的代价？</strong> 答：额外 O(命中行数) 内存和扫描阶段，结果巨大时需要分批或其他机制，并且分批必须重新考虑锁和语义。</p>
+<p><strong>追问 3：先收集以后别人删了这些行怎么办？</strong> 答：应由相应并发控制防止目标集合与数据失配。当前正常扫描持有表共享锁至事务结束，其他表排他写会冲突；不能把无锁场景的安全性归功于 RID vector。</p>
+<p><strong>小例子：</strong> 索引 key 为 1,2,3，把满足 key&lt;3 的记录设为 5；先收集两条 RID，再修改。唯一约束可能让该 SQL 失败，这是原子性问题，另见 R16。</p>
+<p><strong>常见误答：</strong> “收集了 RID，所以失败一定全部回滚”“vector 自带事务隔离”。</p>
+<p><strong>自测验收：</strong> 分别指出 RID 收集、表锁、写集三个机制各解决哪个问题。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/portal.h" title="本机源码文件">Portal 收集 RID</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_update.h" title="本机源码文件">UPDATE 获取排他锁</a>。</p>
+</div></details></article>
+<article id="R16" data-project="1" data-kind="R16"><details open><summary>R16｜P0｜多索引 UPDATE 与原子性边界</summary><div class="cardbody"><p><strong>简历锚点：</strong> “维护插入、更新、删除后的索引一致性；提交/回滚”。</p>
+<p><strong>学习目标：</strong> 能按真实顺序分析失败，不用“有事务”代替推理。</p>
+<p><strong>必要概念：</strong> 原子性要求一个操作在规定边界内全成或全不成。涉及基表、多个索引、日志和写集时，每个可抛异常点都是中间状态。事务回滚只知道已经被完整记录到写集里的修改，不能自动知道遗漏的半成品。</p>
+<p><strong>主问：UPDATE 如何维护索引？发生唯一冲突时一定原子吗？</strong></p>
+<p><strong>60 秒答案：</strong> 当前先读取旧记录并复制旧值，再形成新记录；逐个索引删除旧 key、插入新 key，当前索引插入失败时恢复它的旧 key。所有索引操作后才写 UPDATE 日志并 flush，修改基表，再把旧记录加入事务写集。这个流程有局部恢复，但不能说完整异常原子性已经保证：如果前一个索引已改、后一个索引冲突，catch 只恢复后一个索引，而且当前行还没有写集记录。服务端普通 RMDBError 也没有统一 abort 分支。这是静态代码可定位的边界，实际故障表现仍应按场景复现。</p>
+<p><strong>追问 1：给一个具体的中间失败例子。</strong> 答：A=(u=1,v=1)，B=(u=2,v=2)，u、v 各有唯一索引。把 A 改成 (u=3,v=2)：u 索引可能已从 1 改为 3，v=2 冲突后只恢复 v=1；基表 A 还没改。要检查 u 索引是否残留 3，而不能只 SELECT 全表。</p>
+<p><strong>追问 2：整体 abort 能自动修好这个例子吗？</strong> 答：不一定。当前行的 WriteRecord 在修改基表之后才追加，前面的索引半更新未进入写集，因此必须有操作局部撤销记录或先完整登记补偿信息。</p>
+<p><strong>追问 3：你会怎么改？</strong> 答：先对所有索引验证新键冲突，记录各步已完成状态，在异常时按反序补偿；同时统一语句失败与事务失败策略。预检查不能代替真正的回滚，因为内存分配、I/O 或并发仍可能在后续失败。改动后重点测试多行、多索引和每一步故障注入。</p>
+<p><strong>状态走查：</strong> 旧记录→新记录副本→索引 1 完成→索引 2 失败→检查索引 1、索引 2、基表、写集四个对象。把“应当一起回滚”和“当前确实回滚了哪些”分别写下来。</p>
+<p><strong>常见误答：</strong> “catch(...) 所以全部恢复”“有 WAL 就能修复内存里的所有半更新”“报错等于 abort”。</p>
+<p><strong>自测验收：</strong> 能指出异常发生前后的两个状态，并设计顺扫、索引查、重启后三组断言。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_update.h" title="本机源码文件">UPDATE 索引、日志、基表和写集顺序</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/rmdb.cpp" title="本机源码文件">普通错误处理</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_insert.h" title="本机源码文件">INSERT 顺序</a>。</p>
+</div></details></article>
+<article id="d1s22" data-project="1" data-kind=""><details open><summary>第四组：聚合、排序与连接的执行成本</summary><div class="cardbody"></div></details></article>
+<article id="R17" data-project="1" data-kind="R17"><details open><summary>R17｜P1｜聚合状态与空输入语义</summary><div class="cardbody"><p><strong>简历锚点：</strong> “聚合”。</p>
+<p><strong>学习目标：</strong> 从每行更新一个状态理解聚合，并核对支持边界。</p>
+<p><strong>必要概念：</strong> 聚合把多行变成少量结果。COUNT 累加行数；SUM 累加数值；MAX/MIN 保存当前最优值和是否初始化。空输入必须定义输出，不能把其他数据库的 NULL 语义原样套过来。</p>
+<p><strong>主问：聚合在哪里实现，支持到什么程度？</strong></p>
+<p><strong>60 秒答案：</strong> 当前聚合主要在 QlManager::select_from 中，读取执行器输出后，为每个聚合列维护 count、整数和、浮点和及最大最小值状态。COUNT 每行加一，SUM 当前只接受 INT 和 FLOAT，MAX/MIN 通过通用类型比较更新保存值。空输入时 COUNT 输出 0，SUM 当前输出零，MAX/MIN 输出空字符串。不能把这个简化实现说成完整 SQL 聚合系统，也不能因 BIGINT 可存储就声称 SUM(BIGINT) 支持；Analyze 会拒绝它。</p>
+<p><strong>追问 1：COUNT(*) 和 COUNT(col) 一样吗？</strong> 答：在支持 SQL NULL 的数据库中前者数行、后者数非 NULL 值。当前没有在这条聚合路径里检查列 NULL，两者不能借用标准区别作已实现承诺。</p>
+<p><strong>追问 2：SUM 为什么不能一律 int 累加？</strong> 答：累加多个 INT 可能超过 32 位，所以当前用 int64_t sum_int；即使更宽也仍有极大输入溢出边界，应另测，不能说永远不会溢出。</p>
+<p><strong>追问 3：聚合加 LIMIT 一定遵守标准 SQL 顺序吗？</strong> 答：要检查执行树和聚合位置。当前 LIMIT 由 SortExecutor 对输入结果截断，而聚合在输出端继续累加；组合语义需要专项验证，不能由“分别支持聚合和 LIMIT”推导组合正确。</p>
+<p><strong>小例子：</strong> INT 行值 2,3,5：COUNT=3、SUM=10、MAX=5、MIN=2；再手推空输入。以上为按代码推演的预期。</p>
+<p><strong>常见误答：</strong> “支持 BIGINT 就支持 SUM(BIGINT)”“空表 MAX 一定返回 SQL NULL”“有聚合就有 GROUP BY”。</p>
+<p><strong>自测验收：</strong> 写出四个聚合状态和空输入结果，说明一个组合语义待测项。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/analyze/analyze.cpp" title="本机源码文件">SUM 类型限制</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/execution_manager.cpp" title="本机源码文件">聚合状态与输出</a>。</p>
+</div></details></article>
+<article id="R18" data-project="1" data-kind="R18"><details open><summary>R18｜P1｜排序、LIMIT 与阻塞算子</summary><div class="cardbody"><p><strong>简历锚点：</strong> “排序、LIMIT”。</p>
+<p><strong>学习目标：</strong> 从实现过程估算时间和内存。</p>
+<p><strong>必要概念：</strong> 阻塞算子需要先拿到大量或全部输入才能输出第一条。多列排序按第一个不同字段决定顺序。LIMIT 限制输出数；是否少扫描、少排序取决于算法，而不是 SQL 中出现 LIMIT 就自动成立。</p>
+<p><strong>主问：ORDER BY ... LIMIT 10 是怎么执行的？</strong></p>
+<p><strong>60 秒答案：</strong> 当前 SortExecutor 在 beginTuple 中读完子执行器所有记录，存入 tuples_，用 stable_sort 按排序列及升降序比较，最后 resize 到 limit。于是 LIMIT 10 只保证最终最多十行，当前仍物化并排序全部输入。通常排序时间按 O(N log N) 理解，记录存储空间按 O(N×行宽)，stable_sort 本身还可能使用辅助内存。没有 ORDER BY 但有 LIMIT 时也会经过这个执行器，当前没有提前停止读取的优化。</p>
+<p><strong>追问 1：为什么多列比较发现第一个不同就返回？</strong> 答：这是字典序规则。比如先按 score 降序，score 相同时再按 id 升序。</p>
+<p><strong>追问 2：stable_sort 保证结果跨运行相同吗？</strong> 答：它保持当前输入中相等键的相对顺序；输入本身可能随访问路径变化。需要稳定分页时通常加入唯一键作最终排序条件。</p>
+<p><strong>追问 3：怎样优化 LIMIT K？</strong> 答：ORDER BY LIMIT K 可以考虑维护 K 大小的堆，时间约 O(N log K)、空间 O(K×行宽)；仅 LIMIT 可提前停止。超内存全排序可用外部归并。以上均是改进方向。</p>
+<p><strong>小例子：</strong> 行 <code>(score,id)</code> 为 (90,2),(90,1),(80,3)，ORDER BY score DESC,id ASC LIMIT 2，应取 (90,1),(90,2)。</p>
+<p><strong>常见误答：</strong> “LIMIT 10 只读取十行”“stable_sort 意味着无额外内存”。</p>
+<p><strong>自测验收：</strong> 分别解释普通排序、Top-K、只有限制三种场景的当前成本和可改进点。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/execution_sort.h" title="本机源码文件">排序物化与截断</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/optimizer/planner.cpp" title="本机源码文件">LIMIT 也生成 SortPlan</a>。</p>
+</div></details></article>
+<article id="R19" data-project="1" data-kind="R19"><details open><summary>R19｜P0｜BNLJ 分块与复杂度</summary><div class="cardbody"><p><strong>简历锚点：</strong> “BNLJ”。</p>
+<p><strong>学习目标：</strong> 解释优化的是哪类成本。</p>
+<p><strong>必要概念：</strong> 普通嵌套循环对每条左记录扫描所有右记录。块嵌套循环把多条左记录留在内存，右侧一条记录与整块左记录比较，从而多个左记录共用一轮右侧扫描。谓词比较总量仍可能接近左右行数乘积。</p>
+<p><strong>主问：BNLJ 比普通 Nested Loop 改善在哪里？</strong></p>
+<p><strong>60 秒答案：</strong> 当前 NestedLoopJoinExecutor 使用约 8 MiB 的左块预算，根据左侧行宽算最多装多少行，再扫描右侧，让右侧每行与块内所有左行匹配；换下一块时重新 begin 右侧。若左侧 M 行、右侧 N 行、每块 K 行，右侧重扫从大约 M 次变成 ceil(M/K) 次，但最坏比较仍是 O(MN)。它降低重复读取和执行器扫描成本，没有变成哈希连接。另有无连接条件且右侧能缓存时的分支，可以缓存右侧处理笛卡尔积。</p>
+<p><strong>追问 1：为什么行宽影响性能？</strong> 答：同样字节预算下，行越宽 K 越小，块数越多，右侧重扫次数越多；提前过滤和去掉不必要列有潜在收益。</p>
+<p><strong>追问 2：8 MiB 是进程实际内存上限吗？</strong> 答：不是，代码按记录长度累计预算，vector、unique_ptr、分配器和临时连接记录还有开销，其他算子也占内存；不要把常量当 RSS 上限。</p>
+<p><strong>追问 3：为什么不直接用 Hash Join？</strong> 答：当前 BNLJ 利用已有迭代接口，能按通用条件比较；哈希连接适合等值条件，还需哈希表、内存不足处理和类型一致的哈希。可以作为后续优化，不说当前实现了。</p>
+<p><strong>状态走查：</strong> 左侧 5 行，每块 2 行，右侧 4 行：左块为 2、2、1，右侧扫描约 3 轮，最多仍做 20 对比较。右表空则没有结果，需走完正确结束状态。</p>
+<p><strong>常见误答：</strong> “BNLJ 把复杂度降成 O(M+N)”“8 MiB 就是缓冲池大小”“没有 ORDER BY 也必须固定输出顺序”。</p>
+<p><strong>自测验收：</strong> 独立推导 ceil(M/K) 次右扫，区分比较成本与读取成本。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_nestedloop_join.h" title="本机源码文件">块预算和加载</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_nestedloop_join.h" title="本机源码文件">跨块推进</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_nestedloop_join.h" title="本机源码文件">右侧缓存分支</a>。</p>
+</div></details></article>
+<article id="d1s26" data-project="1" data-kind=""><details open><summary>第五组：事务、并发与失败的状态变化</summary><div class="cardbody"></div></details></article>
+<article id="R20" data-project="1" data-kind="R20"><details open><summary>R20｜P1｜COMMIT 与事务生命周期</summary><div class="cardbody"><p><strong>简历锚点：</strong> “事务提交”。</p>
+<p><strong>学习目标：</strong> 区分逻辑提交和耐久提交的完成时点。</p>
+<p><strong>必要概念：</strong> 事务有 id、状态、写集、锁集和上一条日志位置。COMMIT 表示接受事务效果；写集用于活跃事务回滚，提交后可释放。提交日志使重启恢复判断事务归属，但可靠确认需要考虑持久化与响应时机。</p>
+<p><strong>主问：commit 具体做了什么？</strong></p>
+<p><strong>60 秒答案：</strong> 当前 commit 清理写集中的 WriteRecord，追加 CommitLogRecord 并更新 prev_lsn，把事务状态设成 COMMITTED，释放所持锁，随后 flush 日志，最后从事务表移除。它不是把所有修改的数据页立刻刷完。这里要如实说明两个顺序边界：锁在日志 flush 前释放，普通隐式事务的响应发送也在后面的自动 commit 前；而底层日志 write 没有 fsync。因此我只能说存在提交与日志调用流程，不能据此承诺任何断电点都满足持久性。</p>
+<p><strong>追问 1：提交后为什么可以删写集？</strong> 答：活跃事务的内存撤销信息已不再用于正常主动回滚，崩溃后依据持久日志恢复；但提交失败中途如何处理必须单独设计。</p>
+<p><strong>追问 2：提交一定刷所有数据页吗？</strong> 答：当前没有；一般数据库可以采用提交强制日志、数据页稍后写出的 no-force 方式，但必须满足 WAL 和恢复前提，不能直接把当前实现完整归类为已正确实现该策略。</p>
+<p><strong>追问 3：应该在什么时候告诉客户端成功？</strong> 答：对于需要持久性承诺的提交，应在必要日志确实持久之后再确认；释放锁和失败处理也要有清晰边界。当前代码顺序提示这部分需要进一步验证和改进。</p>
+<p><strong>小例子：</strong> “记录页仍只在内存、提交日志已可靠持久”在正确 WAL 设计下可以由 REDO 恢复；“客户端已成功、提交日志尚未可靠持久”就不能轻易承诺崩溃不丢。</p>
+<p><strong>常见误答：</strong> “COMMITTED 枚举设了就耐久”“flush_log_to_disk 的函数名证明物理落盘”。</p>
+<p><strong>自测验收：</strong> 按真实顺序列六步，并指出释放锁、flush、响应三者的位置。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/transaction/transaction_manager.cpp" title="本机源码文件">commit 顺序</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/rmdb.cpp" title="本机源码文件">隐式提交前响应</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/storage/disk_manager.cpp" title="本机源码文件">日志 write</a>。</p>
+</div></details></article>
+<article id="R21" data-project="1" data-kind="R21"><details open><summary>R21｜P0｜ABORT 写集逆序回滚</summary><div class="cardbody"><p><strong>简历锚点：</strong> “事务回滚”。</p>
+<p><strong>学习目标：</strong> 按反向操作同时恢复基表与索引。</p>
+<p><strong>必要概念：</strong> 写集是事务已登记的修改历史。撤销插入要删除新行；撤销删除要重新插入旧行；撤销更新要恢复旧值。多次修改同一行时应从最后一次开始撤销，所以写集按栈式处理。</p>
+<p><strong>主问：abort 如何恢复记录和索引？</strong></p>
+<p><strong>60 秒答案：</strong> 当前 abort 从 write_set 尾部取操作。撤销 INSERT 时先删对应索引，再删行；撤销 DELETE 时按原 RID 插回旧记录并重建索引；撤销 UPDATE 时读取当前记录，删当前 key，把旧字节写回，再插入旧 key。处理完写集后记录 ABORT，标状态、解锁并 flush 日志。逆序很重要：同一行从 10 改到 20 再改到 30，应先回 20 再回 10。这个机制覆盖已登记的修改，不代表未入写集的中间失败也自动被撤销。</p>
+<p><strong>追问 1：只恢复表，不恢复索引会怎样？</strong> 答：顺扫看似正确，旧 key 可能查不到，新 key 可能还指向记录，唯一检查也可能错误，必须分别验证。</p>
+<p><strong>追问 2：同一事务 insert 后 update 再 abort？</strong> 答：先撤销 update 恢复刚插入的值，再撤销 insert 删除该记录；最终回到事务开始前没有该行的状态。</p>
+<p><strong>追问 3：回滚过程中再次失败怎么办？</strong> 答：需要可恢复的撤销进度，例如补偿日志及 undo-next 等机制，或等价的设计。当前没有完整 CLR 方案，因此不能保证所有“回滚时再次崩溃”的情况都已解决。</p>
+<p><strong>状态走查：</strong> 索引 id=1，value=10→更新到 20→更新到 30；write_set 尾是旧值 20，下一条旧值 10，逆序恢复后 value=10，相关新键都消失。</p>
+<p><strong>常见误答：</strong> “abort 就清空写集”“恢复旧行会自动修好所有索引”“正序 undo 也一样”。</p>
+<p><strong>自测验收：</strong> 手推 INSERT→UPDATE→DELETE→ABORT，并为每步写出行与索引的最终状态。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/transaction/transaction_manager.cpp" title="本机源码文件">逆序回滚与索引恢复</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_update.h" title="本机源码文件">UPDATE 保存旧记录</a>。</p>
+</div></details></article>
+<article id="R22" data-project="1" data-kind="R22"><details open><summary>R22｜P0｜表级 S/X 锁与并发范围</summary><div class="cardbody"><p><strong>简历锚点：</strong> “表级锁”。</p>
+<p><strong>学习目标：</strong> 准确回答实际锁粒度，而不是列出接口数量。</p>
+<p><strong>必要概念：</strong> S 共享锁允许多个读取者共存；X 排他锁与其他事务的 S/X 均冲突。表锁覆盖整张表，粒度粗但实现简单。IS/IX 是多粒度锁的意向模式；有记录锁接口不代表正常 SQL 路径已经使用细粒度锁。</p>
+<p><strong>主问：RMDB 的读写并发靠什么控制？</strong></p>
+<p><strong>60 秒答案：</strong> 当前 SeqScan 和 IndexScan 在 beginTuple 时申请表共享锁，Insert、Update、Delete 在写入前申请表排他锁。锁管理器记录每个资源的已授予请求，检查兼容性，冲突立即抛事务中止异常。正常业务路径主要是表级控制，所以不同事务即使更新同表不同 RID 也会互相排斥。代码里有记录锁和 IS/IX 接口，但不能因此说当前实现了高并发完整多粒度协议，更不能说有 MVCC。</p>
+<p><strong>追问 1：T1 读表，T2 读表，T3 写表？</strong> 答：T1/T2 的 S 可以共存；T3 的 X 与它们冲突，按 no-wait 中止请求者。</p>
+<p><strong>追问 2：为什么 UPDATE 可能从 S 升级到 X？</strong> 答：Portal 先扫描收集 RID，扫描拿 S，执行 DML 时申请 X；若其他事务仍有 S，升级就会冲突。</p>
+<p><strong>追问 3：怎样提高同表不同记录的写并发？</strong> 答：需要规划表意向锁加记录锁、访问路径和锁升级规则，并处理范围条件的幻读问题。只是把表锁换成行锁还不足以声明保持相同隔离性质。</p>
+<p><strong>小例子：</strong> T1 更新 id=1，T2 更新 id=100；当前同表 X 锁仍冲突，即使业务行互不相同。</p>
+<p><strong>常见误答：</strong> “不同 RID 一定可以同时写”“有 record lock 函数所以 SQL 用行锁”“表锁就是 serializable 的完整证明”。</p>
+<p><strong>自测验收：</strong> 画 S/S、S/X、X/X 兼容表，指出当前锁申请的执行器位置。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_seq_scan.h" title="本机源码文件">共享表锁</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_insert.h" title="本机源码文件">写表锁</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/transaction/concurrency/lock_manager.cpp" title="本机源码文件">兼容矩阵</a>。</p>
+</div></details></article>
+<article id="R23" data-project="1" data-kind="R23"><details open><summary>R23｜P0｜no-wait 与冲突回滚</summary><div class="cardbody"><p><strong>简历锚点：</strong> “no-wait 并发控制”。</p>
+<p><strong>学习目标：</strong> 用等待图解释策略，再说明失败代价。</p>
+<p><strong>必要概念：</strong> 数据库死锁需要事务相互等待形成环。no-wait 遇到不兼容锁立即失败，不把请求挂起等待，所以在该锁协议内部不形成等待环。它不保证事务最终都成功，也不解决进程中所有 mutex 使用错误。</p>
+<p><strong>主问：no-wait 为什么能避免死锁，有什么代价？</strong></p>
+<p><strong>60 秒答案：</strong> 锁管理器发现别的事务持有不兼容锁时，直接抛 TransactionAbortException，服务端对应 catch 调用 abort。由于事务不等待锁，自然不会形成事务锁等待环，也不需要等待图检测。代价是热点下回滚多、重复工作多，某事务可能反复失败，吞吐和公平性要通过实验评估。可在客户端做有上限的退避重试，但不能自动重试不可重复的外部副作用，也不能宣称当前已经有完整重试系统。</p>
+<p><strong>追问 1：T1 持 A 要 B，T2 持 B 要 A？</strong> 答：后请求冲突锁的一方立即中止并回滚释放所持锁，不会双方都无限等待；具体谁成功依赖执行时序。</p>
+<p><strong>追问 2：异常一抛锁就释放了吗？</strong> 答：锁申请函数抛异常本身不等于回滚完成；需要服务端 catch 路径调用 TransactionManager::abort 释放事务已有锁。要追到上层错误处理。</p>
+<p><strong>追问 3：和 wait-die、wound-wait 有何不同？</strong> 答：后两者按事务年龄决定等待或中止，no-wait 不比较年龄，一律冲突即失败。此处只需理解选择代价，不需要认领项目实现了这些其他策略。</p>
+<p><strong>状态走查：</strong> T1 拿表 S；T2 申请 X→异常→T2 abort；T1 保持 S 继续工作。T2 重试应等新事务边界，不复用半失败状态。</p>
+<p><strong>常见误答：</strong> “no-wait 就是不加锁”“抛异常会自动撤销所有内存状态”“没有死锁所以并发一定高”。</p>
+<p><strong>自测验收：</strong> 两句话解释无等待环，再列回滚成本、饥饿和重试三项代价。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/transaction/concurrency/lock_manager.cpp" title="本机源码文件">冲突立即抛异常</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/rmdb.cpp" title="本机源码文件">上层触发 abort</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/transaction/concurrency/lock_manager.cpp" title="本机源码文件">解锁和 SHRINKING</a>。</p>
+</div></details></article>
+<article id="d1s31" data-project="1" data-kind=""><details open><summary>第六组：基础 WAL 与恢复边界</summary><div class="cardbody"></div></details></article>
+<article id="R24" data-project="1" data-kind="R24"><details open><summary>R24｜P0｜WAL、物理日志与落盘顺序</summary><div class="cardbody"><p><strong>简历锚点：</strong> “WAL 物理日志 redo/undo”。</p>
+<p><strong>学习目标：</strong> 先懂原则，再核对每一条持久化路径。</p>
+<p><strong>必要概念：</strong> WAL 的核心约束是：数据修改写到稳定存储之前，相应日志必须先可靠持久；要向客户端承诺提交，提交记录也要达到要求的持久级别。当前日志记录表名、RID 和行字节镜像；UPDATE 有旧值和新值，属于基于记录镜像的物理恢复信息，不是重新执行 SQL，也不是整页镜像日志。</p>
+<p><strong>主问：你如何实现 WAL？当前有什么边界？</strong></p>
+<p><strong>60 秒答案：</strong> 当前 DML 生成 INSERT、DELETE、UPDATE 日志，日志有事务 id、LSN 和 prev_lsn，日志管理器序列化到缓冲区并通过 write_log 追加文件。UPDATE/DELETE 在改基表记录前显式 flush 日志；但 INSERT 是先插记录后生成日志，记录层还会写文件头。缓冲池淘汰没有比较 pageLSN 与持久 LSN，底层 write_log 未见 fsync。因此应表述为基础物理日志和 WAL 相关流程，不能证明严格满足所有崩溃点的 write-ahead 与断电持久性。</p>
+<p><strong>追问 1：为什么 UPDATE 同时保留旧值、新值？</strong> 答：REDO 要重建修改后的状态，UNDO 要恢复修改前状态；只存新值不能一般性恢复旧值，只存旧值也不够重做。</p>
+<p><strong>追问 2：pageLSN 和 persistLSN 理论上怎么配合？</strong> 答：pageLSN 表示页上最后一次修改的日志序号；写页前需要保证日志至少持久到该序号。当前 Page 有 LSN 接口，但本轮查看 DML、记录层和缓冲淘汰路径未见完整使用链，接口存在不是机制已闭环。</p>
+<p><strong>追问 3：kill -9 测试能证明断电安全？</strong> 答：不能。杀进程一般保留操作系统页缓存，真实掉电会丢失尚未同步到稳定存储的内容。需要把故障模型说清，分别测试进程崩溃、写失败、部分日志和更强故障假设。</p>
+<p><strong>状态走查：</strong> 原理要求“日志可靠持久→相关脏数据页可持久”；当前 INSERT 是“改记录→写插入日志”，若间隙发生写页/崩溃，必须专项检查，而不是凭函数名称判定符合 WAL。</p>
+<p><strong>常见误答：</strong> “日志在 SQL 返回前写过就一定 WAL”“write 等于 fsync”“项目实现了完整 ARIES”。</p>
+<p><strong>自测验收：</strong> 用箭头画正确原则，再圈出当前 INSERT、页淘汰、日志同步三个待验证环节。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_insert.h" title="本机源码文件">INSERT 先改记录</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_update.h" title="本机源码文件">UPDATE 日志顺序</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/recovery/log_manager.cpp" title="本机源码文件">日志缓冲</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/storage/disk_manager.cpp" title="本机源码文件">底层写日志</a>。</p>
+</div></details></article>
+<article id="R25" data-project="1" data-kind="R25"><details open><summary>R25｜P1｜启动 analyze、redo、undo</summary><div class="cardbody"><p><strong>简历锚点：</strong> “redo/undo”。</p>
+<p><strong>学习目标：</strong> 自己给日志分类并排执行顺序。</p>
+<p><strong>必要概念：</strong> 崩溃时内存事务状态消失，需要从日志判断哪些事务提交、终止或仍活跃。REDO 重建应保留的新值，UNDO 移除不应保留的未完成修改。顺序操作之间有依赖，重做通常按前进顺序、撤销按反序。</p>
+<p><strong>主问：RMDB 启动恢复三步分别做什么？</strong></p>
+<p><strong>60 秒答案：</strong> 当前 analyze 一次读取日志文件，按日志头长度解析记录，维护 committed、aborted 和 active 集合，遇到不完整或不认识的尾记录会停止。redo 正向遍历日志，只重放 committed 事务的 INSERT/DELETE/UPDATE。undo 反向遍历日志，只撤销 active 事务，然后 flush 表页。代码采用“已提交重做、活跃撤销”的基础方案，不能等同于 ARIES 的重复历史重做，也不能假设所有日志损坏和交错恢复都已覆盖。</p>
+<p><strong>追问 1：T1 更新 10→20 提交，T2 更新 20→30 未提交，恢复后呢？</strong> 答：在表页与 RID 等前提有效的这个简单例子中，重做 T1 得 20，再撤销 T2 恢复旧值 20，最终应为 20；这只是教学推演，复杂交错还要测试。</p>
+<p><strong>追问 2：为什么 UNDO 反向？</strong> 答：事务连续更新 10→20→30，后一步旧值是 20，前一步旧值是 10；反向恢复得到 10，正向会最后停在 20。</p>
+<p><strong>追问 3：已经有 ABORT 记录的事务怎么处理？</strong> 答：当前从 active 集合移除，既不按提交事务 redo，也不按 active undo；这依赖之前撤销效果已经可靠落盘的前提。若 abort 日志可见而撤销数据页未可靠持久，恢复正确性需要专项核查。</p>
+<p><strong>小例子：</strong> 日志 BEGIN T1、UPDATE T1、COMMIT T1、BEGIN T2、INSERT T2：committed={T1}、active={T2}；执行 T1 的 redo 和 T2 的 undo。</p>
+<p><strong>常见误答：</strong> “redo 就是执行全部日志”“abort 事务在启动时一定再撤销一次”“有 analyze/redo/undo 名称就等于 ARIES”。</p>
+<p><strong>自测验收：</strong> 给自己写六条日志，独立分三类事务并排出恢复动作。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/recovery/log_recovery.cpp" title="本机源码文件">日志分析</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/recovery/log_recovery.cpp" title="本机源码文件">REDO</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/recovery/log_recovery.cpp" title="本机源码文件">UNDO</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/rmdb.cpp" title="本机源码文件">启动调用</a>。</p>
+</div></details></article>
+<article id="R26" data-project="1" data-kind="R26"><details open><summary>R26｜P1｜恢复幂等、索引重建与 ARIES 边界</summary><div class="cardbody"><p><strong>简历锚点：</strong> “基础恢复、索引一致性”。</p>
+<p><strong>学习目标：</strong> 回答重启一次与恢复可重复的差别。</p>
+<p><strong>必要概念：</strong> 幂等指重复执行不会继续改变最终结果。恢复自身也可能崩溃，因此不能只考虑一次从头跑完。索引可由基表重建时，基表是重建来源；基表恢复错误不会被索引重建自动修好。</p>
+<p><strong>主问：重启后索引和记录如何保持一致？是否有完整 ARIES？</strong></p>
+<p><strong>60 秒答案：</strong> open_db 打开表和索引后，扫描基表重建内存有序索引；恢复时各条记录的 redo/undo 也同步删除旧索引和插入新索引。部分操作通过检查 RID 是否存在选择插入、更新或跳过，是基础幂等处理，但不能据此证明任意日志反复重放都正确。当前没有完整 checkpoint、脏页表、CLR 和按 prev_lsn 链撤销的流程，redo 也只处理提交事务。因此项目应称基础恢复。特别是重启后事务 ID/LSN 的接续、撤销中再崩溃和 RID 复用，值得优先验证。</p>
+<p><strong>追问 1：prev_lsn 字段存在为什么还不算完整链式 undo？</strong> 答：当前日志会保存该字段，但 RecoveryManager::undo 实际使用 logs_.rbegin 到 rend 全局反向遍历，并未沿每个事务的 prev_lsn 访问上一条待撤销记录。</p>
+<p><strong>追问 2：当前最大的重启状态疑点是什么？</strong> 答：事务管理器 next_txn_id 和日志 global_lsn 初始为 0，所查看启动恢复路径未见从历史最大值推进的逻辑。若旧日志保留而编号复用，按事务 id 的分类可能混淆新旧事务，应写连续两次重启用例复现；本轮没有运行结论。</p>
+<p><strong>追问 3：索引重建能替代日志吗？</strong> 答：不能，重建只能反映基表当时的内容；如果基表包含未提交或丢失已提交数据，必须先有正确恢复语义，索引才有正确来源。</p>
+<p><strong>小例子：</strong> 先提交并退出，再启动产生新事务后崩溃，再次启动；同时检查事务编号、基表结果和索引结果，不能只做一个干净重启。</p>
+<p><strong>常见误答：</strong> “有存在性判断所以完全幂等”“重建索引会自动恢复丢失记录”“记录了 prev_lsn 就是 ARIES”。</p>
+<p><strong>自测验收：</strong> 能列三项当前实现与完整 ARIES 的差别，并说明它们各影响什么。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/system/sm_manager.cpp" title="本机源码文件">打开时重建</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/recovery/log_recovery.cpp" title="本机源码文件">恢复记录存在性分支</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/transaction/transaction_manager.h" title="本机源码文件">事务编号初值</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/recovery/log_manager.h" title="本机源码文件">日志编号初值</a>。</p>
+</div></details></article>
+<article id="d1s35" data-project="1" data-kind=""><details open><summary>第七组：把会讲转化为可核验的项目经历</summary><div class="cardbody"></div></details></article>
+<article id="R27" data-project="1" data-kind="R27"><details open><summary>R27｜P1｜单测、并发脚本与恢复脚本如何验证</summary><div class="cardbody"><p><strong>简历锚点：</strong> “通过单测、并发脚本和恢复脚本验证关键路径”。</p>
+<p><strong>学习目标：</strong> 准确说明已有陈述与本轮证据的区别。</p>
+<p><strong>必要概念：</strong> 测试需要环境、输入、断言和结果。单测验证小范围不变量；SQL 集成测试贯穿多层；并发测试需要可控时序；恢复测试需要故障点和重启后的持久状态断言。脚本存在或学习计划写了“通过”不等于有真实执行记录。</p>
+<p><strong>主问：你怎么证明这些功能是对的？</strong></p>
+<p><strong>60 秒答案：</strong> 我按层次准备证据：存储单测检查 pin、dirty、淘汰和 slot 复用；SQL 测试检查类型边界、唯一冲突、扫描结果与排序聚合；并发脚本用两个连接建立明确锁冲突，并在 abort 后检查写入消失；恢复脚本在日志、记录修改和提交附近设置崩溃点，重启后分别检查已提交保留、未提交撤销和索引一致。当前源码可见 GoogleTest 用例和构建目标，简历陈述历史验证过关键路径，但本轮只做静态审阅，未获得新的运行通过日志，也不宣称全部隐藏测试或生产性能。</p>
+<p><strong>追问 1：怎样测脏页淘汰而不是只测缓存读取？</strong> 答：使用小缓冲池，写 A 并 unpin(true)，引入足够多其他页迫使 A 被淘汰，再 fetch A；检查读回修改值，且确认确实发生替换路径。</p>
+<p><strong>追问 2：并发测试为什么不能只开很多线程？</strong> 答：线程多不保证命中目标交错。用两个会话和同步点让 T1 先持锁，T2 再请求冲突锁，断言 T2 abort、T1 可继续，避免把偶然未撞上冲突当成成功。</p>
+<p><strong>追问 3：恢复后 SELECT 正确就够吗？</strong> 答：不够。还需旧 key 查不到/查得到、新 key 消失/存在、唯一插入检查、再次重启和中途再次崩溃；查询要对照顺扫和索引访问，防止只验证一条路径。</p>
+<p><strong>小例子：</strong> 证据记录模板：日期｜commit｜环境｜命令｜初始表｜并发/崩溃时序｜预期｜实际｜日志文件。没有实际列就标“待执行”。</p>
+<p><strong>常见误答：</strong> “编译成功说明并发正确”“脚本文件在所以跑过”“本地一条测试通过说明课程满分”。</p>
+<p><strong>自测验收：</strong> 为 pin 泄漏、唯一冲突、no-wait、未提交崩溃各写一个可观察断言。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/unit_test.cpp" title="本机源码文件">现有 GoogleTest 用例</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/unit_test.cpp" title="本机源码文件">索引范围用例</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/CMakeLists.txt" title="本机源码文件">unit_test 构建目标</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/RMDB%E9%A1%B9%E7%9B%AE%E8%AF%A6%E7%BB%86%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%A1%88.md" title="本机源码文件">旧学习计划的基线要求</a>。</p>
+</div></details></article>
+<article id="R28" data-project="1" data-kind="R28"><details open><summary>R28｜P1｜项目难点、取舍与诚实深挖</summary><div class="cardbody"><p><strong>简历锚点：</strong> “独立完成题目 1-11；功能扩展与关键路径验证”。</p>
+<p><strong>学习目标：</strong> 形成可承受追问的难点回答，而非虚构故事。</p>
+<p><strong>必要概念：</strong> 好的项目回答连接问题、约束、方案、验证和限制。个人真实经历要由本人补充，不能把本资料发现的风险伪装成自己当时解决过的故障。能解释尚未解决的问题，通常比过度承诺更可靠。</p>
+<p><strong>主问：最有挑战的部分是什么，如果重做优先改哪里？</strong></p>
+<p><strong>60 秒答案：</strong> 我会选择自己能画状态变化的链路，例如记录、索引与事务回滚的协同。难点在于一条 SQL 会改变多个对象，不是每个模块单独能运行就整体正确；要把旧值、key、RID、写集和日志的顺序对齐，并检查中间异常。当前代码能看到基础同步与回滚流程，也存在多索引更新和日志顺序的边界。若重做，我会先把异常原子性和持久性契约补清并加故障用例，再优化索引结构或连接性能。具体“当时我修过哪一个 bug”只讲自己有记录、能够复述的那一个。</p>
+<p><strong>追问 1：为什么不先做完整 B+ 树提高性能？</strong> 答：性能优化应建立在结果正确和失败恢复可解释的基础上；已有数据规模、测试范围也未证明索引性能是最先要解决的瓶颈。</p>
+<p><strong>追问 2：你能给性能提升数字吗？</strong> 答：没有实测记录就不给。可以说明复杂度、预算常量和预计收益，再设计固定数据量、选择率、缓存冷热、并发度与重复次数的基准，报告原始结果和环境。</p>
+<p><strong>追问 3：面试官追到你没实现的模块怎么办？</strong> 答：先说“这部分是框架或当前版本的简化范围，我可以解释原理，但不作为我的已完成实现”；再回到自己能证明的调用关系和关键分支，不猜测整个系统结构。</p>
+<p><strong>小例子：</strong> 准备真实经历填空：“在【测试输入】下看到【实际现象】，定位到【函数/不变量】，修改【本人实际动作】，用【命令与输出】验证；剩余限制是【边界】。”未填写实际证据时，不把模板读成经历。</p>
+<p><strong>常见误答：</strong> “最大难点是项目很大”“性能提高 50% 但记不清怎么测”“本教程指出的缺口我当时都修好了”。</p>
+<p><strong>自测验收：</strong> 讲一个两分钟难点回答，面试官连续问“为什么、失败怎么办、怎么验证”时每次都有具体状态或证据。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/execution/executor_update.h" title="本机源码文件">多对象修改链</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/src/transaction/transaction_manager.cpp" title="本机源码文件">回滚链</a>、<a href="file:///E:/BaiduNetdiskDownload/Anything/git_compare/rmdb/RMDB_TASKS_AND_ATTRIBUTION.md" title="本机源码文件">实际功能/归属记录</a>。</p>
+</div></details></article>
+<article id="d1s38" data-project="1" data-kind=""><details open><summary>最后 15 分钟的闭卷验收</summary><div class="cardbody"><p>这不是新题目，不计入题库数量。它把前面 28 张卡串成一条检查链：</p>
+<ol>
+<li>画出 SQL→Parser→Analyze→Planner→Portal→Executor→Record/Index→BufferPool→Disk，每个节点说一个职责。</li>
+<li>手推 fetch 两次、dirty unpin、只读 unpin、淘汰；再画满记录页删除后复用空槽。</li>
+<li>用 <code>(a,b)</code> 复合索引解释最左前缀、RID 回表、残余过滤，并说明当前容器是什么。</li>
+<li>讲 UPDATE 的真实修改顺序；用两个唯一索引解释局部恢复为何不足以证明原子性。</li>
+<li>讲 S/X、no-wait、写集反向撤销；最后画日志先于数据持久的原则，并指出当前实现哪些地方还需要验证。</li>
+</ol>
+<p>评分：每条 0 分=只能认词，1 分=能讲主流程，2 分=能手推失败并说出边界。五条共 10 分，至少 8 分且第 4、5 条均不为 0，才适合把 RMDB 作为主讲项目。未达标时回对应卡片复习，不扩展新的项目结构题。</p>
+<p>内容统计：28 个主问，84 个递进追问，均附答案；18 个 P0，10 个 P1。全部例子为教学推演或待执行测试设计；没有把本次静态核查写成测试通过。</p>
+</div></details></article></section><section id="doc-2" class="chapter"><h2>ITMS-BD：按知识点学习的面试问答</h2><article id="d2s-intro" data-project="2" data-kind=""><details open><summary>阅读说明</summary><div class="cardbody"><p>适用当前简历的 Java 后端与系统集成职责。共 24 张卡：14 张 P0 为当天必须脱稿回答，10 张 P1 用于追问与排障。按 T01→T24 学习；每卡先读概念，再遮住答案作答，最后做手推。每张卡都可以沿“当前实现 → 原理 → 限制 → 验证”继续追问。</p>
+<p><strong>事实标记：</strong> 【简历自述】决定职责口径；【当前静态代码】说明本地工作区行为；【通用原理】用于解释；【改进设想】尚未实现。源码存在不证明个人贡献，本材料没有运行服务或性能测试。全部依据见 <a href="file:///E:/BaiduNetdiskDownload/Anything/output/%E5%8F%8C%E9%A1%B9%E7%9B%AE%E4%B8%80%E5%A4%A9%E9%9D%A2%E8%AF%95%E5%AD%A6%E4%B9%A0/evidence/itms%E6%A0%B8%E6%9F%A5.md" title="本机源码文件">ITMS 核查记录</a>。代码版本为 HEAD <code>261f40db73d6bcf0a6206abcd4903143d2c0aed3</code> 加当前未提交修改。</p>
+</div></details></article>
+<article id="T01" data-project="2" data-kind="T01"><details open><summary>T01 P0 项目边界与一分钟介绍</summary><div class="cardbody"><p><strong>简历锚点：</strong> “Java 后端与系统集成实践”“参与模型、服务边界与 REST API 梳理”。</p>
+<p><strong>学习目标：</strong> 能讲清问题、个人范围和一个可展开的技术闭环。</p>
+<p><strong>必要概念：</strong> 业务边界是系统解决什么问题；职责边界是本人交付什么。了解某模块接口，不代表实现其算法。这里的“服务”可以是 Java 业务层对象，也可以是 Compose 进程，不能直接推导为微服务架构。</p>
+<p><strong>主问题：</strong> 请介绍智能交通项目，你具体负责什么？</p>
+<p><strong>60秒参考答案：</strong> 【简历自述】ITMS-BD 是交通管理演示系统，我参与 PostgreSQL 模型、REST 契约和联调范围整理，负责本地 Compose 环境与 Redis 认证、缓存能力。【当前静态代码】能展开三条链路：JWT 登出后写摘要黑名单；密码错误记录短期次数；实时交通查询走 5 秒 Cache-Aside。最值得讨论的是安全状态与普通缓存的故障策略不同，以及写后删除仍存在旧值回填窗口。我不把前端页面、交通预测算法或 Kafka 内核认领为个人实现，也没有生产吞吐指标。</p>
+<p><strong>追问1·原理：</strong> 为什么同时用 PostgreSQL 和 Redis？** 答：** 前者保存业务事实，后者保存可重建的查询结果及短期认证状态；两种 Redis 数据的丢失后果不同。</p>
+<p><strong>追问2·边界：</strong> 你能讲整个交通预测算法吗？** 答：** 我的简历职责是接口、集成和 Redis 调用链；能说明如何接入和排障，不能把未负责的训练或算法效果说成成果。</p>
+<p><strong>追问3·故障验证：</strong> 如何证明你确实理解项目？** 答：** 选一次带 Token 的实时查询，定位过滤器、Controller、缓存、Repository，再给出一个失败分支；代码依据与实际运行记录分别出示。</p>
+<p><strong>小例子或手推：</strong> 用三个动词复述：“认证校验 → 查询缓存 → miss 回库”。任选一环停住，解释输入、输出和异常。</p>
+<p><strong>常见误答：</strong> “我独立做了整个智慧交通平台”；“配置 5 秒所以延迟降低 80%”。</p>
+<p><strong>口述验收：</strong> 60 秒内说明两项主责、一项参与、一项范围外，且给出一个真实限制。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/controller/TrafficDataController.java" title="本机源码文件">请求入口</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/RedisAuthServiceImpl.java" title="本机源码文件">认证状态</a>。</p>
+</div></details></article>
+<article id="T02" data-project="2" data-kind="T02"><details open><summary>T02 P0 一次 HTTP 请求与分层职责</summary><div class="cardbody"><p><strong>简历锚点：</strong> “服务边界与 REST API 梳理”“用户认证与前后端联调”。</p>
+<p><strong>学习目标：</strong> 能从浏览器追到数据库，判断问题属于哪一层。</p>
+<p><strong>必要概念：</strong> 过滤器先于 MVC Controller；Controller 负责 HTTP 参数与响应；Service 编排业务与缓存；Repository 访问持久化数据；DTO 是接口数据对象，Entity 是数据库映射。依赖注入把这些对象连接起来，不等于每层各有独立进程。定位错误时先确认请求是否真正到达目标层，再分析该层代码。</p>
+<p><strong>主问题：</strong> GET <code>/api/traffic/realtime</code> 在后端怎样流转？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】前端请求拦截器从本地存储读取 Token，添加 Bearer 头。Security 过滤器验证 JWT，再检查 Redis 撤销 Key，成功才写认证上下文。Controller 调 Service，Service 先读实时缓存；命中返回，未命中调用 Repository 获取每个路口方向的最新数据，组装 Map、写 JSON 缓存，最后由 Result 包装响应。这个链路让我能把网络、认证、业务、缓存和数据库错误分开定位，而不只看页面“请求失败”。</p>
+<p><strong>追问1·原理：</strong> 为什么缓存放 Service？** 答：** 缓存与查询、写后失效属于业务访问策略；HTTP 和 Kafka 等入口可复用 Service，避免每个入口各写一套失效逻辑。</p>
+<p><strong>追问2·边界：</strong> Controller 没执行就失败，能否先查 SQL？** 答：** 应先查网络及过滤器；只有证据显示到达 Repository，SQL 才是当前优先排查点。</p>
+<p><strong>追问3·故障验证：</strong> 怎样判断 miss 是否回库？** 答：** 在独立测试环境记录同一请求的入口、缓存分支和 SQL 调用次数；重复请求比较分支，不用仅凭响应更快推断命中。</p>
+<p><strong>小例子或手推：</strong> 无 Token → 受保护接口不能建立认证；有效 Token 且 cache hit → Controller/Service 仍执行，但该实时查询不走 Repository。</p>
+<p><strong>常见误答：</strong> “JWT 在 Controller 里校验”；“有 Redis 就不用数据库”；“Service 类就是微服务”。</p>
+<p><strong>口述验收：</strong> 闭卷画出六个节点，并在图上标出认证拒绝与缓存 miss 两个分叉。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/config/SecurityConfig.java" title="本机源码文件">Security 过滤器</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">实时 Service</a>。</p>
+</div></details></article>
+<article id="T03" data-project="2" data-kind="T03"><details open><summary>T03 P0 PostgreSQL 数据模型与约束</summary><div class="cardbody"><p><strong>简历锚点：</strong> “参与 PostgreSQL 数据模型梳理”。</p>
+<p><strong>学习目标：</strong> 能解释自己接触的数据实体、约束和查询需求，不泛讲全库。</p>
+<p><strong>必要概念：</strong> 主键唯一标识一行；业务标识用于业务定位；NOT NULL 防止缺少必需值；唯一约束由数据库处理并发冲突；索引加速部分访问路径且增加写入成本。JPA 注解与初始化 SQL 都是模型线索，最终运行库结构仍需实查。</p>
+<p><strong>主问题：</strong> 你参与的数据模型有哪些关键点？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】我重点解释用户与交通记录。用户以自增 id 为主键，username 非空且唯一，enabled 表示启用状态。交通数据以 id 标识记录，含路口、方向、记录时间、车流、速度、经纬度等；实时查询按路口和方向找最新时间，历史查询按路口和时间筛选。实体声明了路口与时间联合索引及时间索引。【简历自述】我的范围是梳理字段、约束和接口所需数据，不把所有表设计认领为个人工作。</p>
+<p><strong>追问1·原理：</strong> 为什么不能只用路口 id 作主键？** 答：** 同一路口有多个方向和多个时间点，路口 id 会重复；记录 id 与业务查询维度要分开。</p>
+<p><strong>追问2·边界：</strong> 路口、方向、时间一定唯一吗？** 答：** 当前可见实体和初始化 SQL 没有这个组合唯一约束，不能据“最新一条”业务期待宣称数据库保证唯一。</p>
+<p><strong>追问3·故障验证：</strong> 保存报空值约束错误怎么查？** 答：** 对照请求 JSON、normalize 默认补充、Entity 的 nullable 和实际表定义；定位缺失字段后再看是否应由入口校验或业务补全。</p>
+<p><strong>小例子或手推：</strong> 路口 A 北向在 10:00、10:05 各有记录，A 南向也有 10:05 记录：三行有三个主键，实时视图应覆盖北向最新与南向最新。</p>
+<p><strong>常见误答：</strong> “有 JPA 就不用关注 SQL 约束”；“索引自动保证所有业务字段唯一”；“我设计了全部交通算法表”。</p>
+<p><strong>口述验收：</strong> 说出主键与查询维度的差别、两个非空字段、一项目前不存在的唯一保证。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/entity/TrafficData.java" title="本机源码文件">TrafficData 映射与索引</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/entity/User.java" title="本机源码文件">用户约束</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/database/init.sql" title="本机源码文件">初始化表</a>。</p>
+</div></details></article>
+<article id="T04" data-project="2" data-kind="T04"><details open><summary>T04 P0 REST 契约与前后端联调</summary><div class="cardbody"><p><strong>简历锚点：</strong> “REST API 梳理”“结合 Swagger 定位集成问题”。</p>
+<p><strong>学习目标：</strong> 把接口契约说到可复现输入和可判定输出。</p>
+<p><strong>必要概念：</strong> 契约包括路径、方法、请求头、参数位置、字段类型、默认值、响应结构、错误状态。HTTP 状态码和 JSON 的业务 code 是不同层；Swagger 描述接口不能代替运行验证。GET 通常表达读取意图，但必须检查当前实现是否有额外副作用。</p>
+<p><strong>主问题：</strong> 你怎样对齐一个交通查询接口？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】以 <code>/api/traffic/history</code> 为例，必须给 intersectionId，minutes 和 limit 可选；只要 limit 不为空就优先走条数分支，否则 minutes 默认 60。返回统一的 code、message、data。前端 Axios 响应拦截器已取出 response.data，因此调用方拿到的是这层业务包装。联调时我先用 Swagger 或独立请求固定输入，再对比浏览器的 URL、Bearer 头与 JSON，最后对照 Service 和 SQL 判断差异。</p>
+<p><strong>追问1·原理：</strong> 为什么要明确参数优先级？** 答：** 前端可能同时传 minutes 和 limit；服务端若没有统一解释，会出现“查一小时”实际按近两天取条数的误解。</p>
+<p><strong>追问2·边界：</strong> HTTP 200 就代表业务成功吗？** 答：** 不能一概而论；要看业务 code。反过来 Result.error 本身也不会自动设置 HTTP 状态，当前异常处理器另用 ResponseStatus 设置。</p>
+<p><strong>追问3·故障验证：</strong> Swagger 成功、浏览器失败怎么查？** 答：** 对比实际请求地址、跨域预检、请求头、序列化字段及 HTTP 状态；先复制相同请求建立基线，再检查前端如何解包响应。</p>
+<p><strong>小例子或手推：</strong> 请求 <code>intersectionId=A&amp;minutes=60&amp;limit=10</code>：进入 limit 分支，Service 查询近两天，再排序取最多十条；不是先过滤一小时。</p>
+<p><strong>常见误答：</strong> “REST 就是用 GET/POST”；“前端 data 为空一定是 SQL 没数据”；“GET 实现绝不写库”，忽略演示种子初始化。</p>
+<p><strong>口述验收：</strong> 能复述一条接口的六项契约，并指出一个当前默认值或分支优先级。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/controller/TrafficDataController.java" title="本机源码文件">history 参数分支</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/frontend/src/services/api.ts" title="本机源码文件">前端解包</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">limit 实现</a>。</p>
+</div></details></article>
+<article id="T05" data-project="2" data-kind="T05"><details open><summary>T05 P0 登录流程与 JWT 基础</summary><div class="cardbody"><p><strong>简历锚点：</strong> “完成用户认证范围整理”“JWT 登出黑名单”。</p>
+<p><strong>学习目标：</strong> 先理解凭证如何签发，再学习为什么需要撤销状态。</p>
+<p><strong>必要概念：</strong> JWT 由头部、载荷、签名组成，常见编码不等于加密；签名证明内容未被篡改，过期时间限制有效期。无状态认证指不依赖服务器会话逐个保存登录态；增加黑名单后仍会查询共享撤销状态。</p>
+<p><strong>主问题：</strong> 登录如何生成 JWT，客户端拿到它意味着什么？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】登录先按用户名查用户，检查 enabled，再比对密码；成功后清理失败计数，保存最近登录时间、写登录日志，最后签发 JWT。载荷包含 userId、username、role，subject 为用户名，并记录签发和过期时间，使用密钥签名。客户端之后用 Bearer 头提交凭证。当前密码比对是字符串 equals，不能说已经使用 BCrypt；JWT 的角色字段也不自动等于服务端已做角色授权。</p>
+<p><strong>追问1·原理：</strong> 修改载荷里的 role 能变管理员吗？** 答：** 没有签名密钥就不能为被修改的载荷生成有效签名，验签应失败；此外当前过滤器未映射角色权限，授权是另一环。</p>
+<p><strong>追问2·边界：</strong> 账户被禁用后旧 JWT 立即失效吗？** 答：** 登录时会检查 enabled，但当前每次请求的过滤器没有重新查用户状态；不能据此承诺禁用立即撤销既有 Token。</p>
+<p><strong>追问3·故障验证：</strong> 用户名密码正确却登录失败怎么查？** 答：** 沿清除 Redis 计数、更新用户、写日志、签发 Token 的顺序定位异常；正确密码只是流程中一项条件。</p>
+<p><strong>小例子或手推：</strong> 先签发到 12:00 过期的 Token，11:00 修改账户 enabled=false。仅登录检查 enabled 不能保证 11:01 的旧 Token 请求被拦截。</p>
+<p><strong>常见误答：</strong> “JWT 被加密所以客户端看不到用户信息”；“无状态意味着绝不访问 Redis”；“项目已经采用 BCrypt”。</p>
+<p><strong>口述验收：</strong> 按顺序说出登录六步，区分签名、密码哈希、认证与授权。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/AuthServiceImpl.java" title="本机源码文件">登录流程</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/util/JwtUtil.java" title="本机源码文件">Token 生成</a>。</p>
+</div></details></article>
+<article id="T06" data-project="2" data-kind="T06"><details open><summary>T06 P0 认证验证顺序与权限边界</summary><div class="cardbody"><p><strong>简历锚点：</strong> “Redis 认证能力落地”“JWT 登出黑名单”。</p>
+<p><strong>学习目标：</strong> 能准确手推有效、无效、撤销和公开接口的过滤行为。</p>
+<p><strong>必要概念：</strong> 认证证明“是谁”，授权决定“能做什么”。Java <code>&amp;&amp;</code> 短路意味着左边失败就不执行右边；SecurityContext 是当前请求的认证上下文。permitAll 放宽授权要求，不表示自定义过滤器不运行。</p>
+<p><strong>主问题：</strong> 为什么要先验签和检查过期，再查 Redis 黑名单？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】过滤器先要求 Authorization 以 Bearer 开头，再调用 validateToken；只有 JWT 解析验签成功且未过期，才查询摘要 Key 是否撤销。无效 Token 不需要访问 Redis，也不能先信任其中的用户名。未撤销时把 username 放进 SecurityContext，然后继续过滤链。当前 <code>/api/auth/** </code> 等路径 permitAll，其余要求 authenticated；认证对象的 authorities 是空列表，所以不能把存在 role claim 说成完成了角色权限控制。</p>
+<p><strong>追问1·原理：</strong> 为什么先查黑名单再验签不好？** 答：** 无效输入也会触发远程查询、增加依赖和资源消耗；且不能把“黑名单不存在”当作凭证有效性的证明。</p>
+<p><strong>追问2·边界：</strong> 撤销 Token 访问 logout 一定被认证拒绝吗？** 答：** 该路径是公开授权路径，不建立认证不等于禁止请求；但过滤器仍执行，Redis 查询异常仍可能提前中断。</p>
+<p><strong>追问3·故障验证：</strong> 验证顺序怎样测？** 答：** 分别发送坏签名、已过期、有效未撤销、有效已撤销四类 Token，并记录 Redis 查询次数及受保护接口结果；前两类应短路不查撤销 Key。</p>
+<p><strong>小例子或手推：</strong> <code>validate=false &amp;&amp; ...</code> → 右侧调用零次；<code>validate=true、revoked=true</code> → 不写认证上下文，再由路径授权策略决定结果。</p>
+<p><strong>常见误答：</strong> “未在黑名单就是合法 Token”；“所有接口都必须登录”；“JWT 的 role 自动赋予 Spring Security 权限”。</p>
+<p><strong>口述验收：</strong> 不用代码说清四类 Token 的分支，且不臆定未实测的 401/403 返回细节。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/config/SecurityConfig.java" title="本机源码文件">验证短路与上下文</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/config/SecurityConfig.java" title="本机源码文件">路径授权</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/util/JwtUtil.java" title="本机源码文件">验签解析</a>。</p>
+</div></details></article>
+<article id="T07" data-project="2" data-kind="T07"><details open><summary>T07 P0 JWT 黑名单的摘要 Key 与剩余 TTL</summary><div class="cardbody"><p><strong>简历锚点：</strong> “使用 Token 摘要和剩余 TTL 控制黑名单生命周期”。</p>
+<p><strong>学习目标：</strong> 能写出 Key、Value、TTL，并解释每个选择。</p>
+<p><strong>必要概念：</strong> 摘要是把输入映射成固定长度值的单向计算，不是可解密密文。黑名单保存“此凭证已撤销”的服务端状态；TTL 是这个状态的寿命。SET 携带过期参数可在同一 Redis 命令里写入值与过期时间。验签证明凭证完整，查询黑名单则补充它是否已被主动撤销。</p>
+<p><strong>主问题：</strong> 为什么不把完整 JWT 存 Redis，为什么 TTL 不固定一天？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】登出时解析 JWT，计算 exp 减当前时间，剩余毫秒数大于零才写 <code>itms:auth:revoked:{SHA-256(token)}</code>，值为字符串 1，SET 同时带该 TTL。摘要避免凭证原文作为 Key 留在 Redis，且 SHA-256 十六进制摘要长度固定为 64 字符。Token 自身过期后已无法认证，撤销记录再保存没有意义，因此使用剩余期。它撤销的是这枚 Token，不会自动撤销同一用户其他设备上的不同 Token。</p>
+<p><strong>追问1·原理：</strong> 摘要如何支持查询？** 答：** 每次请求对同一 Token 算同一摘要，再用 EXISTS 查同一 Key，不需要还原 Token。</p>
+<p><strong>追问2·边界：</strong> TTL 到期前 Key 被淘汰会怎样？** 答：** 尚有效 JWT 可能再次通过黑名单检查，所以撤销状态不能完全按可丢弃缓存看待；内存策略与可靠性需单独评估。</p>
+<p><strong>追问3·故障验证：</strong> 怎样确认生命周期正确？** 答：** 在隔离环境用测试 Token 登出，检查摘要 Key 的 PTTL 接近 exp-now 且递减，再验证旧 Token 访问受保护接口；不在日志打印原始 Token。</p>
+<p><strong>小例子或手推：</strong> Token 在 12:00 到期、11:58 登出，TTL 约 120000ms；若 12:01 才登出，已过期，无需新增有效撤销记录。</p>
+<p><strong>常见误答：</strong> “SHA-256 加密 JWT”；“登出删除了客户端所有 Token”；“黑名单固定保存 24 小时”。</p>
+<p><strong>口述验收：</strong> 准确说出 Key、Value、毫秒计算、到期清理及多设备边界。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/RedisAuthServiceImpl.java" title="本机源码文件">剩余 TTL</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/RedisAuthServiceImpl.java" title="本机源码文件">摘要生成</a>。</p>
+</div></details></article>
+<article id="T08" data-project="2" data-kind="T08"><details open><summary>T08 P0 登出成功提示与异常边界</summary><div class="cardbody"><p><strong>简历锚点：</strong> “实现 JWT 登出黑名单”“日志异常处理”。</p>
+<p><strong>学习目标：</strong> 区分接口成功响应、Redis 写成功、旧凭证确实不可用。</p>
+<p><strong>必要概念：</strong> 幂等操作重复执行应保持相同业务状态；重复撤销同一 Token 通常仍是撤销。异常捕获范围决定哪些故障被当成可忽略情况；吞异常会让上层失去失败证据。过滤器和 Controller 是不同执行阶段。</p>
+<p><strong>主问题：</strong> 登出返回成功，是否一定已经撤销 Token？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】不能保证。AuthController 调 logout 后固定构造成功响应；Service 解析 Bearer，RedisAuthService 解析 JWT 并写黑名单。但是 catch RuntimeException 包住了 JWT 解析和 Redis SET，原本用于忽略无效或过期 Token，也可能吞掉 Redis 写失败。因此成功提示不等于撤销已持久化。还要区分入口过滤器：有效 Token 先查 Redis，若这个查询已经失败，请求可能根本到不了 Controller，不能说 Redis 宕机时所有登出都返回成功。</p>
+<p><strong>追问1·原理：</strong> 为什么忽略过期 Token 有一定合理性？** 答：** 它已失去认证价值，无需新增撤销记录；但这个理由不能用于忽略有效 Token 的存储失败。</p>
+<p><strong>追问2·边界：</strong> 怎样改才准确？** 答：** 【改进设想】收窄 JWT 异常捕获，Redis 故障单独上报并返回明确失败或可重试状态；定义重复登出的幂等语义。</p>
+<p><strong>追问3·故障验证：</strong> 如何隔离 SET 失败分支？** 答：** 测试中让撤销查询正常而 SET 抛错，观察接口与旧 Token 再访问结果；全停 Redis 会先触发过滤器失败，无法单独证明 SET 被吞。</p>
+<p><strong>小例子或手推：</strong> EXISTS 正常→Controller→SET 失败被 catch→返回成功→旧 Token 仍可能有效，这是条件化故障推演，非已发生事故。</p>
+<p><strong>常见误答：</strong> “登出成功就绝对失效”；“所有异常都统一交给 ControllerAdvice”；“直接 catch Exception 提高可靠性”。</p>
+<p><strong>口述验收：</strong> 说清两个 Redis 调用阶段，以及如何只注入目标阶段故障。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/controller/AuthController.java" title="本机源码文件">登出响应</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/RedisAuthServiceImpl.java" title="本机源码文件">异常范围</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/config/SecurityConfig.java" title="本机源码文件">入口查询</a>。</p>
+</div></details></article>
+<article id="T09" data-project="2" data-kind="T09"><details open><summary>T09 P0 登录失败计数与“五次”真实行为</summary><div class="cardbody"><p><strong>简历锚点：</strong> “实现登录失败计数”。</p>
+<p><strong>学习目标：</strong> 精确区分计数、提示、限流和账户锁定。</p>
+<p><strong>必要概念：</strong> 计数记录发生次数；限流在某窗口拒绝超量请求；锁定在某条件成立后禁止继续认证。提示文字不能替代拒绝逻辑。固定窗口从第一次事件计时，滑动窗口或每次刷新 TTL 的语义不同。</p>
+<p><strong>主问题：</strong> 连续输错五次后，正确密码还能登录吗？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】能继续走成功分支，因为没有在密码校验前读失败次数并拒绝。当前只在已找到且启用的用户密码错误时 INCR；次数达到五只换成“10 分钟后重试”的提示。第一次失败给 Key 设置 10 分钟 TTL，之后不刷新；成功登录删除该用户失败计数。因此简历中“失败计数”准确，“实现五次封禁”不准确。不存在的用户在查库阶段就抛异常，也不会进入当前 Redis 计数路径。</p>
+<p><strong>追问1·原理：</strong> 为什么并发计数用 INCR？** 答：** 单条 Redis INCR 是原子的，避免客户端 GET 后加一再 SET 产生丢失更新；但不代表它与 EXPIRE 的组合原子。</p>
+<p><strong>追问2·边界：</strong> 第五次发生在第一失败的第九分钟，要再等十分钟吗？** 答：** 当前 TTL 不刷新，理论上只剩约一分钟；提示中的固定“十分钟”不能代表实际剩余等待时间。</p>
+<p><strong>追问3·故障验证：</strong> 怎样证明没有强制锁定？** 答：** 用独立测试账户连续错五次，再立即提交正确密码；检查错误提示、计数 Key、成功响应和 Key 删除。这里给出验证步骤，未宣称执行结果。</p>
+<p><strong>小例子或手推：</strong> t=0 首错，TTL=600；t=300 第五错，TTL≈300；t=301 正确密码，进入 clearLoginFailures 后续成功流程。</p>
+<p><strong>常见误答：</strong> “五次后硬锁十分钟”；“所有登录失败都会计数”；“每次失败都延长十分钟”。</p>
+<p><strong>口述验收：</strong> 回答正确密码能否继续、哪些失败被计数、TTL 起点、成功后动作四点。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/AuthServiceImpl.java" title="本机源码文件">密码错误与阈值提示</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/RedisAuthServiceImpl.java" title="本机源码文件">计数生命周期</a>。</p>
+</div></details></article>
+<article id="T10" data-project="2" data-kind="T10"><details open><summary>T10 P1 INCR 与 EXPIRE 的非原子窗口</summary><div class="cardbody"><p><strong>简历锚点：</strong> “登录失败计数”，从现有两条 Redis 命令直接延伸。</p>
+<p><strong>学习目标：</strong> 能解释单命令原子与多步骤原子的区别，并手推失败窗口。</p>
+<p><strong>必要概念：</strong> 原子性要求一组相关状态变化不可被中途状态破坏。INCR 自身不会丢并发增量，但客户端在下一条 EXPIRE 前可能断开或崩溃。管道主要减少网络往返，不会自动把业务步骤变成原子事务。命令成功与整个业务动作完成应分别判断。</p>
+<p><strong>主问题：</strong> 代码说所有 Key 都有 TTL，实际能保证吗？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】失败计数不能严格保证。第一次 INCR 创建 Key 并返回 1，再调用 EXPIRE 设置 600 秒；如果中间中断，Key 可能没有 TTL。后续 INCR 得到 2、3，不满足 count==1，就不会再设置 TTL。注释的意图与故障边界要分开。【改进设想】可用 Lua 在 Redis 端执行“加一、首次设置 TTL”，减少客户端中断窗口；脚本需要先校验参数，不能把 Lua 理解成任意异常都会回滚已执行命令。</p>
+<p><strong>追问1·原理：</strong> 为什么 GET→加一→SET 不行？** 答：** 两个客户端都读到 3，各写 4，实际两次失败只增加一次；INCR 解决这类丢增量问题。</p>
+<p><strong>追问2·边界：</strong> 只用 pipeline 就解决了吗？** 答：** 没有，pipeline 减少等待，不保证组合隔离；且 EXPIRE 依赖 INCR 返回是否为 1，适合在服务器端表达条件。</p>
+<p><strong>追问3·故障验证：</strong> 怎样观察残留 Key？** 答：** 在隔离 Key 上只执行第一次 INCR，故意跳过 EXPIRE；TTL 返回 -1 表示无过期，再增加一次验证当前逻辑不会补设 TTL。-2 表示 Key 不存在。</p>
+<p><strong>小例子或手推：</strong> 改进伪代码：<code>n=INCR(key); if n==1 then EXPIRE(key,600); return n</code>。它是待实现的 Lua 逻辑，当前 Java 仍分两次调用。</p>
+<p><strong>常见误答：</strong> “Redis 单线程，所以任何两条命令原子”；“加 pipeline 等于事务”；“项目已经使用 Lua”。</p>
+<p><strong>口述验收：</strong> 用“INCR 成功→进程中断→无 TTL→下次 count=2”完整复述漏洞。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/RedisAuthServiceImpl.java" title="本机源码文件">两次独立调用</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/RedisAuthServiceImpl.java" title="本机源码文件">首次才设 TTL</a>。</p>
+</div></details></article>
+<article id="T11" data-project="2" data-kind="T11"><details open><summary>T11 P1 Redis 四类 Key 与状态生命周期</summary><div class="cardbody"><p><strong>简历锚点：</strong> “Redis 认证能力”“实时交通查询 5 秒缓存”。</p>
+<p><strong>学习目标：</strong> 能按用途解释 Redis 数据结构选择及数据丢失后果。</p>
+<p><strong>必要概念：</strong> Redis String 可以存数字文本、标记或 JSON，不一定只存普通字符串句子。TTL 控制自然过期，持久化用于重启后恢复；内存淘汰是另一机制，可能早于 TTL 删除 Key。它们不能相互替代。</p>
+<p><strong>主问题：</strong> 项目里 Redis 到底保存什么？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】有四类 Key：撤销 Token 的摘要 Key，值 1，TTL 为 Token 剩余期；用户名摘要对应的失败计数，首次设 600 秒；实时交通 JSON；路口汇总 JSON，后两者都是 5 秒。选择 StringRedisTemplate 是因为标记、数字和 JSON 都便于直接观察。Compose 使用 Redis 7、启用 AOF 并挂载数据卷；这只是持久化配置，不能据此宣称安全状态永不丢失或做过重启恢复验证。</p>
+<p><strong>追问1·原理：</strong> 为什么黑名单和交通缓存要分开理解？** 答：** 交通缓存丢失可回库重建；黑名单丢失可能让仍有效的旧 JWT 重新可用，失败计数丢失会重置记录。</p>
+<p><strong>追问2·边界：</strong> 用户名摘要是否代表登录查询也忽略大小写？** 答：** 失败 Key 先 trim、转小写，但登录查库直接用请求用户名；两处归一化语义未必一致，不能假定整个账户系统大小写不敏感。</p>
+<p><strong>追问3·故障验证：</strong> 重启后如何验证？** 答：** 分别预置四类测试 Key，记录 TTL，按测试环境正常重启 Redis 再检查存在性和剩余 TTL；必须报告实际持久化配置和操作过程。</p>
+<p><strong>小例子或手推：</strong> 同一用户名的 <code>Alice</code> 与 <code>alice</code> 会计算同一失败 Key；但能否查到同一数据库用户，要看查库条件和数据库比较行为。</p>
+<p><strong>常见误答：</strong> “四类都只是缓存，清空无影响”；“AOF 保证任何故障零丢失”；“TTL 等于数据持久化”。</p>
+<p><strong>口述验收：</strong> 不看资料列全四类 Key、值、TTL、删除条件及数据丢失影响。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/RedisAuthServiceImpl.java" title="本机源码文件">认证 Key 与归一化</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">缓存 Key</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/docker-compose.yml" title="本机源码文件">Redis 持久化配置</a>。</p>
+</div></details></article>
+<article id="T12" data-project="2" data-kind="T12"><details open><summary>T12 P0 Cache-Aside 的命中、回源与回填</summary><div class="cardbody"><p><strong>简历锚点：</strong> “实时交通查询 5 秒缓存”“Cache-Aside”。</p>
+<p><strong>学习目标：</strong> 能逐分支手推缓存访问，而不是只背模式名称。</p>
+<p><strong>必要概念：</strong> Cache-Aside 由应用显式读写缓存：先查缓存，miss 查事实数据库，再回填缓存。缓存命中不等于数据最新；缓存穿透是频繁请求不存在数据，缓存击穿是热点 Key 失效时并发回源，两者含义不同。</p>
+<p><strong>主问题：</strong> 实时交通查询的缓存如何实现？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】getRealTimeData 先 GET 实时 Key 并反序列化；只要结果不是 null 就返回，包括空列表。miss 或缓存读取异常返回 null 后，先检查演示种子数据，再调用 Repository 查询，组装结果 Map，JSON 序列化后 SET 带 5 秒 TTL，最后返回数据库结果。读缓存异常走回源，写缓存异常被忽略，所以缓存保存失败不会直接丢掉已得到的业务结果。这里没有实现分布式锁或互斥回源。</p>
+<p><strong>追问1·原理：</strong> 为什么以 null 区分 miss？** 答：** 空列表也可能是一次有效查询结果，应允许短期缓存；如果把空列表当 miss，会重复回源。</p>
+<p><strong>追问2·边界：</strong> 同一热点 Key 刚过期，一百个请求怎样？** 答：** 当前多个请求可能同时 miss 并查询 PostgreSQL；5 秒 TTL 不会自动防止瞬时回源压力，互斥合并请求属于改进。</p>
+<p><strong>追问3·故障验证：</strong> 怎么分别验证 hit、miss、坏 JSON？** 答：** 在隔离测试环境让 Key 不存在、保存合法 JSON、保存无效 JSON，分别观察 Repository 调用；坏 JSON 应走回源，不把这一步当数据本身不存在。</p>
+<p><strong>小例子或手推：</strong> 第一次 miss→查库→SET；第二次在 TTL 内读到 <code>[]</code>→直接返回空列表；过期后再回源。没有实测不能报命中率。</p>
+<p><strong>常见误答：</strong> “Redis 自动与数据库同步”；“5 秒内一定读到最新值”；“我们用了 Redisson 防击穿”。</p>
+<p><strong>口述验收：</strong> 用四个分支说明不存在、合法空列表、坏 JSON、SET 失败分别怎样返回。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">实时读取流程</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">缓存辅助方法</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">种子数据</a>。</p>
+</div></details></article>
+<article id="T13" data-project="2" data-kind="T13"><details open><summary>T13 P0 五秒 TTL 与两层缓存的陈旧时间</summary><div class="cardbody"><p><strong>简历锚点：</strong> “实时交通查询 5 秒缓存”。</p>
+<p><strong>学习目标：</strong> 区分 Key 存活时间、数据年龄和业务端到端新鲜度。</p>
+<p><strong>必要概念：</strong> TTL 从某次 SET 开始计算；数据年龄从源数据产生或读取时算起。由缓存 A 生成缓存 B，会给旧数据再设置一段寿命。源数据延迟、回源耗时、并发回填也会影响结果年龄。</p>
+<p><strong>主问题：</strong> 能否保证页面最多看到五秒前的数据？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】不能这样保证。5 秒是实时 Key 与汇总 Key 各自的 TTL。汇总 miss 时调用 getRealTimeData，可能拿到已经缓存接近五秒的旧实时数据，再给汇总结果设置新的五秒 TTL。因此即便不考虑其他问题，两个时间点不同也可能放大数据年龄；还要考虑源数据采集延迟和旧查询稍后回填。面试中应说“采用短 TTL 和写后失效减少陈旧”，不能说已经保证五秒强一致。</p>
+<p><strong>追问1·原理：</strong> 为什么两个 Key 都五秒仍可能超过五秒？** 答：** 它们分别从写入时计时，汇总 SET 并不知道输入数据已存活多久，没有继承输入的剩余寿命。</p>
+<p><strong>追问2·边界：</strong> 那能保证最多十秒吗？** 答：** 也不能直接保证；这个近十秒仅是无额外延迟、无竞态时的示例，整个链路还有数据生成、请求耗时和并发时序。</p>
+<p><strong>追问3·故障验证：</strong> 如何定位是缓存旧还是数据源旧？** 答：** 同时观察数据库 record_time、缓存内容 timestamp、Key PTTL 和请求时间；TTL 还长不代表其中数据刚生成。</p>
+<p><strong>小例子或手推：</strong> t=0 实时 Key 写入旧快照；t=4.9 汇总 miss，读实时快照后 SET 五秒；无主动失效时汇总可到 t≈9.9 才自然过期。</p>
+<p><strong>常见误答：</strong> “TTL=5 所有数据年龄≤5”；“给每层都设五秒就不会叠加”；“配置值就是实测延迟”。</p>
+<p><strong>口述验收：</strong> 画两个独立 TTL 时间轴，解释为何“近十秒例子”也不是系统上界。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">五秒常量</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">汇总读取实时结果</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">汇总独立回填</a>。</p>
+</div></details></article>
+<article id="T14" data-project="2" data-kind="T14"><details open><summary>T14 P0 写库后删除缓存与入口覆盖</summary><div class="cardbody"><p><strong>简历锚点：</strong> “交通缓存采用写库后失效”。</p>
+<p><strong>学习目标：</strong> 能解释删除的原因、执行顺序和没有覆盖的路径。</p>
+<p><strong>必要概念：</strong> 写后删除让下次读取从事实库重建结果；直接更新聚合缓存要求重算所有受影响字段，并处理多个写者覆盖。多个入口应复用同一业务写方法，才能共享校验和失效逻辑，但数据库直改会绕过它。</p>
+<p><strong>主问题：</strong> 为什么保存交通数据后删除两个 Key？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】saveTrafficData 先 normalize，保存交通记录，再更新拥堵告警，最后删除实时与路口汇总两个 Key，因为一条记录会影响原始实时结果及其聚合。HTTP 保存、批量逐条保存、Kafka 消费和模拟器的常见写入都调用这个方法，失效集中维护。需要保留边界：告警操作发生在删除之前，若告警抛错，删除不会执行；ensureSeedData 的内部保存和直接 SQL 不走该失效方法，不能说所有写库路径无条件被覆盖。</p>
+<p><strong>追问1·原理：</strong> 为什么通常先写库再删？** 答：** 先删后写时，并发读可能在数据库更新前读旧值并回填；先写后删减少这种简单窗口，但仍不是强一致方案。</p>
+<p><strong>追问2·边界：</strong> 把两个 Key 一次 DEL 就解决所有一致性吗？** 答：** 一次删除只能处理当时的 Key，无法阻止已读旧值的并发请求稍后回填，也无法与 PostgreSQL 组成同一事务。</p>
+<p><strong>追问3·故障验证：</strong> 如何确认入口确实失效？** 答：** 分别通过 HTTP 单条、批量和消费 Service 的测试调用写入，检查两个 Key 及随后的查询；先追代码调用点再设计实验，不假定消息可靠性已验证。</p>
+<p><strong>小例子或手推：</strong> 路口 A 北向增加一条更晚记录，会改变该方向实时行、路口总车流与加权速度，所以两个 Key 都需要失效。</p>
+<p><strong>常见误答：</strong> “DEL 成功即强一致”；“所有 SQL 更新都自动通知 Redis”；“Kafka 入口说明我实现了完整消息可靠性”。</p>
+<p><strong>口述验收：</strong> 说出保存四步、删除两个 Key 的原因，以及告警异常和绕过 Service 两项限制。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">保存与批量</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficKafkaConsumer.java" title="本机源码文件">Kafka 调用点</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficSimulatorServiceImpl.java" title="本机源码文件">模拟器调用点</a>。</p>
+</div></details></article>
+<article id="T15" data-project="2" data-kind="T15"><details open><summary>T15 P1 数据库事务、save 与失效时机</summary><div class="cardbody"><p><strong>简历锚点：</strong> “写库后失效”“PostgreSQL 与服务边界”。</p>
+<p><strong>学习目标：</strong> 避免把 save、flush、commit 混成一件事。</p>
+<p><strong>必要概念：</strong> save 把实体交给持久化逻辑，flush 把待处理修改同步到数据库，commit 才提交事务。Spring Data JPA 的 Repository save 默认有事务；若存在外层事务通常参与外层，返回不意味着外层已经提交。Redis DEL 不会自动加入 PostgreSQL 事务。</p>
+<p><strong>主问题：</strong> 在 save 后立即删缓存，是否必定发生在事务提交后？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】当前 TrafficDataServiceImpl 没有类或方法级 @Transactional，相关常见调用点也未见外层事务，因此无外层事务时 Repository 的 save 调用由自身事务完成。但不能把它推广成“任何 save 返回就是业务事务已提交”：以后若 Service 加事务，DEL 可能在外层 commit 前执行，读请求会读旧库值并回填。当前交通记录、告警和缓存也没有统一原子事务，批量是逐条处理，不是全成全败。</p>
+<p><strong>追问1·原理：</strong> 为什么 saveAndFlush 也不等于提交？** 答：** flush 只是将 SQL 同步，事务仍可能回滚；其他事务是否可见还取决于隔离与提交。</p>
+<p><strong>追问2·边界：</strong> 加 @Transactional 就能让 Redis 删除一起回滚吗？** 答：** 不能默认如此；本项目没有跨 PostgreSQL/Redis 的原子事务。【改进设想】可在成功提交后执行失效，并对删除失败设计补偿。</p>
+<p><strong>追问3·故障验证：</strong> 如何验证业务部分成功？** 答：** 在测试环境让告警写抛错，检查交通表是否已有该记录、缓存是否仍在；判断时必须记录有无外层事务，不能只看接口报错。</p>
+<p><strong>小例子或手推：</strong> 未来增加外层事务：save→DEL→读请求查到未提交前旧值→旧值回填→写事务 commit。提交后失效能针对这个窗口，但仍需处理其他回填竞态。</p>
+<p><strong>常见误答：</strong> “save 就是 commit”；“加一个注解让两种数据库强一致”；“批量方法名意味着原子批量”。</p>
+<p><strong>口述验收：</strong> 明确区分当前无外层事务的情况与未来增加外层事务的情况。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">当前 Service 类</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">业务操作顺序</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/repository/TrafficDataRepository.java" title="本机源码文件">Repository 类型</a>。</p>
+</div></details></article>
+<article id="T16" data-project="2" data-kind="T16"><details open><summary>T16 P0 并发旧值回填的时间线</summary><div class="cardbody"><p><strong>简历锚点：</strong> “Cache-Aside 与写库后失效”的直接一致性追问。</p>
+<p><strong>学习目标：</strong> 能用两个请求构造竞态，避免只说“可能有并发问题”。</p>
+<p><strong>必要概念：</strong> 竞态是结果依赖请求交错顺序。删除某一时刻的缓存，不会取消已在执行中的读请求；读请求可能拿着过时结果晚于删除写入。TTL 只能在该次旧值回填后开始限制其寿命。</p>
+<p><strong>主问题：</strong> 已经先写库再删缓存，为什么还能读到旧数据？</p>
+<p><strong>60秒参考答案：</strong> 【通用原理，锚定当前读写序列】请求 A miss 后从库读到 v1，暂停回填；请求 B 把库更新为 v2 并删除缓存；A 恢复，把手里的 v1 SET 回 Redis，于是后续查询命中旧值。当前 getRealTimeData 的回填和 saveTrafficData 的删除没有版本校验或互斥，所以存在这个可构造窗口。【改进设想】可以评估按 Key 的回源互斥、版本校验及提交后失效；应说明每种方法解决的窗口，不能声称一条延迟删除就完全强一致。</p>
+<p><strong>追问1·原理：</strong> 先删再写会更好吗？** 答：** 会出现删完但写库尚未完成时读旧值回填的简单窗口；操作顺序有价值，却不能消除所有异步交错。</p>
+<p><strong>追问2·边界：</strong> 加锁是否万事大吉？** 答：** 锁必须覆盖相关读回填与写失效，并处理超时、持有者失败和多个实例；只锁读回源可能减少击穿，却未必隔离写入。</p>
+<p><strong>追问3·故障验证：</strong> 如何稳定复现？** 答：** 在测试中用栅栏暂停 A 于查库之后、SET 之前，执行 B 的保存与删除，再释放 A；检查数据库 v2、缓存 v1。随机压测没复现不能证明不存在。</p>
+<p><strong>小例子或手推：</strong> A读v1→B提交v2→B删Key→A写v1并设五秒→C命中v1。请在纸上标出每一步“数据库值/缓存值”。</p>
+<p><strong>常见误答：</strong> “先更新再删除没有竞态”；“等五秒就等于强一致”；“Redis 单线程能串行化数据库请求”。</p>
+<p><strong>口述验收：</strong> 30 秒复现四步核心交错，并给出确定性验证方法和一项改进限制。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">查询后回填</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">回填发生点</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">写后失效发生点</a>。</p>
+</div></details></article>
+<article id="T17" data-project="2" data-kind="T17"><details open><summary>T17 P0 缓存降级与认证不降级的区别</summary><div class="cardbody"><p><strong>简历锚点：</strong> “缓存异常时回退 PostgreSQL”。</p>
+<p><strong>学习目标：</strong> 明确局部降级不等于整个请求在 Redis 宕机时可用。</p>
+<p><strong>必要概念：</strong> 降级是在依赖不可用时采用较弱但可接受的路径。fail-open 倾向继续放行，fail-closed 倾向拒绝；选择取决于数据是否可重建、错误放行的代价。入口认证与业务缓存即使共用 Redis，也有不同目标。</p>
+<p><strong>主问题：</strong> Redis 宕机后，实时交通接口还能返回数据库结果吗？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】需要分层回答。TrafficDataService 的缓存 GET、JSON 解析、SET、DEL 都捕获异常；业务方法能继续回库或返回已查到结果。但带有效 JWT 的受保护请求在进入 Service 前，会在过滤器查询黑名单；这个 EXISTS 调用没有同样的异常兜底，所以整个接口仍可能先被认证依赖故障阻断。登录失败计数与成功后的计数删除也没有同类降级。不能把简历的“缓存回库”扩展成“Redis 故障不影响系统”。</p>
+<p><strong>追问1·原理：</strong> 为什么不直接让黑名单查询失败时放行？** 答：** 查不到撤销状态不等于未撤销，直接放行会让已登出的凭证获得访问机会；安全与可用性策略必须显式决定。</p>
+<p><strong>追问2·边界：</strong> 设置 Redis timeout=2s 就保证请求两秒结束吗？** 答：** 不保证，这是连接或命令配置；一个请求可能有多个调用、重试及其他耗时，端到端延迟要实测。</p>
+<p><strong>追问3·故障验证：</strong> 怎样把两层验证分开？** 答：** 先直接测 Service 在 Redis GET 失败时能回库，再测真实带 JWT HTTP 请求在 EXISTS 失败时的行为；两类结果分别记录，不能用 Service 单测代替接口可用性。</p>
+<p><strong>小例子或手推：</strong> 有效 JWT→EXISTS 超时→未到 Controller，业务 readCache 的 catch 根本没有机会执行；这是解释“明明写了回库仍请求失败”的关键。</p>
+<p><strong>常见误答：</strong> “catch 了 Redis 异常，所以全站不受影响”；“查黑名单失败就当不存在”；“超时配置就是 SLA”。</p>
+<p><strong>口述验收：</strong> 按入口认证、业务缓存、登录计数三类说明故障行为，提出分层验证。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">缓存异常分支</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/RedisAuthServiceImpl.java" title="本机源码文件">黑名单查询</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/resources/application.yml" title="本机源码文件">Redis 超时配置</a>。</p>
+</div></details></article>
+<article id="T18" data-project="2" data-kind="T18"><details open><summary>T18 P1 JSON 缓存与类型、字段契约</summary><div class="cardbody"><p><strong>简历锚点：</strong> “实时交通查询缓存”“前后端联调”。</p>
+<p><strong>学习目标：</strong> 知道 JSON 字符串缓存为何方便，也能解释命中与回源可能出现的类型差异。</p>
+<p><strong>必要概念：</strong> 序列化把 Java 对象转为 JSON 文本，反序列化按目标类型重建对象。JSON 有数字、字符串等类型，却不完整保留 Java 的 Long、Integer、LocalDateTime 等类信息。泛型 TypeReference 保存容器结构，Map 的 Object 值仍需要谨慎处理。</p>
+<p><strong>主问题：</strong> 为什么用 StringRedisTemplate 和 JSON，怎样避免联调中的类型坑？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】缓存结果是 <code>List&lt;Map&lt;String,Object&gt;&gt;</code>，用 ObjectMapper 写成 JSON String，再通过 TypeReference 读取同样的容器结构。这样 Redis 里可直接观察结果，适合演示查询，但无类型 Map 的数字和时间在回源与反序列化后可能呈现不同 Java 类型，不能依赖某个具体强制转换。当前聚合使用 Number 的 intValue/doubleValue，减少部分数字类型差异；对外字段名、日期格式和数字含义仍应验证两条路径一致。</p>
+<p><strong>追问1·原理：</strong> 为什么 <code>TypeReference&lt;List&lt;Map&lt;String,Object&gt;&gt;&gt;</code> 仍不保证时间变回 LocalDateTime？** 答：** 内部值声明为 Object，没有指定该字段目标时间类型；解析器依据 JSON 与配置推断，缺少完整领域类型信息。</p>
+<p><strong>追问2·边界：</strong> 换成 DTO 就解决所有缓存兼容吗？** 答：** 明确字段类型有帮助，但仍要处理新增、删除、重命名和时间格式变化；缓存版本前缀或失效策略属于后续设计。</p>
+<p><strong>追问3·故障验证：</strong> 怎样验证命中和回源响应一致？** 答：** 固定数据库输入，分别让 Key 缺失和命中，比较 JSON 的字段、数值、时间格式与空值；再测试无效 JSON 是否正常回源。</p>
+<p><strong>小例子或手推：</strong> 车流 10、30，速度 40、20，加权均速=(10×40+30×20)/40=25。代码从 Number 取值，不能把缓存命中后的数字一律强转为 Long。</p>
+<p><strong>常见误答：</strong> “JSON 保留所有 Java 类型”；“有 ObjectMapper 就不需契约测试”；“平均速度简单相加除方向数”。</p>
+<p><strong>口述验收：</strong> 解释容器泛型与内部字段类型的差异，并算对加权均速。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">序列化与反序列化</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">汇总加权</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">Number 转换</a>。</p>
+</div></details></article>
+<article id="T19" data-project="2" data-kind="T19"><details open><summary>T19 P1 PostgreSQL 最新记录、索引与查询验证</summary><div class="cardbody"><p><strong>简历锚点：</strong> “数据模型梳理”“数据库查询定位集成问题”。</p>
+<p><strong>学习目标：</strong> 会解释实际查询条件，并用数据与执行计划验证直觉。</p>
+<p><strong>必要概念：</strong> “最新”需要先指定分组维度；相关子查询会引用外层行确定同组最大值。联合索引的列顺序影响可支持的过滤与排序。索引可能被优化器使用，是否使用和收益大小需要执行计划与数据分布证明。</p>
+<p><strong>主问题：</strong> 实时查询怎样找到每个路口方向的最新数据？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】Repository 查询外层交通行，要求 recordTime 等于同 intersectionId、同 direction 的最大 recordTime，再按路口和方向排序。它不是只取全表最新时间，所以不同方向的最新时间可以不同。但若同组存在相同最大时间的多行，当前条件可能返回多行，没有显式以 id 决胜。实体已有路口与时间联合索引；是否需要加入 direction，要基于实际计划评估，不能只凭字段名称报优化倍数。</p>
+<p><strong>追问1·原理：</strong> 为什么不能简单用全表 MAX(record_time)？** 答：** 不同方向更新可能不齐，全表最大时间会漏掉尚未产生该时刻数据的方向。</p>
+<p><strong>追问2·边界：</strong> history 的 limit=10 是否只从数据库拿十行？** 答：** 当前条数分支先查近两天记录，再在 Java 排序、skip；没有在这个 Repository 查询中下推数据库 LIMIT，数据量大时可能加载过多。</p>
+<p><strong>追问3·故障验证：</strong> 页面重复路口方向记录怎样查？** 答：** 按路口、方向、时间分组检查同一最大时间的重复记录，再对比 SQL 结果与缓存；需要时在测试数据上查看 EXPLAIN，不先归咎于前端重复渲染。</p>
+<p><strong>小例子或手推：</strong> A北向最新10:05有两行、A南向最新10:03有一行：该实时条件可返回三行，不能直接宣称每方向一定一行。</p>
+<p><strong>常见误答：</strong> “MAX 查询天然只返一行”；“有索引一定快”；“limit 参数已实现数据库分页”。</p>
+<p><strong>口述验收：</strong> 讲清分组维度、同时间重复边界、索引验证方式和 limit 实现位置。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/repository/TrafficDataRepository.java" title="本机源码文件">实时相关子查询</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/repository/TrafficDataRepository.java" title="本机源码文件">历史查询</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">内存截取</a>。</p>
+</div></details></article>
+<article id="T20" data-project="2" data-kind="T20"><details open><summary>T20 P1 异常处理、服务日志与业务日志</summary><div class="cardbody"><p><strong>简历锚点：</strong> “完成日志异常处理范围整理”“结合服务日志定位集成问题”。</p>
+<p><strong>学习目标：</strong> 区分技术异常、HTTP 响应、持久化业务日志的作用和覆盖范围。</p>
+<p><strong>必要概念：</strong> 服务日志通常记录执行与异常，业务日志保存某类业务事件；统一响应包装仅定义 JSON 结构，HTTP 状态由控制器或异常处理逻辑设置。MVC 的 ControllerAdvice 处理范围不能直接扩展到前置过滤器。</p>
+<p><strong>主问题：</strong> 项目怎样返回异常、记录日志？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】GlobalExceptionHandler 把 RuntimeException 和 IllegalArgumentException 映射为 HTTP 400 与业务 code 400；其他 Exception 返回 500。运行时异常分支主要记错误消息，一般异常分支记录堆栈。登录成功还调用 SystemLogService 写数据库业务日志；其中 username 固定为 system，真实登录用户名放在描述里，不能说已完整关联操作者。缓存辅助方法多数吞异常，没有现成的命中率和降级计数，因此排障观测仍有缺口。</p>
+<p><strong>追问1·原理：</strong> 为什么只看 message 可能不够？** 答：** 消息难以定位具体调用点，堆栈、时间、请求上下文可帮助关联；【改进设想】可补结构化异常日志和请求标识，但不宣称项目已接入链路追踪。</p>
+<p><strong>追问2·边界：</strong> 过滤器 Redis 超时会进入这个 Advice 吗？** 答：** 不能默认会；它发生在 MVC Controller 外，需要单独的认证异常处理策略和实测响应。</p>
+<p><strong>追问3·故障验证：</strong> 前端只在 401 清 Token，后端错误为 400 会怎样？** 答：** 该前端分支不会因 400 自动清 Token，仍会 reject 错误数据；要观察 HTTP 状态与业务 code，不能只看文案。</p>
+<p><strong>小例子或手推：</strong> 密码错误抛 RuntimeException→MVC Advice 返回 HTTP 400；前端 status===401 分支不执行。此处与未认证受保护请求的处理不能混为一谈。</p>
+<p><strong>常见误答：</strong> “统一异常就是所有层全部覆盖”；“数据库日志已记录每次失败登录”；“所有认证失败都返回 401”。</p>
+<p><strong>口述验收：</strong> 举出一个已有日志、一个缺少的观测点、一个不属于 Advice 的边界。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/common/GlobalExceptionHandler.java" title="本机源码文件">异常映射</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/SystemLogServiceImpl.java" title="本机源码文件">业务日志字段</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/frontend/src/services/api.ts" title="本机源码文件">前端错误处理</a>。</p>
+</div></details></article>
+<article id="T21" data-project="2" data-kind="T21"><details open><summary>T21 P1 Docker Compose 五组件与六服务</summary><div class="cardbody"><p><strong>简历锚点：</strong> “本地 Docker Compose 五服务环境”“PostgreSQL、Redis、Kafka、后端和前端”。</p>
+<p><strong>学习目标：</strong> 能准确画出本地拓扑，并解释简历与配置的计数差异。</p>
+<p><strong>必要概念：</strong> Compose service 是一个运行定义；业务上说的组件可能连同辅助进程一起提供功能。image 提供预构建镜像，build 从项目 Dockerfile 构建。network 连接容器，volume 让数据不依赖容器可写层的寿命。</p>
+<p><strong>主问题：</strong> 五个服务分别是什么，为什么配置里还有 ZooKeeper？</p>
+<p><strong>60秒参考答案：</strong> 【简历自述】五个主要组件是 PostgreSQL、Redis、Kafka、backend、frontend。【当前静态代码】Compose 另外启用 ZooKeeper 供这里的 Kafka 配置使用，因此按运行服务数严格说是六个。面试口述我会主动用“多服务联调环境”或“六个服务”，避免把简历的简化计数说成配置事实。PostgreSQL 和 Redis 挂载数据卷，Kafka 依赖 ZooKeeper，backend 连接数据库和中间件，frontend 提供页面及代理；注释掉的 AI 服务不计入启动拓扑。</p>
+<p><strong>追问1·原理：</strong> 为什么不能用容器文件层替代数据库卷？** 答：** 容器重建会替换可写层；命名卷把数据库数据与容器生命周期分离，但仍不等于备份。</p>
+<p><strong>追问2·边界：</strong> 这是否证明项目采用微服务？** 答：** 不能。数据库、中间件和前后端分成容器属于部署组织；业务是否微服务要看独立业务边界与部署设计，本简历不做该主张。</p>
+<p><strong>追问3·故障验证：</strong> 怎样数真正启用服务？** 答：** 在项目目录用 <code>docker compose config --services</code> 查看解析后的服务名；再用 <code>docker compose ps</code> 看运行状态。这里仅提供命令，未把配置数当作运行成功数。</p>
+<p><strong>小例子或手推：</strong> 画“frontend→backend，backend→PostgreSQL/Redis/Kafka，Kafka→ZooKeeper”。箭头统一表示访问的目标，不表示全部响应和消息流向。</p>
+<p><strong>常见误答：</strong> “实际只有五个容器”；“注释的 AI 服务也部署了”；“六个容器等于六个业务微服务”。</p>
+<p><strong>口述验收：</strong> 列全六服务、两种持久化卷用途，主动解释计数差异。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/docker-compose.yml" title="本机源码文件">PostgreSQL</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/docker-compose.yml" title="本机源码文件">ZooKeeper 与 Kafka</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/docker-compose.yml" title="本机源码文件">backend</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/docker-compose.yml" title="本机源码文件">frontend</a>。</p>
+</div></details></article>
+<article id="T22" data-project="2" data-kind="T22"><details open><summary>T22 P1 Profile、容器地址与 Kafka 连接排障</summary><div class="cardbody"><p><strong>简历锚点：</strong> “排查 Profile 与中间件连接问题”。</p>
+<p><strong>学习目标：</strong> 先确定谁在连接谁、运行在哪，再判断地址和配置是否正确。</p>
+<p><strong>必要概念：</strong> localhost 指当前进程所在网络环境；容器内 localhost 指该容器。Compose 同网络容器通过 service 名访问内部端口；宿主机通过发布端口访问。Spring Profile 决定激活配置组，环境变量还可覆盖基础配置。</p>
+<p><strong>主问题：</strong> 本机能连 Redis，backend 容器却连不上，怎么查？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】Compose 给 backend 注入 prod Profile，并将数据库地址设为 postgres:5432、Redis 主机设为 redis、Kafka bootstrap 设为 kafka:9092。基础 yml 默认很多 localhost 地址；如果注入没生效，backend 就会错误连接自己。当前资源目录只有基础与 dev 文件，没有 prod 文件，不能凭 Profile 名称假定另有专门配置。我会从启动日志的 active profile、容器内生效地址、DNS、端口和依赖就绪逐层核对，日志中不打印凭证。</p>
+<p><strong>追问1·原理：</strong> 宿主机用 localhost:9092 能连接 bootstrap，为什么 Kafka 后续仍失败？** 答：** broker 还会返回 advertised.listeners；当前广播 kafka:9092，宿主机未必能解析 kafka，bootstrap 可达不代表返回地址可达。</p>
+<p><strong>追问2·边界：</strong> Compose 运行时改前端 API 环境变量一定有效吗？** 答：** 当前前端先构建静态 JS，再由 Nginx 提供；构建期变量可能已写入产物，不能假定运行期环境会自动改包内地址。</p>
+<p><strong>追问3·故障验证：</strong> 怎样验证地址层级？** 答：** 从发起请求的容器或宿主机检查名称解析和目标端口，再看服务协议响应；仅从宿主机测试成功不能证明容器链路成功。</p>
+<p><strong>小例子或手推：</strong> backend→redis:6379 是容器访问；宿主机→localhost:6379 是端口映射；浏览器中的 localhost 指用户机器，不是 frontend 容器。</p>
+<p><strong>常见误答：</strong> “所有地方都用 localhost”；“prod 名称保证生产配置已加载”；“Kafka 端口通就一定消费正常”。</p>
+<p><strong>口述验收：</strong> 正确回答三种 localhost，指出 Kafka 广播地址与前端构建变量两个边界。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/docker-compose.yml" title="本机源码文件">Profile 和后端连接注入</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/docker-compose.yml" title="本机源码文件">Kafka 广播地址</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/frontend/Dockerfile" title="本机源码文件">前端构建阶段</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/resources/application.yml" title="本机源码文件">基础 Redis 地址</a>。</p>
+</div></details></article>
+<article id="T23" data-project="2" data-kind="T23"><details open><summary>T23 P1 初始化、健康检查与启动依赖</summary><div class="cardbody"><p><strong>简历锚点：</strong> “环境搭建与维护”“排查初始化问题”。</p>
+<p><strong>学习目标：</strong> 区分容器启动、协议可用、数据初始化和业务接口可用。</p>
+<p><strong>必要概念：</strong> started 只说明进程已启动，不等于依赖已准备接收请求；healthcheck 是特定探测，不能覆盖所有业务。PostgreSQL 官方镜像的初始化脚本通常在空数据目录初始化时执行，已有卷不等于每次重放 SQL。</p>
+<p><strong>主问题：</strong> 修改 init.sql 后重启，为什么表或数据没有按预期变化？</p>
+<p><strong>60秒参考答案：</strong> 【当前静态代码】Compose 把 init.sql 挂到数据库初始化目录，并使用命名卷保存 PostgreSQL 数据。【通用原理】已有数据目录启动通常不会重新执行初始化脚本，因此应检查当前卷、表结构和初始化日志，不能直接认为文件修改已经迁移到数据库。项目还启用 JPA ddl-auto:update，并存在默认用户初始化及空交通表种子逻辑，排查时要区分这些不同来源。先做只读检查，再规划可回滚迁移，不通过删除数据卷来替代诊断。</p>
+<p><strong>追问1·原理：</strong> depends_on 保证中间件都就绪吗？** 答：** 当前 PostgreSQL 用 service_healthy；Redis、Kafka 用 service_started。后两者启动仍可能尚未可用，且 PostgreSQL 协议健康也不保证所有业务数据符合预期。</p>
+<p><strong>追问2·边界：</strong> 库里突然出现演示交通数据一定来自 Kafka 吗？** 答：** 不能。实时查询 miss 后 ensureSeedData 在空表时会直接写种子，模拟器也可写入；需要看数据源字段和调用日志。</p>
+<p><strong>追问3·故障验证：</strong> 启动故障的检查顺序？** 答：** 查 compose ps、依赖日志、数据库协议探测，再查表是否存在与应用 profile，最后发一个带认证的业务请求；每一步保留现象与时间，不把进程 running 当作联调通过。</p>
+<p><strong>小例子或手推：</strong> 旧卷中 users 已存在→重启 PostgreSQL→init.sql 未必再执行；JPA update 或默认用户初始化仍可能在 backend 启动时运行，需分别归因。</p>
+<p><strong>常见误答：</strong> “重启必定重新初始化数据库”；“service_started 等于 ready”；“查不到就删卷重建”。</p>
+<p><strong>口述验收：</strong> 列出三种数据初始化来源，说明 PostgreSQL 与 Redis/Kafka 的依赖条件差异。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/docker-compose.yml" title="本机源码文件">初始化挂载</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/docker-compose.yml" title="本机源码文件">依赖条件</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/resources/application.yml" title="本机源码文件">JPA 配置</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/config/DefaultUserInitializer.java" title="本机源码文件">默认用户初始化入口</a>。</p>
+</div></details></article>
+<article id="T24" data-project="2" data-kind="T24"><details open><summary>T24 P1 联调故障闭环与可复现实验</summary><div class="cardbody"><p><strong>简历锚点：</strong> “结合 Swagger、服务日志与数据库查询定位集成问题”。</p>
+<p><strong>学习目标：</strong> 用证据定位一条真实调用链，并诚实区分验证方案与已执行结果。</p>
+<p><strong>必要概念：</strong> 故障闭环包括现象、复现输入、分层证据、最小原因假设、验证和回归。对照实验只改变一个变量；压测结果需要环境、数据量、并发、时长、指标定义，不能从配置推导性能提升。</p>
+<p><strong>主问题：</strong> 用户反馈“保存成功但页面还是旧值”，你怎样排查？</p>
+<p><strong>60秒参考答案：</strong> 【方案，非已发生事故】我先固定路口、方向、记录时间和请求时间，确认浏览器实际 HTTP 状态与业务 code。再查 PostgreSQL 是否出现目标记录、是否因 recordTime 较旧而不进入实时结果，然后看两个缓存内容和 PTTL、保存是否走到失效，以及是否存在并发旧值回填。用 Swagger 发相同查询区分前端与后端，查看日志定位告警异常或认证阻断。修正后同时验证单次读写、过期、异常和并发；没有运行记录就只给步骤，不编造“已解决线上事故”。</p>
+<p><strong>追问1·原理：</strong> 为什么先查业务查询条件再删缓存？** 答：** 新保存行若时间早于已有最新行，实时结果不变符合当前查询条件；乱删缓存可能掩盖真正的契约误解。</p>
+<p><strong>追问2·边界：</strong> 如何回答“缓存提升了多少性能”？** 答：** 目前只有实现和 5 秒配置证据，没有本次可复现性能数据；可以提出比较有缓存与绕过缓存时数据库调用数、P95 延迟和错误率的实验。</p>
+<p><strong>追问3·故障验证：</strong> 给出最小检查组合？** 答：** <code>docker compose ps</code> 看状态，<code>docker compose logs --tail 100 backend</code> 看时间附近异常，Redis GET/PTTL 看两 Key，SQL 按路口方向与时间排序看记录；输出应脱敏，命令执行结果另存。</p>
+<p><strong>小例子或手推：</strong> 库已有 A北向10:05，后来保存10:03，接口成功但“最新”仍为10:05。这个案例无需假设缓存失效，先解释 SQL 语义。</p>
+<p><strong>常见误答：</strong> “先重启所有容器”；“只要保存成功页面必须立刻变”；“没有测试也能估计提升十倍”。</p>
+<p><strong>口述验收：</strong> 两分钟说完至少四层证据、一个排除假设的对照、三项回归条件；明确哪些实际跑过。</p>
+<p><strong>源码依据：</strong> <a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/service/impl/TrafficDataServiceImpl.java" title="本机源码文件">保存与失效链</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/java/com/itms/repository/TrafficDataRepository.java" title="本机源码文件">实时查询语义</a>、<a href="file:///E:/BaiduNetdiskDownload/3D/resume_work/source_repos/itms-bd/backend/src/main/resources/application.yml" title="本机源码文件">Swagger 路径</a>。</p>
+</div></details></article>
+<article id="d2s25" data-project="2" data-kind=""><details open><summary>口述复测与继续追问规则</summary><div class="cardbody"><p>每题按 0–4 分自评：0=无法解释；1=只记术语；2=主答正确但边界混乱；3=能讲原理、当前行为与手推；4=能用源码及验证方案回答三层追问。P0 目标全部≥3，T07、T09、T13、T15、T16、T17 中任何事实错误都回到卡片复学。</p>
+<p>继续生成题目时只从本卡的简历锚点向下追：把“正常输入”换成“过期、并发、依赖失败或字段不匹配”，并必须补答案、来源、状态变化和验证方式。不要因技术栈出现 Kafka 就扩张为 Kafka 内核题库，也不要把改进建议写回既有成果。</p>
+<table>
+<thead>
+<tr>
+<th>复测主题</th>
+<th>必须能答出的结论</th>
+<th>题号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>个人范围</td>
+<td>Redis 与 Compose 主责；模型、接口与联调参与；不认领交通算法</td>
+<td>T01–T04</td>
+</tr>
+<tr>
+<td>JWT</td>
+<td>先验签/过期，后查撤销；摘要 Key；剩余 TTL；角色 claim 不等于授权</td>
+<td>T05–T08</td>
+</tr>
+<tr>
+<td>失败计数</td>
+<td>五次只提示，正确密码仍可继续；首次 INCR/EXPIRE 非原子</td>
+<td>T09–T11</td>
+</tr>
+<tr>
+<td>缓存</td>
+<td>Cache-Aside、两个五秒 Key、双层陈旧、写后删除、事务与回填窗口</td>
+<td>T12–T16</td>
+</tr>
+<tr>
+<td>故障与查询</td>
+<td>业务缓存可回库不代表认证入口可用；JSON、SQL、日志分层定位</td>
+<td>T17–T20</td>
+</tr>
+<tr>
+<td>集成环境</td>
+<td>六个启用服务；容器地址/Profile；初始化与就绪不同；证据闭环</td>
+<td>T21–T24</td>
+</tr>
+</tbody></table>
+</div></details></article></section><section id="doc-3" class="chapter"><h2>双项目综合模拟与面试速记</h2><article id="d3s-intro" data-project="3" data-kind=""><details open><summary>阅读说明</summary><div class="cardbody"><p>先学两个项目的知识点卡片，再用本章练脱稿回答。本章所有“假设”均是面试推演，不代表项目发生过相同事故；主问题与追问均附答案。源码细节以项目章节和证据边界为准。</p>
+</div></details></article>
+<article id="d3s1" data-project="3" data-kind=""><details open><summary>两段项目介绍</summary><div class="cardbody"><h3>RMDB 三十秒</h3>
+<blockquote>
+<p>RMDB 是我基于教学框架完成的数据库课程项目。我完成了题目 1–11 的学生实现，把页和缓冲池、定长记录、SQL 执行、索引、事务锁和基础日志恢复串起来。比较适合展开的是一次 UPDATE 如何影响记录和索引，以及冲突后怎样回滚。当前实现有教学简化，我会区分已实现功能与完整生产数据库的能力。</p>
+</blockquote>
+<h3>RMDB 两分钟</h3>
+<blockquote>
+<p>这个项目的目标是把数据库从接收 SQL 到操作页文件的过程实际串通。我是在教学框架上完成题目 1–11 的学生实现。存储层包括磁盘页、缓冲池和定长记录：缓冲池维护磁盘页到内存 frame 的映射，用 pin 表示页面仍在使用，用 dirty 表示需要写回，用 LRU 选择可淘汰页面。</p>
+<p>执行层从语法解析、语义检查和计划生成，转换成执行器完成扫描、投影和 DML。我扩展了 BIGINT、DATETIME、聚合、排序、LIMIT 和 BNLJ，并支持索引扫描。索引相关的重点是唯一约束与插入、更新、删除时的同步。当前主体是简化的有序条目模型，不能包装成完整磁盘 B+ 树。</p>
+<p>事务方面有提交、回滚、表级锁和 no-wait 冲突处理，以及基础物理日志的 redo/undo。这里我会特别区分正常功能路径与崩溃保证：有日志不代表所有写入时序已经满足严格 WAL，有恢复脚本也不代表完整 ARIES 或所有崩溃窗口已验证。</p>
+<p>面试中我可以用缓冲池淘汰、一次 UPDATE 和两事务冲突三个例子展开。简历中提到的测试，我会结合确实保留的命令和结果说明，不报没有依据的性能数字。</p>
+</blockquote>
+<h3>ITMS 三十秒</h3>
+<blockquote>
+<p>智能交通项目中，我主要负责本地 Compose 联调环境和 Redis 相关能力，参与数据模型、REST API 与认证链路梳理。具体包括 JWT 登出黑名单、登录失败计数和五秒交通查询缓存。我能展开缓存命中与回源、写库后失效、Token 摘要和剩余 TTL，以及中间件连接问题的定位。</p>
+</blockquote>
+<h3>ITMS 两分钟</h3>
+<blockquote>
+<p>ITMS-BD 是智能交通管理系统的后端与集成实践。我参与 PostgreSQL 数据模型、REST API、认证和前后端联调范围的梳理，主责是本地 Docker Compose 环境和 Redis 能力。环境围绕 PostgreSQL、Redis、Kafka、后端和前端五类服务，当前配置还包含 ZooKeeper，所以按 Compose service 条目数是六个，面试时要把统计口径说清楚。</p>
+<p>Redis 主要有三个用途。第一是 JWT 登出撤销：JWT 本身到期前仍可能通过验签，所以把 Token 的摘要写入黑名单，TTL 使用剩余有效期，请求通过验签和过期检查后还要检查撤销状态。第二是登录失败计数：按用户维度累加，设置短期窗口，成功后清理；当前阈值影响提示，不应说已经实现完整锁号策略。第三是交通查询五秒缓存，命中时返回缓存，未命中查 PostgreSQL 并回填。正常保存流程在写库和告警处理后尝试删除两个缓存；中间异常可能阻断失效。</p>
+<p>这套实现需要讲清边界：数据库与 Redis 操作不是一个原子事务，写后删除仍有旧值回填窗口；交通缓存异常回源数据库不等于 JWT 黑名单也可以同样降级。我在排障时从请求状态、后端日志、Profile、连接地址、容器状态和数据库结果交叉定位。Kafka 和前端可以说明接口与联调边界，不把整套实现归为个人成果。</p>
+</blockquote>
+</div></details></article>
+<article id="d3s2" data-project="3" data-kind=""><details open><summary>第一轮模拟 RMDB 二十五分钟</summary><div class="cardbody"><p>使用方法：每个主问题 60–90 秒，两次追问各 30–60 秒，其余时间做状态推演。先遮住答案，答完再评分。</p>
+</div></details></article>
+<article id="M01" data-project="3" data-kind="M01"><details open><summary>M01 从一条 SQL 讲执行链路</summary><div class="cardbody"><p><strong>锚点：</strong> SQL 解析、语义分析、计划生成、执行器。</p>
+<p><strong>主问：</strong> <code>SELECT id FROM t WHERE id &gt; 10 ORDER BY id LIMIT 2</code> 经历哪些阶段？</p>
+<p><strong>答案：</strong> Parser 确认语法并生成语法结构；Analyze 核对表、列、类型及条件；Planner 组织扫描、条件、排序、LIMIT 和投影等计划；Portal 将计划转换成执行器。扫描获得记录，过滤后排序并限制输出，最后返回 id。这里说明逻辑关系，不假定每个算子在当前实现都严格对应一个独立节点；实际组合看计划转换代码。</p>
+<p><strong>追问一：</strong> 有索引就一定选它吗？</p>
+<p><strong>答：</strong> 需要看当前索引选择规则和条件能否利用它。索引存在不代表条件匹配，更不能从当前基础选择推断有完整代价优化器。通用原理上还要考虑选择率与回表成本，但不能说本项目已经统计并比较这些代价。</p>
+<p><strong>追问二：</strong> LIMIT 2 能不能先取任意两条再排序？</p>
+<p><strong>答：</strong> 一般不能，结果可能不是全体符合条件数据中的前两条。若有能够保证相应顺序的访问路径，才可能提前停止；不能凭存在索引就假定实现进行了这种优化。</p>
+</div></details></article>
+<article id="M02" data-project="3" data-kind="M02"><details open><summary>M02 缓冲池为什么不能简单删掉最久未用的一页</summary><div class="cardbody"><p><strong>锚点：</strong> 磁盘页、缓冲池。</p>
+<p><strong>主问：</strong> 两个 frame 中 A 的 pin 为 1，B 的 pin 为 0 且 dirty，取新页 C 怎么办？</p>
+<p><strong>答案：</strong> A 正在被使用，不能淘汰。B 可以成为候选；复用前需要将其脏内容写回对应磁盘页，移除 B 的旧映射，加载 C，建立 C 到 frame 的新映射，初始化 pin 和 dirty 状态。写回失败时不能继续覆盖 B，否则丢失修改。该过程是机制推演，具体失败分支要对照当前代码。</p>
+<p><strong>追问一：</strong> 如果两页都 pin 住？</p>
+<p><strong>答：</strong> 没有可淘汰 frame，获取新页应失败或由上层处理，不能强制复用。先查是否有遗漏 unpin，也可能确实需要更多 frame；不能直接判定是缓存太小。</p>
+<p><strong>追问二：</strong> dirty 和 pin 有什么关系？</p>
+<p><strong>答：</strong> 两个状态独立。pin 表示是否正在使用，dirty 表示内容是否较磁盘更新。只读页也能被 pin，已修改但已释放的页可同时 dirty 且 pin 为零。</p>
+</div></details></article>
+<article id="M03" data-project="3" data-kind="M03"><details open><summary>M03 UPDATE 为什么是索引一致性高风险点</summary><div class="cardbody"><p><strong>锚点：</strong> 维护插入、更新、删除后的索引一致性。</p>
+<p><strong>主问：</strong> 有唯一索引时，把键 7 改成已经存在的 9，应当怎样处理？</p>
+<p><strong>答案：</strong> 应拒绝违反唯一约束的更新，并使记录和相关索引保持原状态。一个完整思路是验证新键、保存旧值，再一致地完成基表及所有索引修改，并为失败准备补偿。当前代码可见逐索引操作与局部补偿，因此尤其不能把多索引中途失败的完整原子性当作已证实能力。</p>
+<p><strong>追问一：</strong> 只回滚记录够吗？</p>
+<p><strong>答：</strong> 不够。索引中已写入的新键、已删除的旧键都需要恢复。否则索引查询与全表扫描会得到不一致的结果。</p>
+<p><strong>追问二：</strong> 如何验证多个索引时的错误窗口？</p>
+<p><strong>答：</strong> 设计两个唯一索引，让第一个新键不冲突，第二个新键冲突；执行更新后分别检查基表、按两个索引的查询和再次插入行为。预期是整体不变，这是待执行的验证方案，不写成已通过测试。</p>
+</div></details></article>
+<article id="M04" data-project="3" data-kind="M04"><details open><summary>M04 no-wait 为什么能避开死锁等待环</summary><div class="cardbody"><p><strong>锚点：</strong> 表级锁、no-wait 并发控制。</p>
+<p><strong>主问：</strong> T1 持有表 A 的写锁，T2 也要写 A，会发生什么？</p>
+<p><strong>答案：</strong> 不兼容的锁请求不会进入长期等待，而是立即失败并触发冲突事务中止。这样不形成等待其他事务释放锁的环，所以省掉等待图检测路径。代价是热点冲突下回滚和重试增多，需要上层重试策略，并不自动公平。</p>
+<p><strong>追问一：</strong> 表里两行不同，为什么还可能冲突？</p>
+<p><strong>答：</strong> 如果实际 DML 路径使用表级排他锁，冲突粒度就是整张表；记录锁接口存在也不能证明业务已用它允许两行并发写。</p>
+<p><strong>追问二：</strong> 一冲突就无限立刻重试可以吗？</p>
+<p><strong>答：</strong> 可能形成持续碰撞和资源消耗。改进可以使用有上限的重试、退避与抖动；这是上层策略设想，不能说 no-wait 自带这些机制。</p>
+</div></details></article>
+<article id="M05" data-project="3" data-kind="M05"><details open><summary>M05 有 redo 和 undo 就是完整 WAL 吗</summary><div class="cardbody"><p><strong>锚点：</strong> WAL 物理日志 redo/undo。</p>
+<p><strong>主问：</strong> redo、undo 各解决什么问题，WAL 额外要求什么？</p>
+<p><strong>答案：</strong> redo 用于重放应保留的修改，undo 用于撤销不应保留的修改。WAL 还要求对应日志先于数据页持久化，以及在确认提交前满足提交日志的持久化要求。当前项目是基础物理日志恢复，需要检查写日志、刷页、解锁和提交返回的真实顺序，不能仅凭日志文件存在就保证所有崩溃点正确。</p>
+<p><strong>追问一：</strong> 一个事务把值从 10 改到 20，再改到 30，怎么撤销？</p>
+<p><strong>答：</strong> 从后往前，用第二次修改的旧值恢复到 20，再用第一次的旧值恢复到 10。若正序撤销，最终可能停在 20。</p>
+<p><strong>追问二：</strong> 进程崩溃测试能证明断电恢复吗？</p>
+<p><strong>答：</strong> 不能等同。进程退出后操作系统缓存可能还在；主机断电会涉及缓存与存储持久化。需要检查 fsync 等持久化语义及故障模型，测试结论只覆盖实际注入的故障。</p>
+</div></details></article>
+<article id="d3s8" data-project="3" data-kind=""><details open><summary>第二轮模拟 ITMS 二十五分钟</summary><div class="cardbody"></div></details></article>
+<article id="M06" data-project="3" data-kind="M06"><details open><summary>M06 JWT 没有服务端 Session 为何还需要 Redis</summary><div class="cardbody"><p><strong>锚点：</strong> JWT 登出黑名单。</p>
+<p><strong>主问：</strong> 用户删除浏览器 Token 后，服务端为什么还要做撤销？</p>
+<p><strong>答案：</strong> 删除客户端副本不会使已经泄露或保存的 Token 失效。JWT 在签名和时间有效时仍可能通过验证，因此服务端需要额外的撤销状态。当前用 Token 摘要作为黑名单键，受保护请求验签与检查过期后再查撤销状态。</p>
+<p><strong>追问一：</strong> 原来有效 24 小时，使用了 23 小时才退出，还缓存 24 小时吗？</p>
+<p><strong>答：</strong> 只需剩余约 1 小时，实际按过期时刻减当前时刻计算并处理毫秒单位和非正值。过期后 JWT 自身校验已可拒绝，无需继续保存撤销键。</p>
+<p><strong>追问二：</strong> SHA-256 摘要是不是加密 Token？</p>
+<p><strong>答：</strong> 不是可逆加密，是摘要。它避免直接将原 Token 放进 Redis key，并产生固定长度键；它不能替代 JWT 签名校验，也不能让泄露 Token 重新安全。</p>
+</div></details></article>
+<article id="M07" data-project="3" data-kind="M07"><details open><summary>M07 Redis 的 INCR 原子是否意味着整套计数逻辑原子</summary><div class="cardbody"><p><strong>锚点：</strong> 登录失败计数。</p>
+<p><strong>主问：</strong> 先 INCR，首次再 EXPIRE，有什么窗口？</p>
+<p><strong>答案：</strong> 单条 INCR 是原子的，但它与后续 EXPIRE 不是一个原子整体。首次计数成功后进程失败，键可能没有 TTL。应检查 TTL 缺失情形；完善时可将计数与必要的过期设置放入一段原子脚本，但当前实现不能说已经使用 Lua。</p>
+<p><strong>追问一：</strong> 每次失败都刷新 TTL 与只在第一次设置有什么差别？</p>
+<p><strong>答：</strong> 第一次设置是从首次失败起算的一段窗口；每次刷新会把过期点向后延长。它也不能直接等价为维护全部请求时间戳的精确滑动窗口。</p>
+<p><strong>追问二：</strong> 达到五次是否代表十分钟不能登录？</p>
+<p><strong>答：</strong> 当前源码阈值改变提示，没有完整的后续登录拒绝分支，不能称为完整锁号。若要实现锁定，应明确校验位置、解除条件、成功登录语义和误伤处理。</p>
+</div></details></article>
+<article id="M08" data-project="3" data-kind="M08"><details open><summary>M08 写库后删缓存为什么仍能读到旧数据</summary><div class="cardbody"><p><strong>锚点：</strong> Cache-Aside、写库后失效、五秒缓存。</p>
+<p><strong>主问：</strong> 用两个请求解释一次旧值回填。</p>
+<p><strong>答案：</strong> 读请求 A 缓存未命中，从数据库读到旧值 v1，暂未回填；写请求 B 将数据库改成 v2 并删除缓存；A 恢复执行后把 v1 写回缓存。这时数据库新、缓存旧。写后删除减少直接更新缓存的复杂性，但不提供数据库与 Redis 的强一致事务。</p>
+<p><strong>追问一：</strong> 五秒 TTL 保证写入后最多陈旧五秒吗？</p>
+<p><strong>答：</strong> TTL 是从某次缓存写入开始计算。若旧读请求延迟后才回填，陈旧窗口应从该回填时刻计，不能无条件从数据库提交时刻计五秒。当前汇总缓存还可能由实时缓存构建，再获得自己的五秒 TTL，因此单个 Key 的 TTL 也不能当作端到端的新鲜度上限。</p>
+<p><strong>追问二：</strong> 延迟双删能否绝对解决？</p>
+<p><strong>答：</strong> 不能，固定延迟难覆盖所有交错，还存在第二次删除失败。可作为降低概率的改进之一；更严格需求需考虑版本校验、提交后事件、重试补偿及读写协调，并说明成本与当前未实现边界。</p>
+</div></details></article>
+<article id="M09" data-project="3" data-kind="M09"><details open><summary>M09 Redis 不可用为何不能全都回源 PostgreSQL</summary><div class="cardbody"><p><strong>锚点：</strong> 交通缓存异常回退 PostgreSQL、JWT 撤销。</p>
+<p><strong>主问：</strong> 交通缓存读取失败与黑名单检查失败可以相同处理吗？</p>
+<p><strong>答案：</strong> 交通数据在 PostgreSQL 有权威来源，绕过缓存可以重新查询。JWT 撤销状态如果只存在 Redis，数据库并没有等价黑名单记录，回源 PostgreSQL 不能凭空恢复撤销信息。当前交通 Service 的缓存有捕获异常的回源路径，但携带有效 Token 的请求可能先在过滤器的 Redis 黑名单查询处失败，根本到不了 Service。所以只能说业务缓存这一层可回源，不能保证 Redis 宕机时整个交通接口仍可用。</p>
+<p><strong>追问一：</strong> 当前登出接口返回成功，能否证明黑名单写入成功？</p>
+<p><strong>答：</strong> 不能直接证明。当前登出服务将 Token 解析和 Redis SET 放在会捕获运行时异常的路径里，SET 失败可能没有正确反馈。入口黑名单 EXISTS 查询又可能先失败，所以也不能说 Redis 宕机时登出必定返回成功。应区分 HTTP 成功、业务处理完成和撤销状态已保存，进一步看日志与重放原 Token 的结果。</p>
+<p><strong>追问二：</strong> 缓存降级会产生新的压力吗？</p>
+<p><strong>答：</strong> 会，原本被缓存吸收的读请求会落到数据库，延迟和连接池占用可能上升。改进应先量测错误率、数据库负载及回源量，再评估限流、隔离或降级响应；不虚构当前生产流量。</p>
+</div></details></article>
+<article id="M10" data-project="3" data-kind="M10"><details open><summary>M10 容器都起来了接口为什么还不通</summary><div class="cardbody"><p><strong>锚点：</strong> Compose 环境、初始化、Profile、中间件连接问题。</p>
+<p><strong>主问：</strong> 后端容器内连 <code>localhost:6379</code> 失败，怎样判断？</p>
+<p><strong>答案：</strong> 容器的 localhost 指它自身，Redis 位于另一个容器时应使用同一 Compose 网络下的服务名与容器端口，例如 redis 和 6379。先查最终生效的 Profile 与环境配置，再查容器状态、日志、网络和服务就绪，区分地址错误、端口未监听、认证错误与初始化失败。</p>
+<p><strong>追问一：</strong> depends_on 表示数据库已经可用吗？</p>
+<p><strong>答：</strong> 普通依赖通常只保证启动顺序；是否等到健康要看 healthcheck 与依赖条件。即使启动时健康，后续也会失败，应用仍需合理超时和错误处理。</p>
+<p><strong>追问二：</strong> Kafka 端口能连通但客户端仍报 broker 连接失败？</p>
+<p><strong>答：</strong> 客户端连接 bootstrap 后还会获取 broker 地址。如果 advertised listeners 返回的地址在客户端所处网络不可达，仍会失败。当前职责可以回答环境地址与联调定位，不能由此引申为自己实现了 Kafka 内部机制。</p>
+</div></details></article>
+<article id="d3s14" data-project="3" data-kind=""><details open><summary>两项目对照 只背容易混淆的概念</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>容易混淆</th>
+<th>RMDB</th>
+<th>ITMS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>缓存中的修改</td>
+<td>dirty 页可能承载尚未写回的数据，不能任意丢弃</td>
+<td>交通查询缓存是可从 PostgreSQL 重建的副本</td>
+</tr>
+<tr>
+<td>不能丢的 Redis 数据</td>
+<td>不适用</td>
+<td>JWT 撤销状态不是交通数据副本，丢失会改变认证语义</td>
+</tr>
+<tr>
+<td>原子性的范围</td>
+<td>需要核对记录、所有索引、写集、日志和失败补偿</td>
+<td>INCR 单命令原子不等于 INCR 加 EXPIRE 整体原子</td>
+</tr>
+<tr>
+<td>持久化</td>
+<td>redo/undo 与真正持久化时序要分别验证</td>
+<td>Redis 有 AOF 配置也不能推断每次撤销写入都已安全落盘</td>
+</tr>
+<tr>
+<td>降级与正确性</td>
+<td>全 pin 时不能强行淘汰正在使用的页</td>
+<td>黑名单不可读不能按普通缓存 miss 理解</td>
+</tr>
+<tr>
+<td>数据库索引</td>
+<td>当前 RMDB 主体是简化有序条目</td>
+<td>PostgreSQL 的索引原理不能当作 RMDB 当前实现细节</td>
+</tr>
+<tr>
+<td>并发改进</td>
+<td>细粒度锁、重试退避属于待评估改进</td>
+<td>Lua、版本化缓存、提交后失效属于待评估改进</td>
+</tr>
+</tbody></table>
+</div></details></article>
+<article id="d3s15" data-project="3" data-kind=""><details open><summary>证据不足时怎样回答</summary><div class="cardbody"><p><strong>问：你到底做了哪些？</strong></p>
+<p>答：先重复当前简历的职责，再选择一个可定位的纵向功能说明输入、修改点和输出。仓库里存在的功能不自动算个人贡献；对框架、协作和后续维护分别表述。RMDB 可聚焦课程任务，ITMS 可聚焦 Redis 与联调。</p>
+<p><strong>问：提高了多少性能？</strong></p>
+<p>答：目前没有可核对的性能测量数据，所以不报百分比。我能解释减少数据库读取或减少重复扫描的机制；如果量测，会固定数据量和并发，比较基线与改动后的响应时间、吞吐和错误率，保留命令与原始数据。</p>
+<p><strong>问：最难的问题是什么？</strong></p>
+<p>答：从确实经历过的问题选一个，按“现象—排查证据—原因—修复—验证—剩余限制”讲。可练的技术主题是多索引失败一致性、缓存旧值回填、容器连接；如果只是这次读源码发现，应明确说是复盘发现，不能讲成当时处理过的事故。</p>
+<p><strong>问：你简历写了支持 WAL，为什么现在又说有缺口？</strong></p>
+<p>答：这里的功能范围是基础物理日志和 redo/undo 恢复流程。严格 WAL 还取决于日志与数据页持久化的顺序；当前静态核查暴露了需要进一步验证的窗口。我可以讲清已经完成的机制与未证明的保证，不把课程功能等同生产级正确性。</p>
+</div></details></article>
+<article id="d3s16" data-project="3" data-kind=""><details open><summary>面试前最后十分钟</summary><div class="cardbody"><p>先口述两段三十秒介绍，再各画一条链路。RMDB 记住 page/frame、pin/dirty、RID、执行器、基表与索引、no-wait、逆序 undo 和 WAL 时序。ITMS 记住容器地址、JWT 验签与撤销、摘要与剩余 TTL、计数两命令窗口、Cache-Aside 旧值回填、交通与认证故障边界。</p>
+<p>最后检查四种禁用表达：没有实测却说“性能提升”；有接口就说“全部实现”；有脚本就说“所有测试通过”；有缓存与日志就说“强一致或绝不丢数据”。把这些替换为当前机制、具体证据和限制即可。</p>
+</div></details></article></section><section id="doc-4" class="chapter"><h2>简历知识点覆盖与学习记录</h2><article id="d4s-intro" data-project="4" data-kind=""><details open><summary>阅读说明</summary><div class="cardbody"><p>本章检查“资料有没有覆盖”和“我是否掌握”两件事。覆盖不等于掌握。个人分数保持空白，只有真正脱稿回答后才填写。评分统一用 0～4 分，3 分表示能独立讲清机制、例子与一个边界。</p>
+</div></details></article>
+<article id="d4s1" data-project="4" data-kind=""><details open><summary>简历逐项覆盖矩阵</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>当前简历锚点</th>
+<th>学习位置</th>
+<th>需要能回答的核心问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RMDB</td>
+<td>教学框架 题目 1–11</td>
+<td>R01、R28</td>
+<td>框架与个人学生实现如何区分</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>磁盘页、缓冲池</td>
+<td>R02–R05</td>
+<td>page 与 frame、pin 与 dirty、淘汰和失败</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>定长记录</td>
+<td>R06–R07</td>
+<td>RID、slot、bitmap、空闲页链、扫描跳洞</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>SQL 解析、语义分析、计划生成</td>
+<td>R08</td>
+<td>语法错、语义错、计划选择分别由谁处理</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>执行器链路</td>
+<td>R09、R14–R15</td>
+<td>拉取契约、候选 RID、记录取得和投影</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>BIGINT、DATETIME</td>
+<td>R10–R11</td>
+<td>范围、校验、存储、比较、输出如何贯通</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>唯一单列、多列索引</td>
+<td>R12–R14</td>
+<td>唯一性、键比较、复合前缀、残余条件</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>插入、更新、删除后的索引一致性</td>
+<td>R15–R16、R21</td>
+<td>修改顺序、旧值、失败补偿和逆序回滚</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>聚合、排序、LIMIT</td>
+<td>R17–R18</td>
+<td>空输入语义、阻塞行为、输出量与计算量</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>BNLJ</td>
+<td>R19</td>
+<td>分块大小如何影响右表重复扫描</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>提交、回滚</td>
+<td>R20–R21</td>
+<td>写集、锁、日志在何时变化</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>表级锁、no-wait</td>
+<td>R22–R23</td>
+<td>兼容性、冲突粒度、立即中止的代价</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>WAL 物理日志 redo/undo</td>
+<td>R24–R26</td>
+<td>原理时序、启动恢复、重复恢复、教学限制</td>
+</tr>
+<tr>
+<td>RMDB</td>
+<td>单测、并发脚本、恢复脚本</td>
+<td>R27</td>
+<td>测试输入、断言、故障模型和证据</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>Java 17、Spring Boot 3.2、系统集成</td>
+<td>T01–T02</td>
+<td>HTTP 请求如何经过认证和业务分层</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>PostgreSQL 数据模型</td>
+<td>T03</td>
+<td>用户与交通数据的主键、约束与查询需求</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>服务边界、REST API、前后端联调</td>
+<td>T01–T04</td>
+<td>Controller/Service/Repository、参数与响应契约</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>用户认证</td>
+<td>T05–T08</td>
+<td>JWT 验证、撤销检查、权限与登出边界</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>Token 摘要和剩余 TTL</td>
+<td>T07</td>
+<td>为什么不存完整 Token，如何算剩余生命周期</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>登录失败计数</td>
+<td>T09–T11</td>
+<td>阈值实际效果、计数原子性、过期和清除</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>实时交通五秒缓存</td>
+<td>T12–T13</td>
+<td>命中、miss、JSON、两层缓存与陈旧时间</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>Cache-Aside 与写库后失效</td>
+<td>T14–T16</td>
+<td>入口覆盖、数据库事务、并发旧值回填</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>缓存异常回退 PostgreSQL</td>
+<td>T17</td>
+<td>缓存层回源与入口黑名单失败如何区分</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>Docker Compose 环境</td>
+<td>T21–T23</td>
+<td>五类组件与六个 service、容器地址与就绪</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>初始化、Profile、中间件连接排障</td>
+<td>T22–T23</td>
+<td>生效配置、服务名、端口、初始化脚本</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>Kafka 接入</td>
+<td>T22</td>
+<td>仅说明职责相关连接和业务调用边界</td>
+</tr>
+<tr>
+<td>ITMS</td>
+<td>Swagger、服务日志、数据库查询</td>
+<td>T18–T20、T24</td>
+<td>如何用三种证据定位同一个请求</td>
+</tr>
+</tbody></table>
+<p>RMDB 的 C++17、CMake、GoogleTest、Linux 仅围绕该项目的类型、内存所有权、构建与验证展开。ITMS 的技术栈也只围绕对应请求和联调能力展开，不附加 JVM 全集或 Kafka 内核课程。</p>
+</div></details></article>
+<article id="d4s2" data-project="4" data-kind=""><details open><summary>核心掌握验收</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>验收任务</th>
+<th>可以打开的材料</th>
+<th>通过标准</th>
+<th>自评分 0–4</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>两段项目介绍</td>
+<td>首次可看 03，复测闭卷</td>
+<td>两分钟内讲完，职责和限制准确</td>
+<td>__</td>
+</tr>
+<tr>
+<td>缓冲池淘汰</td>
+<td>R03–R05</td>
+<td>手推 pin、dirty、旧映射和新映射</td>
+<td>__</td>
+</tr>
+<tr>
+<td>定长记录</td>
+<td>R06–R07</td>
+<td>从 RID 指出 slot，并解释删除和复用</td>
+<td>__</td>
+</tr>
+<tr>
+<td>SQL 执行</td>
+<td>R08–R09、R17–R19</td>
+<td>讲清排序、LIMIT 和连接对执行的影响</td>
+<td>__</td>
+</tr>
+<tr>
+<td>索引与 DML</td>
+<td>R12–R16</td>
+<td>解释唯一约束与多索引中途失败</td>
+<td>__</td>
+</tr>
+<tr>
+<td>并发与恢复</td>
+<td>R20–R26</td>
+<td>画冲突、逆序 undo，区分 WAL 原理与代码保证</td>
+<td>__</td>
+</tr>
+<tr>
+<td>一条 HTTP 链路</td>
+<td>T02、T04–T06</td>
+<td>画出过滤器到数据库，定位请求失败阶段</td>
+<td>__</td>
+</tr>
+<tr>
+<td>JWT 撤销</td>
+<td>T07–T08</td>
+<td>正确计算 TTL，解释撤销写入失败边界</td>
+<td>__</td>
+</tr>
+<tr>
+<td>登录计数</td>
+<td>T09–T11</td>
+<td>解释 INCR/EXPIRE 窗口和阈值真实行为</td>
+<td>__</td>
+</tr>
+<tr>
+<td>缓存一致性</td>
+<td>T12–T16</td>
+<td>画旧值回填和两层 TTL</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Redis 故障</td>
+<td>T17、M09</td>
+<td>区分 Service 回源与整个接口可用性</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Compose 联调</td>
+<td>T21–T24、M10</td>
+<td>容器地址、服务就绪、Profile、日志交叉定位</td>
+<td>__</td>
+</tr>
+</tbody></table>
+</div></details></article>
+<article id="d4s3" data-project="4" data-kind=""><details open><summary>第一轮与第二轮复习记录</summary><div class="cardbody"><p>请保留自己的错误原句。只写“还不熟”无法生成有针对性的下一轮题。</p>
+<table>
+<thead>
+<tr>
+<th>知识点编号</th>
+<th>初测 0–4</th>
+<th>我的错误原句</th>
+<th>修正规则</th>
+<th>30–60 分钟后复测</th>
+<th>再次出题角度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+</tbody></table>
+<p>填写示例仅用于说明方法，不是用户真实成绩：“R04 / 1 分 / 我说 dirty 就不能淘汰 / 应先看 pin，dirty 页可在成功写回后复用 / 待复测 / 改成两页都 pin 的情形”。</p>
+</div></details></article>
+<article id="d4s4" data-project="4" data-kind=""><details open><summary>已运行验证记录</summary><div class="cardbody"><p>本次没有运行项目测试，下表保持待填。静态阅读结论放证据索引，不填进“实际结果”。</p>
+<table>
+<thead>
+<tr>
+<th>日期与项目版本</th>
+<th>命令或请求</th>
+<th>数据与故障条件</th>
+<th>预期</th>
+<th>实际输出或日志文件</th>
+<th>结论范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>未执行</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+</tbody></table>
+<p>优先的四个实验：全 pin 缓冲池失败；两个唯一索引中后者冲突；旧值回填的确定性并发时序；Redis 错误分别发生在黑名单 EXISTS、登出 SET、交通缓存 GET。只在独立测试数据与环境中执行，保留输入输出，不以破坏工作数据制造例子。</p>
+</div></details></article>
+<article id="d4s5" data-project="4" data-kind=""><details open><summary>下一批追问如何选择</summary><div class="cardbody"><p>先补错误事实，其次补失败路径，再补复杂度或设计取舍。某知识点已稳定 3 分以上且没有新证据，不换个说法重复堆题。每次追加题使用原卡编号加后缀，例如 R04-A、T16-B，仍附标准答案和证据。</p>
+<p>续学输入模板：</p>
+<pre><code class="language-text">学习材料版本：2026-09-15
+我已学完的卡：
+低于 3 分的卡：
+我的错误原句：
+已运行的实验与结果：
+当前剩余时间：
+请对低分卡各出一个新主问、三层追问与答案；先保存到本目录的后续批次文档，
+更新覆盖记录。所有题仍只在当前简历可延伸范围，设想与已有实现分开。
+</code></pre>
+</div></details></article></section><section id="doc-5" class="chapter"><h2>双项目一天面试学习技能与模板来源</h2><article id="d5s-intro" data-project="5" data-kind=""><details open><summary>阅读说明</summary><div class="cardbody"><p>本文件保留模板检索原记录，其中 0～3 分是来源模板的量表。正式学习统一使用《00_从这里开始》和《04_覆盖矩阵与学习记录》的 0～4 分量表与一天时间表，避免混用。本文中的时间分配仅说明模板思路。</p>
+<p>资源纠错：<code>java-backend/SKILL.md</code> 的参考材料实际位于 <code>skills/_shared/references/</code>。其中 <code>spring.md</code> 对配置优先级的概括不准确，本次不采用；常见覆盖方向是命令行参数高于系统环境变量，系统环境变量高于普通配置文件，具体仍需结合 Spring Boot 的完整属性源规则。本次采用其提问结构，不将模板笔记视为技术权威。</p>
+<p>检索日期：2026-09-15。范围：本机已安装 skills、<code>interview-guide</code>、<code>resume-stress-interviewer</code>、<code>cpp-backend-interview-prep</code>、<code>interview-helper</code> 与工作区顶层面试资料。本文件记录资料生成方法，不代替简历核对或项目源码核对。</p>
+</div></details></article>
+<article id="d5s1" data-project="5" data-kind=""><details open><summary>1. 选型结论</summary><div class="cardbody"><p>采用“简历约束出题模板 + 项目证据模板 + 递进追问 + 脱稿评分”的组合。已有本地模板足够完成本次资料，不需要安装新技能、配置面试软件或下载题库。</p>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>采用的现有来源</th>
+<th>本次保留的结构</th>
+<th>本次调整</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>限制问题范围</td>
+<td><a href="file:///E:/BaiduNetdiskDownload/Anything/interview-guide/app/src/main/resources/prompts/interview-question-resume-system.st" title="本机源码文件">简历出题系统模板</a></td>
+<td>只问简历明确项目、技术、设计；每题有知识点摘要和追问</td>
+<td>每题增加“简历锚点、事实等级、职责范围”；允许由锚点直接推导的原理和边界题</td>
+</tr>
+<tr>
+<td>去重与持续出题</td>
+<td><a href="file:///E:/BaiduNetdiskDownload/Anything/interview-guide/app/src/main/resources/prompts/interview-question-resume-user.st" title="本机源码文件">简历出题用户模板</a></td>
+<td><code>topicSummary</code>、历史已考知识点、主问题与追问数量</td>
+<td>以知识点覆盖和薄弱点决定新增题目，避免换句式重复出题</td>
+</tr>
+<tr>
+<td>递进面试方法</td>
+<td><a href="file:///E:/BaiduNetdiskDownload/Anything/interview-guide/app/src/main/resources/skills/java-backend/SKILL.md" title="本机源码文件">java-backend 技能</a></td>
+<td>使用经验 → 原理机制 → 边界条件 → 优化与故障</td>
+<td>只借用追问方法；技术目录不整体导入；用户明确要求答案，因此每题附答案</td>
+</tr>
+<tr>
+<td>个人贡献与验证</td>
+<td><a href="file:///E:/BaiduNetdiskDownload/Anything/cpp-backend-interview-prep/07-%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%B7%A5%E7%A8%8B/%E9%A1%B9%E7%9B%AE%E7%AD%94%E8%BE%A9%E4%B8%8E%E8%AF%81%E6%8D%AE%E6%89%8B%E5%86%8C.md" title="本机源码文件">项目答辩与证据手册</a></td>
+<td>入口→关键函数→输出；不变量；正常/边界输入；根因/测试/限制</td>
+<td>有源码才写具体落点；旧测试记录标记日期，不冒充本次运行结果</td>
+</tr>
+<tr>
+<td>计时口答与复盘</td>
+<td><a href="file:///E:/BaiduNetdiskDownload/Anything/%E7%AE%80%E5%8E%86%E5%8E%8B%E5%8A%9B%E5%BC%8F%E9%9D%A2%E8%AF%95%E6%96%B9%E6%A1%88%E4%B8%8E%E8%84%9A%E6%9C%AC.md" title="本机源码文件">简历压力式面试方案与脚本</a></td>
+<td>45 分钟训练闭环；先结论后证据；责任、基线、验证、失败边界</td>
+<td>教学/联调项目不预设生产事故、线上流量和回滚经历；假设题显式注明</td>
+</tr>
+<tr>
+<td>轻量掌握度</td>
+<td><a href="file:///E:/BaiduNetdiskDownload/Anything/interview-helper/%E9%9D%A2%E8%AF%95%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95%E7%B4%A0%E6%9D%90_Java%E5%90%8E%E7%AB%AF.md" title="本机源码文件">Java 后端面试能力测试素材</a></td>
+<td>0～3 分；记录结论、证据、边界、项目落点、下次改进</td>
+<td>仅采用评分表；不导入游戏系统、通用 JVM、分布式锁等整套目录</td>
+</tr>
+</tbody></table>
+<p>这里“采用技能”指复用已读技能中适合本次任务的方法，不启动其交互会话，也不把项目资源目录中的技能安装到全局。</p>
+</div></details></article>
+<article id="d5s2" data-project="5" data-kind=""><details open><summary>2. 已读技能的适用性与取舍</summary><div class="cardbody"><h3>2.1 Java 后端出题技能：仅使用递进方法</h3>
+<p>源文件：<a href="file:///E:/BaiduNetdiskDownload/Anything/interview-guide/app/src/main/resources/skills/java-backend/SKILL.md" title="本机源码文件">java-backend/SKILL.md</a>。其中明确要求“优先结合候选人简历和项目经历提问”，追问顺序为“使用经验 -&gt; 原理机制 -&gt; 边界条件 -&gt; 优化与故障”。这与本次面试专项相符。</p>
+<p>该技能也写有“不要替候选人补全答案”。这是实时面试模式的规则；本次用户要求学习文档附带答案，依用户指令提供标准答案、口述版本和追问答案。无需因此等待许可。</p>
+<p>技能默认指向 Java、MySQL、Redis、Spring 等资源，不能据此把 MySQL 或通用 Java 全目录写进 ITMS 项目事实。RMDB 采用相同的递进结构，具体技术内容来自该项目证据。</p>
+<h3>2.2 Grilling：本次不启动</h3>
+<p>已读：<a href="file:///C:/Users/32259/.codex/skills/grilling/SKILL.md" title="本机源码文件">grilling/SKILL.md</a>、<a href="file:///C:/Users/32259/.codex/skills/grill-me/SKILL.md" title="本机源码文件">grill-me/SKILL.md</a>、<a href="file:///C:/Users/32259/.codex/skills/grill-with-docs/SKILL.md" title="本机源码文件">grill-with-docs/SKILL.md</a>。</p>
+<p><code>grilling</code> 要求逐题等待用户反馈，并写有“Do not act on it until I confirm we have reached a shared understanding.”；另外两个入口转用该技能。它们适合共同澄清计划，不适合本次自主、持续生成有答案的学习文档。因此不启动该会话，也不引入确认步骤。</p>
+<p>“先在环境查事实、不凭空向用户索要已知信息”和“沿分支逐层追问”是有用的方法，但不必套用整个技能才能实行。</p>
+<h3>2.3 简历优化类技能：不作为出题主技能</h3>
+<p>检索到 <code>resume-ats-optimizer</code>、<code>resume-bullet-writer</code>、<code>resume-formatter</code>、<code>tailored-resume-generator</code>、<code>tech-resume-optimizer</code>。它们的用途是简历匹配、表达或排版，本次目标是掌握两个既有项目，因此不据关键词匹配而启动，不改写简历承诺。</p>
+</div></details></article>
+<article id="d5s3" data-project="5" data-kind=""><details open><summary>3. 事实来源优先级</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>等级</th>
+<th>可用来源</th>
+<th>可以支持什么</th>
+<th>不能据此推出什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R：简历明确</td>
+<td>用户指定的当前 DOCX</td>
+<td>应准备的项目、职责、技术锚点</td>
+<td>某目录所有模块都由本人编写</td>
+</tr>
+<tr>
+<td>C：代码核实</td>
+<td>对应仓库、版本、具体函数/配置</td>
+<td>当前实现行为、参数、调用关系、限制</td>
+<td>本人写过全部代码；代码一定已成功运行</td>
+</tr>
+<tr>
+<td>H：历史记录</td>
+<td>已有笔记、旧对话、旧测试记录</td>
+<td>帮助定位仓库和先前结论；提供待核对线索</td>
+<td>历史成绩即当前验证；旧分工即当前简历事实</td>
+</tr>
+<tr>
+<td>G：一般原理</td>
+<td>官方文档、教材、通用推理</td>
+<td>解释机制与直接相关的边界题</td>
+<td>本项目实现了该机制或已发生该事故</td>
+</tr>
+</tbody></table>
+<p>冲突处理：以当前简历确定学习范围，以当前源码校正实现行为；旧笔记的分工、性能、故障故事不能自动抄成第一人称答案。若当前简历用词宽于代码，应给出诚实、能承受追问的边界表述，不能用标准数据库/后端架构填补缺口。</p>
+<p>特别有价值的历史来源是 <a href="file:///E:/BaiduNetdiskDownload/Anything/cpp-backend-interview-prep/07-%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%B7%A5%E7%A8%8B/%E9%A1%B9%E7%9B%AE%E8%BE%B9%E7%95%8C-RMDB-ITMS-%E6%9C%80%E7%BB%88%E7%89%88.md" title="本机源码文件">项目边界-RMDB-ITMS-最终版.md</a>，文件标注更新时间为 2026-09-13。它记录了 RMDB 简化索引/恢复边界以及 ITMS Redis、联调、协作范围，适合用作源码核查清单。它仍属于历史笔记，不能单独认定个人贡献。</p>
+</div></details></article>
+<article id="d5s4" data-project="5" data-kind=""><details open><summary>4. 每个知识点的统一学习卡</summary><div class="cardbody"><p>以下模板用于主知识点；不要求每道很小的追问重复所有字段。</p>
+<pre><code class="language-markdown">## R/IT-编号｜知识点名称｜P0/P1/P2
+
+**简历锚点：** 当前简历中的对应短语。
+
+**事实等级：** R/C/H/G；源码证据写文件与函数；未核实处明确标记。
+
+**职责边界：** 本人实现 / 参与联调 / 框架已有 / 原理理解 / 待核对。
+
+**学会标准：** 一句可检测的目标，例如“能说出 pin、dirty 与淘汰的关系”。
+
+**先修：** 最多 1～2 个前置知识点 ID。
+
+### 先学机制
+1. 这个问题为什么出现。
+2. 输入、关键状态变化、输出。
+3. 必须保持的不变量。
+4. 一个小例子或状态推演。
+5. 当前实现的限制。
+
+### 主问题
+面试官会怎样问？
+
+**60～90 秒口述答案：** 结论 → 当前机制 → 一个例子/证据 → 边界。
+
+**展开答案：** 解释关键术语、步骤和因果；只写已核实的项目行为。
+
+### 追问链
+1. 使用/原理追问；参考答案。
+2. 边界/失败追问；参考答案。
+3. 取舍/验证追问；参考答案。
+
+**容易说错：** 1～3 条；给出修正说法。
+
+**最小自测：** 遮住答案，给定输入，推导输出/状态/失败点。
+
+**掌握度：** 初测 __/3；复测 __/3；下次只补 __。
+
+**证据落点：** 可核实文件/函数/配置/历史测试；没有证据时写“待核对”。
+</code></pre>
+<p>优先让学习者理解机制，再看到问答。只罗列“题目 + 长答案”容易形成背诵，无法适应换一种问法。</p>
+</div></details></article>
+<article id="d5s5" data-project="5" data-kind=""><details open><summary>5. 追问生成规则</summary><div class="cardbody"><h3>5.1 固定递进链</h3>
+<ol>
+<li><strong>讲使用：</strong> 这个知识点解决什么问题，简历里对应哪项工作？</li>
+<li><strong>讲机制：</strong> 输入经过哪些状态变化；哪个不变量保证正确？</li>
+<li><strong>做推演：</strong> 给一个小输入、并发交错或失败时刻，结果会怎样？</li>
+<li><strong>讲取舍：</strong> 当前方案为什么够用，付出什么代价？</li>
+<li><strong>讲验证：</strong> 什么测试/日志能证明判断；什么证据能推翻判断？</li>
+</ol>
+<p>同一主问题默认 2～3 个有效追问。核心薄弱点可加到 4～5 个；掌握度已达标的知识点不靠堆量继续扩张。</p>
+<h3>5.2 从回答触发下一问</h3>
+<table>
+<thead>
+<tr>
+<th>回答出现的信号</th>
+<th>下一问</th>
+<th>回答应补出的信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“我们实现了”</td>
+<td>你负责的输入、输出与改动是什么？</td>
+<td>个人贡献、协作接口、证据</td>
+</tr>
+<tr>
+<td>“性能更好”</td>
+<td>对比基线、负载、测量口径是什么？</td>
+<td>已有实测；无实测则说明理论预期</td>
+</tr>
+<tr>
+<td>“保证一致性”</td>
+<td>在两步之间失败会怎样？</td>
+<td>原子边界、失败窗口、补偿或限制</td>
+</tr>
+<tr>
+<td>“使用某技术”</td>
+<td>当前代码在哪个分支使用它？</td>
+<td>调用路径和作用，或承认只参与配置/联调</td>
+</tr>
+<tr>
+<td>只背定义</td>
+<td>用三条数据或两个并发请求演示</td>
+<td>状态变化、边界输入、可观测结果</td>
+</tr>
+<tr>
+<td>说未来方案</td>
+<td>当前已经实现哪些，哪些是改进设想？</td>
+<td>当前事实与方案设想的分界</td>
+</tr>
+<tr>
+<td>没有记录</td>
+<td>如何设计一个最小实验来验证？</td>
+<td>输入、观察点、预期、反例；不编造已运行结果</td>
+</tr>
+</tbody></table>
+<h3>5.3 允许延伸的边界</h3>
+<p>允许：从明确提到的缓冲池推导 pin/dirty、替换失败、基本 LRU 取舍；从 Cache-Aside 推导失效、TTL、并发旧值回填；从 JWT 撤销推导剩余有效期和 Redis 故障行为。前提是对应锚点已经在当前简历及代码中确认。</p>
+<p>谨慎：标准 B+ 树、ARIES 等可以用于解释“与当前简化实现的差别”，避免转成“请讲你实现的树分裂/完整恢复算法”。</p>
+<p>排除：仅因仓库或旧资料出现 Kafka、AI 算法、前端、生产系统概念就展开完整专项；未经证实的 QPS、延迟下降、生产事故、测试通过率；与两个项目没有直接关系的秒杀、抽卡、短链接、通用算法题大全。</p>
+</div></details></article>
+<article id="d5s6" data-project="5" data-kind=""><details open><summary>6. 一天内的学习约束</summary><div class="cardbody"><p>“完整”指覆盖简历承诺及直接相关原理、边界、证据，而非掌握两项目全部源码。建议集中学习约 9 小时，分块休息，保留吃饭和睡眠；不要把 24 小时都排成连续背题。</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>时间预算</th>
+<th>产出与过关条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>范围与主线</td>
+<td>30 分钟</td>
+<td>每个项目 30 秒介绍；能区分本人、协作和框架</td>
+</tr>
+<tr>
+<td>RMDB 核心机制</td>
+<td>2.5 小时</td>
+<td>先存储/记录，再执行/索引，再事务/恢复；每组完成状态推演</td>
+</tr>
+<tr>
+<td>ITMS 核心机制</td>
+<td>2 小时</td>
+<td>一条请求链；与职责对应的认证/缓存/数据/联调知识卡</td>
+</tr>
+<tr>
+<td>跨知识点串讲</td>
+<td>1 小时</td>
+<td>每个项目一个纵向完整例子；机制之间的因果关系</td>
+</tr>
+<tr>
+<td>第一轮模拟</td>
+<td>45 分钟</td>
+<td>主问 60～90 秒，追问 30～60 秒；不看答案评分</td>
+</tr>
+<tr>
+<td>定向补漏</td>
+<td>1 小时</td>
+<td>只补 0/1 分和边界说错的 P0；做小例子，不通读重背</td>
+</tr>
+<tr>
+<td>第二轮模拟</td>
+<td>45 分钟</td>
+<td>换输入、换追问角度；确认不是记住原题措辞</td>
+</tr>
+<tr>
+<td>最后口述与速记</td>
+<td>30 分钟</td>
+<td>两个项目的 30 秒/2 分钟介绍；每个项目三个限制和证据</td>
+</tr>
+</tbody></table>
+<p>优先级定义：P0 为简历明确承诺和必须能讲的核心链路；P1 为一跳能延伸的高概率边界；P2 为比较或改进，时间不足即可跳过。先让全部 P0 达到 2 分，再让最强的几个点达到 3 分，不平均用力。</p>
+<p>知识点内节奏建议：阅读机制 3～5 分钟 → 遮住答案口述 1～2 分钟 → 推演反例 2 分钟 → 标记错误。每完成一个模块立即保存掌握度，持续生成与复测以薄弱点为输入。</p>
+</div></details></article>
+<article id="d5s7" data-project="5" data-kind=""><details open><summary>7. 学习评分与停止标准</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>分数</th>
+<th>可观察表现</th>
+<th>下一步</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>无法解释，或者把未实现的能力当作项目事实</td>
+<td>重读机制与事实边界；重做最小例子</td>
+</tr>
+<tr>
+<td>1</td>
+<td>能给定义，讲不出状态变化或项目作用</td>
+<td>补一个输入→状态→输出的推演</td>
+</tr>
+<tr>
+<td>2</td>
+<td>能正确讲原理、项目落点和一个边界</td>
+<td>进入下一知识点，之后换问法复测</td>
+</tr>
+<tr>
+<td>3</td>
+<td>能脱稿表达，处理反例、取舍和证据质疑，职责准确</td>
+<td>仅做间隔复测，停止无效加题</td>
+</tr>
+</tbody></table>
+<p>技能模板中的自动评分脚本只按关键词与字数计分，不评技术真伪，不能用其分数证明掌握程度。这里使用人工/语义评分，以概念正确和证据真实优先。</p>
+<p>结业检查：P0 无 0 分；至少两轮不同问法下稳定到 2 分；每个项目至少有一个达到 3 分的技术主线；所有“我实现”“测试通过”“性能提升”都有对应证据或已降级为准确表述。此标准可衡量学习成果，不能保证面试结果。</p>
+</div></details></article>
+<article id="d5s8" data-project="5" data-kind=""><details open><summary>8. 持续生成文档的批次模板</summary><div class="cardbody"><pre><code class="language-text">批次编号 / 生成时间：
+采用的简历版本与项目版本：
+本批覆盖的知识点 ID：
+新增原因：未覆盖 / 初测薄弱 / 新证据修正 / 第二轮迁移复测
+每题：简历锚点、事实等级、主问、口述答案、机制解释、2～3 个追问及答案
+知识点覆盖变化：新增 __；已覆盖 __；尚缺 __
+修正记录：旧说法 → 新说法 → 证据
+禁止重复项：已达标且无新信息的知识点 ID
+下一批只处理：
+</code></pre>
+<p>可复用生成提示词：</p>
+<blockquote>
+<p>仅围绕当前简历中 RMDB 与智能交通两个项目生成学习资料。先读取事实清单和历史已覆盖知识点。为本批选定的知识点写机制讲解、一个小例子、主问题与 60～90 秒口述答案、2～3 个递进追问及答案、易错说法、最小自测。每项标明简历锚点及事实等级，区分本人贡献、协作、框架已有与一般原理。具体函数、参数、测试结果须有证据；没有则明确待核对。问题从使用经验进入原理、边界、取舍和验证。假设事故明确写作假设，不编造经历；标准算法与当前实现分开。按知识点组织并持续保存，新增题目服务于覆盖缺口和薄弱点，不重复换皮出题。</p>
+</blockquote>
+</div></details></article>
+<article id="d5s9" data-project="5" data-kind=""><details open><summary>9. 不直接复用的已有内容</summary><div class="cardbody"><ul>
+<li><a href="file:///E:/BaiduNetdiskDownload/Anything/%E6%9D%8E%E7%AB%A0%E7%A8%8B_%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87%E6%96%87%E6%A1%A3.md" title="本机源码文件">旧面试准备文档</a> 包含 B+ 树、ARIES 和详细 Kafka 示例；这些内容不能直接认定为当前项目事实。可以在核验后提取一般原理。</li>
+<li><a href="file:///E:/BaiduNetdiskDownload/Anything/%E6%9D%8E%E7%AB%A0%E7%A8%8B_%E7%AE%80%E5%8E%86%E5%85%A8%E9%87%8F%E6%80%BB%E7%BB%93%E4%B8%8EJava_C++%E5%90%8E%E7%AB%AF%E5%8E%8B%E5%8A%9B%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E5%BA%93.md" title="本机源码文件">旧全量知识库</a> 同时覆盖三项目、实习、通用技术与四周计划；本次只借用相关证据线索和评分，不导入全部范围。</li>
+<li><a href="file:///E:/BaiduNetdiskDownload/Anything/README_%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87%E6%8C%87%E5%8D%97.md" title="本机源码文件">旧准备索引</a> 包含三项目及通用岗位路线，不能作为本次一天专项课程的目录。</li>
+<li><a href="file:///E:/BaiduNetdiskDownload/Anything/resume-stress-interviewer/resume-engine.mjs" title="本机源码文件">压力题生成器</a> 主要基于第一个项目/技能/指标组成通用问题，压力追问并未逐知识点覆盖；其正则评分不检查正确性。采用训练节奏，不使用脚本批量生成结果作为权威题库。</li>
+<li><code>interview-helper</code> 的通用试题含订单、奖励、游戏与系统设计；不将这些场景扩写为候选人的智能交通项目。</li>
+</ul>
+<p>本次未安装技能、未启动外部面试产品、未对其他项目文件做修改。</p>
+</div></details></article></section><section id="doc-6" class="chapter"><h2>两项目证据与面试口径边界</h2><article id="d6s-intro" data-project="6" data-kind=""><details open><summary>阅读说明</summary><div class="cardbody"><p>核查日期 2026-09-15。本次交付学习材料，不修改项目源码。已读取简历并静态核查相关文件；没有重新启动项目、执行项目单测、并发脚本或崩溃恢复实验。题目中的测试步骤是学习或验证方案，不能作为本次已通过结果。</p>
+</div></details></article>
+<article id="d6s1" data-project="6" data-kind=""><details open><summary>当前简历和项目地址</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>来源</th>
+<th>实际定位</th>
+<th>使用方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>简历</td>
+<td><code>E:\BaiduNetdiskDownload\3D\resume_output\李章程_简历_.docx</code></td>
+<td>以此确定出题范围；保留项目原文提取文件</td>
+</tr>
+<tr>
+<td>RMDB 学习副本</td>
+<td><code>E:\BaiduNetdiskDownload\Anything\git_compare\rmdb</code></td>
+<td>当前主核查对象；历史笔记指出原始目录为 <code>E:\Code\rmdb.tar\rmdb</code></td>
+</tr>
+<tr>
+<td>RMDB remote</td>
+<td><a href="https://github.com/griffith1st/rmdb">GitHub griffith1st/rmdb</a></td>
+<td>本地 remote 核实；没有据此宣称远端与本地始终相同</td>
+</tr>
+<tr>
+<td>RMDB HEAD</td>
+<td><code>7a9fe1d4fc24c0bc6bbc7b4db067ce3ed19923bc</code></td>
+<td>核查时工作区干净</td>
+</tr>
+<tr>
+<td>ITMS 当前副本</td>
+<td><code>E:\BaiduNetdiskDownload\3D\resume_work\source_repos\itms-bd</code></td>
+<td>以当前文件实际内容核查 Redis 和联调能力</td>
+</tr>
+<tr>
+<td>ITMS remote</td>
+<td><a href="https://gitee.com/oxw123/big-data-based-intelligent-traffic-management-system">Gitee oxw123 原仓库</a></td>
+<td>当前副本的 origin</td>
+</tr>
+<tr>
+<td>ITMS HEAD</td>
+<td><code>261f40db73d6bcf0a6206abcd4903143d2c0aed3</code> 加本地修改</td>
+<td>当前是 dirty 工作区，部分 Redis 文件未跟踪；只检出该提交不能重现本次看到的全部能力</td>
+</tr>
+<tr>
+<td>ITMS 用户 fork 记录</td>
+<td><a href="https://gitee.com/gr1ffith/big-data-based-intelligent-traffic-management-system">Gitee gr1ffith fork</a></td>
+<td>来自另一副本 <code>source_repos\itms-user-fork</code> 的 remote；不假定与当前核查副本一致</td>
+</tr>
+</tbody></table>
+<p>用户消息中的路径带有下划线转义。按实际目录与最匹配文件名还原到 <code>resume_output/李章程_简历_.docx</code>，没有选用“后端服务端优化版”替代。</p>
+</div></details></article>
+<article id="d6s2" data-project="6" data-kind=""><details open><summary>简历事实与代码事实各负责什么</summary><div class="cardbody"><p>简历决定“准备什么”和“用户如何声明职责”，代码决定“当前版本实际怎么做”。代码可见不等于这段代码均由本人创作，历史笔记也不能覆盖当前简历的新职责。本人贡献、原始课程版本和后续维护若需要精确举证，应另看原始提交与测试记录。</p>
+<p>本次不自动修改简历；在回答中缩小过宽的保证，并准备诚实的边界说明。</p>
+</div></details></article>
+<article id="d6s3" data-project="6" data-kind=""><details open><summary>RMDB 面试必须讲准的八点</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>容易说过头的表述</th>
+<th>建议说法</th>
+<th>直接相关追问</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>我从零写了整个数据库</td>
+<td>基于教学框架完成题目 1–11 的学生实现</td>
+<td>框架、生成解析文件、第三方依赖与自己工作怎样分开</td>
+</tr>
+<tr>
+<td>我实现了完整磁盘 B+ 树</td>
+<td>当前索引主体是进程内有序条目模型，支持唯一约束和范围访问；打开数据库时从基表重建</td>
+<td>索引持久化与重建、vector 插入成本、完整页式树的差别</td>
+</tr>
+<tr>
+<td>有优化器目录就有完整优化器</td>
+<td>实现基础计划生成与索引选择，不能认领完整代价优化器</td>
+<td>选择率、成本估计是否真正进入当前代码</td>
+</tr>
+<tr>
+<td>任何 UPDATE 失败都会全部恢复</td>
+<td>正常路径维护基表与索引；多索引中途冲突的局部补偿存在需要验证的缺口</td>
+<td>第一个索引已改、第二个冲突时怎么恢复</td>
+</tr>
+<tr>
+<td>有记录锁接口就是行级并发</td>
+<td>先讲简历的表级锁；真实并发粒度看 DML 的实际调用</td>
+<td>两行不同仍因表锁冲突的原因</td>
+</tr>
+<tr>
+<td>no-wait 保证高并发且不会饥饿</td>
+<td>不兼容时立即中止，避免等待环；热点可能频繁重试</td>
+<td>公平性、退避、重试上限</td>
+</tr>
+<tr>
+<td>写了日志就是严格 WAL</td>
+<td>已有基础物理日志和 redo/undo；还要核对日志、数据页、提交和解锁的顺序</td>
+<td>INSERT 修改与记录日志的顺序、commit 解锁与 flush 的顺序、write 与 fsync 的差别</td>
+</tr>
+<tr>
+<td>有恢复脚本等于完整 ARIES</td>
+<td>当前为基础恢复，不能认领完整 checkpoint、CLR 和 ARIES</td>
+<td>如何区分进程崩溃、主机断电与已覆盖测试</td>
+</tr>
+</tbody></table>
+<p>当前静态核查发现 INSERT 先修改基表再生成相关日志、提交先解锁再执行日志刷新、日志写出路径未见足以直接宣称稳定落盘的 fsync 保证。单个顺序观察不是所有崩溃结果的形式化证明，但足以禁止“任何崩溃都不会丢数据”的表述。应使用最小故障注入验证具体风险，不编造复现记录。</p>
+</div></details></article>
+<article id="d6s4" data-project="6" data-kind=""><details open><summary>ITMS 面试必须讲准的十点</summary><div class="cardbody"><table>
+<thead>
+<tr>
+<th>容易说过头的表述</th>
+<th>当前可支持的说法</th>
+<th>直接相关追问</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>五服务就是五个容器</td>
+<td>五类主要组件之外还有 ZooKeeper，当前 Compose 有六个启用 service 条目</td>
+<td>分类口径与配置条目数的区别</td>
+</tr>
+<tr>
+<td>整体架构和算法都由我设计</td>
+<td>主责 Redis 与本地联调，参与模型、REST 契约与认证整理</td>
+<td>选一个纵向链路证明理解</td>
+</tr>
+<tr>
+<td>JWT 验签通过就是允许访问</td>
+<td>还需检查过期、撤销及实际授权规则</td>
+<td>role claim 与真正角色权限是否接通</td>
+</tr>
+<tr>
+<td>Token 摘要就是加密</td>
+<td>SHA-256 是摘要，用于固定长度黑名单键</td>
+<td>不能替代签名校验或令牌保密</td>
+</tr>
+<tr>
+<td>退出成功说明撤销一定成功</td>
+<td>登出服务存在吞运行时异常的边界；入口 Redis 查询又可能先失败</td>
+<td>重放旧 Token 与检查撤销键，分别验证接口和状态</td>
+</tr>
+<tr>
+<td>失败五次就锁定十分钟</td>
+<td>计数阈值改变提示；没有完整登录前锁定判断</td>
+<td>成功密码路径仍可继续、计数清除逻辑</td>
+</tr>
+<tr>
+<td>INCR 原子所以计数与过期原子</td>
+<td>INCR 和首次 EXPIRE 分离，中间失败可能留下无 TTL 的键</td>
+<td>Lua 原子脚本仅作为改进方案</td>
+</tr>
+<tr>
+<td>五秒 TTL 等于数据最多旧五秒</td>
+<td>单 Key 从最近写入开始计时；旧值延迟回填、两层缓存会延长端到端陈旧窗口</td>
+<td>实时缓存构建汇总缓存时是否重新计算 TTL</td>
+</tr>
+<tr>
+<td>写库后失效就保证强一致</td>
+<td>数据库和 Redis 操作不在同一原子事务，存在并发与删除失败窗口</td>
+<td>加 Service 事务后还需考虑提交后失效</td>
+</tr>
+<tr>
+<td>Redis 故障接口全部回 PostgreSQL</td>
+<td>交通 Service 缓存异常有回源逻辑；认证黑名单查询可在入口失败</td>
+<td>缓存层可降级不等于端到端请求可用</td>
+</tr>
+</tbody></table>
+<p>认证状态和业务缓存的差别是最高优先级。数据库可以重新查交通记录，却不能自动还原只保存在 Redis 中的撤销状态。公开路由配置也不必然跳过自定义认证过滤器，不能用 permitAll 推断完全没有 Redis 依赖。</p>
+</div></details></article>
+<article id="d6s5" data-project="6" data-kind=""><details open><summary>三类依据明确排除</summary><div class="cardbody"><p>不把旧题库的完整 B+ 树、ARIES、MVCC、分布式事务、交通预测训练、生产 Kafka Exactly-Once 当作本项目已实现能力。只有解释已写技术的必要对比才简短涉及，不另设整套扩展课程。</p>
+<p>不把历史测试记录直接标成今天已通过。今天完成的是资料读取、静态核查和学习文档质量校验。</p>
+<p>不由提交数量或仓库拥有权推导个人贡献比例，不编造 QPS、性能提升、项目规模、课程隐藏测试分数或生产事故。</p>
+</div></details></article>
+<article id="d6s6" data-project="6" data-kind=""><details open><summary>找证据时的最短路径</summary><div class="cardbody"><p>RMDB 优先看问题卡引用的 BufferPoolManager、记录文件/扫描、计划转换、执行器、索引句柄、事务管理、锁管理和日志恢复函数。每次只核对一道题的输入、状态和失败分支，不通读整个目录。</p>
+<p>ITMS 优先看 SecurityConfig、RedisAuthServiceImpl、AuthServiceImpl、TrafficDataServiceImpl、相关 Controller/Repository、docker-compose.yml 和生效配置。详细行号及当前文件状态见 <a href="evidence/itms%E6%A0%B8%E6%9F%A5.md">ITMS 核查记录</a> 和 <a href="01_RMDB%E8%AF%81%E6%8D%AE%E7%B4%A2%E5%BC%95.md">RMDB 证据索引</a>。</p>
+<p>验证提问采用同一格式：“我看到了什么—预计会发生什么—哪个输入可以证伪—观察什么输出—实际有没有执行”。没有执行时最后一项写“未执行”。</p>
+</div></details></article></section><p id="empty" hidden>没有找到对应知识点，请换一个关键词或选择全部章节。</p></main></div>
+<footer>依据当前简历与本地源码整理 · 测试方案与已验证结果分别记录</footer>
+<script>
+const cards=[...document.querySelectorAll('article')];
+const search=document.getElementById('search'),scope=document.getElementById('scope');
+cards.forEach(c=>c.dataset.search=c.textContent.toLocaleLowerCase());
+function filter(){const q=search.value.trim().toLocaleLowerCase();let n=0;for(const c of cards){c.hidden=!((scope.value==='all'||c.dataset.project===scope.value)&&(!q||c.dataset.search.includes(q)));if(!c.hidden){n++;if(q)c.querySelector('details').open=true}}for(const s of document.querySelectorAll('.chapter'))s.hidden=![...s.querySelectorAll('article')].some(c=>!c.hidden);document.getElementById('empty').hidden=n>0;document.getElementById('status').textContent=n+' 个内容块'}
+search.addEventListener('input',filter);scope.addEventListener('change',filter);
+document.getElementById('fold').onclick=()=>cards.filter(c=>!c.hidden).forEach(c=>c.querySelector('details').open=false);
+document.getElementById('expand').onclick=()=>cards.filter(c=>!c.hidden).forEach(c=>c.querySelector('details').open=true);
+document.getElementById('print').onclick=()=>{cards.filter(c=>!c.hidden).forEach(c=>c.querySelector('details').open=true);window.print()};
+function revealHash(){let el=document.getElementById(decodeURIComponent(location.hash.slice(1)));if(!el)return;search.value='';scope.value='all';filter();let d=el.querySelector('details');if(d)d.open=true;el.scrollIntoView()}
+window.addEventListener('hashchange',revealHash);filter();if(location.hash)revealHash();
+</script></body></html>

@@ -1,0 +1,13 @@
+{
+  "counts": {
+    "R": 28,
+    "T": 24,
+    "M": 10
+  },
+  "search": true,
+  "scope": true,
+  "collapse_expand": true,
+  "no_results": true,
+  "narrow_page_overflow": false,
+  "failures": []
+}

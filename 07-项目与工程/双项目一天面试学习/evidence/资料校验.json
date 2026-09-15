@@ -1,0 +1,25 @@
+{
+  "scope": "learning document structure and local reference integrity only",
+  "counts": {
+    "R": {
+      "cards": 28,
+      "P0": 18,
+      "P1": 10,
+      "followups": 84
+    },
+    "T": {
+      "cards": 24,
+      "P0": 14,
+      "P1": 10,
+      "followups": 72
+    },
+    "mock": {
+      "cards": 10,
+      "followups": 20
+    }
+  },
+  "local_links_checked": 266,
+  "external_links_listed_not_network_checked": 5,
+  "source_files_hashed": 55,
+  "errors": []
+}

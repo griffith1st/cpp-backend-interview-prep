@@ -18,6 +18,7 @@ GitHub 仓库：<https://github.com/griffith1st/cpp-backend-interview-prep>（�
 
 ## 面试复习与 AI 训练入口
 
+- **双项目一天面试学习：**[RMDB 与智能交通完整资料](07-项目与工程/双项目一天面试学习/README.md)，包含 52 张知识卡、156 个带答案追问、10 组模拟、一日路线和离线阅读页面。
 - **当前简历项目边界：**[RMDB 与 ITMS-BD 最终版](07-项目与工程/项目边界-RMDB-ITMS-最终版.md)，按 JavaGuide 七个维度整理业务、职责、链路、技术选型、难点、指标和范围；主简历当前只保留 RMDB 与 ITMS-BD。
 - **OneNote 文字版：**[项目边界与面试提纲](07-项目与工程/OneNote-项目边界与面试提纲.txt)，可直接复制到 OneNote。
 - **Redis 实验：**[Redis 7 教学实验](docs/redis-lab/README.md)，用于验证 TTL、计数、Lua、限次和 Stream；实验结果与项目运行结果分开记录。

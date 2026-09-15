@@ -1,0 +1,11 @@
+RMDB 数据库内核实现  |  C++ 查询执行与存储系统	2026.07 - 2026.08
+C++17 · CMake · GoogleTest · Linux
+基于 RMDB 教学框架独立完成题目 1-11，打通磁盘页、缓冲池、定长记录、SQL 解析、语义分析、计划生成与执行器链路。
+实现 BIGINT/DATETIME、唯一单列/多列索引、聚合、排序、LIMIT 与 BNLJ；支持 IndexScanExecutor，并维护插入、更新、删除后的索引一致性。
+实现事务提交/回滚、表级锁与 no-wait 并发控制、WAL 物理日志 redo/undo；通过单测、并发脚本和恢复脚本验证关键路径。
+ITMS-BD 智能交通管理系统  |  Java 后端与系统集成实践	2026
+Java 17 · Spring Boot 3.2 · PostgreSQL · Redis · Kafka · Docker Compose
+参与 PostgreSQL 数据模型、服务边界与 REST API 梳理，完成用户认证、日志异常处理和前后端联调范围整理。
+负责本地 Docker Compose 五服务环境搭建与维护，接入 PostgreSQL、Redis、Kafka、后端和前端，排查初始化、Profile 与中间件连接问题。
+负责 Redis 认证能力落地：实现 JWT 登出黑名单、登录失败计数和实时交通查询 5 秒缓存；结合 Swagger、服务日志与数据库查询定位集成问题。
+交通缓存采用 Cache-Aside 与写库后失效；缓存异常时回退 PostgreSQL，使用 Token 摘要和剩余 TTL 控制黑名单生命周期。
